@@ -1,0 +1,186 @@
+<section class="border-top section products-section {% if section.settings.alternate_bg_color %}use-alt-bg full-width-section{% endif %} section-padding-{{ settings.section_padding }}" data-section-type="featured-collection">
+  <div class="container" data-cc-animate>
+    {% assign collection = collections[section.settings.collection] %}
+
+    {% if section.settings.title != blank or section.settings.show_view_all %}
+      <div class="opposing-items opposing-items--heading">
+        {% if section.settings.title != blank %}
+          <h2 class="section-heading left">
+            <a href="{{ collection.url }}">
+              {{ section.settings.title | escape }}
+            </a>
+          </h2>
+        {% endif %}
+
+        {% if section.settings.show_view_all %}
+          <a class="more-link" href="{{ collection.url }}">
+            {{ 'collections.general.view_all' | t }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="cc-carousel-container {% if section.settings.layout == "carousel_on_mobile" %}cc-carousel-container--on-mobile{% endif %}
+    {% unless section.settings.layout contains "carousel" %}not-a-carousel{% endunless %}">
+      <div class="product-grid row grid
+        {% if section.settings.row_count_int == 1 and section.settings.layout != "carousel" %}one-row{% endif %}
+        {% if section.settings.layout == "carousel" %}cc-carousel{% endif %}
+        {% if section.settings.layout == "carousel_on_mobile" %}cc-carousel-mobile{% endif %}
+        {% if section.settings.mobile_products_per_row == "1" %}cc-carousel-single-xs{% endif %} "
+           data-normheights=".image" data-normheights-inner="img">
+
+        {% if section.settings.layout == "carousel" %}
+          {% if section.settings.products_per_row == 5 %}
+            {% assign product_limit = 15 %}
+          {% else %}
+            {% assign product_limit = 12 %}
+          {% endif %}
+        {% else %}
+          {% assign product_limit = section.settings.products_per_row | times: section.settings.row_count_int %}
+        {% endif %}
+
+        {% if section.settings.collection == blank %}
+          {% for i in (1..product_limit) %}
+            <div class="product-block layout-align-{{ settings.prod_block_layout }} flex column max-cols-{{ section.settings.products_per_row }} min-cols-{{ section.settings.mobile_products_per_row }}">
+              <div class="product-block__inner">
+                <div class="image">
+                  <div class="inner">
+                    {% capture placeholder_svg_name %}product-{{ forloop.index | modulo: 6 | plus: 1 }}{% endcapture %}
+                    <div class="placeholder-image">{{ placeholder_svg_name | placeholder_svg_tag }}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <span class="title">{{ "homepage.onboarding.product_name" | t: number: i }}</span>
+
+                  <div class="price">
+                    <span class="amount theme-money">{% render 'price', price: 1000 %}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for product in collection.products limit: product_limit %}
+            {% render 'product-block', product: product, section: section, is_last: forloop.last, show_vendor: section.settings.grid_show_vendor, max_cols: section.settings.products_per_row, min_cols: section.settings.mobile_products_per_row %}
+          {% endfor %}
+        {% endif %}
+
+        {%- for i in (1..section.settings.products_per_row) -%}
+          <div class="product-block product-block--flex-spacer flex column max-cols-{{ section.settings.products_per_row }} min-cols-{{ section.settings.mobile_products_per_row }}"></div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.layout contains "carousel"  %}
+    <button class="cc-carousel--previous" data-cc-animate aria-label="{{ 'products.gallery.previous' | t | escape }}">
+      {% render 'svg-chevron-left-thin' %}
+    </button>
+
+    <button class="cc-carousel--next" data-cc-animate aria-label="{{ 'products.gallery.next' | t | escape }}">
+      {% render 'svg-chevron-right-thin' %}
+    </button>
+  {% endif %}
+</section>
+
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "grid",
+            "label": "Grid"
+          },
+          {
+            "value": "carousel",
+            "label": "Carousel"
+          },
+          {
+            "value": "carousel_on_mobile",
+            "label": "Carousel on mobile"
+          }
+        ],
+        "default": "grid"
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Maximum products per row",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "mobile_products_per_row",
+        "label": "Mobile products per row",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "range",
+        "id": "row_count_int",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "label": "Rows",
+        "default": 1
+      },
+      {
+        "type": "checkbox",
+        "id": "grid_show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_view_all",
+        "label": "Show 'View all' link",
+        "default": false
+      },
+      {
+        "id": "alternate_bg_color",
+        "type": "checkbox",
+        "label": "Use alternate section color",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured collection",
+        "settings": {
+          "collection": ""
+        }
+      }
+    ],
+    "templates": ["article", "index", "page", "product", "collection", "blog", "list-collections", "search", "404"]
+  }
+{% endschema %}

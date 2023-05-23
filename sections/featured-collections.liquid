@@ -1,0 +1,182 @@
+<section class="border-top section collections-section {% if section.settings.alternate_bg_color %}use-alt-bg full-width-section{% endif %} section-padding-{{ settings.section_padding }}" data-section-type="featured-collections">
+  <div class="container" data-cc-animate>
+    {% if section.settings.show_view_all %}
+      <div class="opposing-items opposing-items--heading">
+        <h2 class="section-heading left">{{ section.settings.heading }}</h2>
+        <a class="more-link" href="{{ routes.collections_url }}">
+          {{ 'collections.general.view_all' | t }}
+        </a>
+      </div>
+    {% else %}
+      <h2 class="section-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="cc-carousel-container {% if section.settings.layout == "carousel_on_mobile" %}cc-carousel-container--on-mobile{% endif %}
+      {% unless section.settings.layout contains "carousel" %}not-a-carousel{% endunless %}">
+      <div class="row product-grid grid
+        grid--max-cols-{{ section.settings.collections_per_row }}
+        {% if section.settings.layout == "carousel" %}cc-carousel{% endif %}
+        {% if section.settings.layout == "carousel_on_mobile" %}cc-carousel-mobile{% endif %}
+        {% if section.settings.mobile_collections_per_row == "1" %}cc-carousel-single-xs{% endif %} ">
+
+        {% for block in section.blocks %}
+          {% if block.settings.collection != blank %}
+            {%- assign collection = collections[block.settings.collection] -%}
+            {%- assign animate = forloop.index | times: 0.05 -%}
+
+            {%- assign is_last = false -%}
+            {%- if forloop.last -%}
+              {%- assign is_last = true -%}
+            {%- endif -%}
+
+            {%
+              render 'collection-block',
+                collection: collection,
+                animate: animate,
+                collections_per_row: section.settings.collections_per_row,
+                use_product_image: section.settings.collection_use_prod_image,
+                min_cols: section.settings.mobile_collections_per_row
+            %}
+          {% else %}
+            <div class="product-block collection-block {% if settings.collection_thumb_shape == 'circle' %}collection-block--circle{% endif %} flex column max-cols-{{ section.settings.collections_per_row }} min-cols-{{ section.settings.mobile_collections_per_row }}">
+              <div class="product-block__inner">
+                <div class="image">
+                  <div class="inner">
+                    {% capture placeholder_svg_name %}collection-{{ forloop.index | modulo: 6 | plus: 1 }}{% endcapture %}
+                    <div class="placeholder-image">{{ placeholder_svg_name | placeholder_svg_tag }}</div>
+                  </div>
+                </div>
+
+                <div class="title align-{{ settings.collection_text_alignment }}">{{ "homepage.onboarding.collection_name" | t: number: forloop.index }}</div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        {%- for i in (1..section.settings.collections_per_row) -%}
+          <div class="product-block product-block--flex-spacer flex column max-cols-{{ section.settings.collections_per_row }} min-cols-{{ section.settings.mobile_collections_per_row }}"></div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.layout contains "carousel"  %}
+    <button class="cc-carousel--previous" data-cc-animate aria-label="{{ 'products.gallery.previous' | t | escape }}">
+      {% render 'svg-chevron-left-thin' %}
+    </button>
+
+    <button class="cc-carousel--next" data-cc-animate aria-label="{{ 'products.gallery.next' | t | escape }}">
+      {% render 'svg-chevron-right-thin' %}
+    </button>
+  {% endif %}
+</section>
+
+{% schema %}
+  {
+    "name": "Collection list",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Collections"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "grid",
+            "label": "Grid"
+          },
+          {
+            "value": "carousel",
+            "label": "Carousel"
+          },
+          {
+            "value": "carousel_on_mobile",
+            "label": "Carousel on mobile"
+          }
+        ],
+        "default": "grid"
+      },
+      {
+        "type": "range",
+        "id": "collections_per_row",
+        "label": "Maximum collections per row",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "mobile_collections_per_row",
+        "label": "Mobile collections per row",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_use_prod_image",
+        "label": "Use the first product image as the collection image",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_view_all",
+        "label": "Show 'View all' link",
+        "default": true
+      },
+      {
+        "id": "alternate_bg_color",
+        "type": "checkbox",
+        "label": "Use alternate section color",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "id": "collection",
+            "type": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection list",
+        "settings": {
+        },
+        "blocks": [
+          {
+            "type": "collection"
+          },
+          {
+            "type": "collection"
+          },
+          {
+            "type": "collection"
+          },
+          {
+            "type": "collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

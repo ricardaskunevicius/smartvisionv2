@@ -1,0 +1,134 @@
+{% assign show_crumbs = true %}
+{% assign show_collection_listing_link = false %}
+{% capture divider %}<span class="breadcrumbs-divider"> / </span>{% endcapture %}
+
+{% capture crumb_html %}
+
+<ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+  <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <a href="{{ routes.root_url }}" itemprop="item"><span itemprop="name">Home</span></a>
+    <meta itemprop="position" content="1" />
+  </li>
+  {% if template contains 'article' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a href="{{ blog.url }}" itemprop="item"><span itemprop="name">{{ blog.title }}</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ article.url }}" itemprop="item"><span itemprop="name">{{ article.title }}</span></a>
+      <meta itemprop="position" content="3" />
+    </li>
+  {% elsif template contains 'blog' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a {% unless current_tags%} class="breadcrumb-active"{% endunless %} href="{{ blog.url }}" itemprop="item"><span itemprop="name">{{ blog.title }}</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+    {% if current_tags %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        {{ divider }}
+        <a class="breadcrumb-active" href="{{ blog.url }}/tagged/{% for tag in current_tags %}{{ tag | handle }}{% unless forloop.last %}+{% endunless %}{% endfor %}" itemprop="item">
+          <span itemprop="name">{% for tag in current_tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}</span>
+        </a>
+        <meta itemprop="position" content="3" />
+      </li>
+    {% endif %}
+  {% elsif template contains 'list-collections' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ routes.collections_url }}" itemprop="item"><span itemprop="name">{{ 'layout.header.breadcrumbs_collections' | t }}</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+  {% elsif template contains 'collection' %}
+    {% if show_collection_listing_link %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        {{ divider }}
+        <a href="{{ routes.collections_url }}" itemprop="item"><span itemprop="name">{{ 'layout.header.breadcrumbs_collections' | t }}</span></a>
+        <meta itemprop="position" content="2" />
+      </li>
+    {% endif %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ routes.collections_url }}/{{ collection.handle }}" itemprop="item"><span itemprop="name">{{ collection.title }}</span></a>
+      {% if show_collection_listing_link %}
+        <meta itemprop="position" content="3" />
+      {% else %}
+        <meta itemprop="position" content="2" />
+      {% endif %}
+    </li>
+    {% if current_tags %}
+        {% capture tag_url %}{{ collection.url }}/{{ current_tags | join: "+"}}{% endcapture %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        {{ divider }}
+        <a class="breadcrumb-active" href="{{ tag_url }}" itemprop="item"><span itemprop="name">{{ current_tags | join: " + "}}</span></a>
+        {% if show_collection_listing_link %}
+          <meta itemprop="position" content="4" />
+        {% else %}
+          <meta itemprop="position" content="3" />
+        {% endif %}
+      </li>
+    {% endif %}
+  {% elsif template contains 'product' %}
+    {% if collection and show_collection_listing_link %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        {{ divider }}
+        <a href="{{ routes.collections_url }}" itemprop="item"><span itemprop="name">{{ 'layout.header.breadcrumbs_collections' | t }}</span></a>
+        <meta itemprop="position" content="2" />
+      </li>
+    {% endif %}
+    {% if collection %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        {{ divider }}
+        <a href="{{ collection.url }}" itemprop="item"><span itemprop="name">{{ collection.title }}</span></a>
+        {% if show_collection_listing_link %}
+          <meta itemprop="position" content="3" />
+        {% else %}
+          <meta itemprop="position" content="2" />
+        {% endif %}
+      </li>
+    {% endif %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ product.url }}" itemprop="item"><span itemprop="name">{{ product.title }}</span></a>
+      {% if collection and show_collection_listing_link %}
+        <meta itemprop="position" content="4" />
+      {% elsif collecton %}
+        <meta itemprop="position" content="3" />
+      {% else %}
+        <meta itemprop="position" content="2" />
+      {% endif %}
+    </li>
+  {% elsif template contains 'page' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ page.url }}" itemprop="item"><span itemprop="name">{{ page.title }}</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+  {% elsif template contains 'cart' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ routes.cart_url }}" itemprop="item"><span itemprop="name">{{ 'cart.general.title' | t }}</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+  {% elsif template contains 'search' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ routes.search_url }}" itemprop="item"><span itemprop="name">{{ 'general.search.title' | t }}</span></a>
+      <meta itemprop="position" content="2" />
+    </li>
+  {% elsif template contains 'customers' %}
+    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+      {{ divider }}
+      <a class="breadcrumb-active" href="{{ routes.account_url }}" itemprop="item"><span itemprop="name">{{ 'customer.account.title' | t }}</a>
+      <meta itemprop="position" content="2" />
+    </li>
+  {% else %}
+    {% assign show_crumbs = false %}
+  {% endif %}
+</ul>
+
+{% endcapture %}
+
+{% if show_crumbs %}{{ crumb_html }}{% endif %}

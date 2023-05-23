@@ -1,0 +1,194 @@
+<section id="section-id-{{ section.id }}" class="section-logo-list section {% if section.settings.use_alt_bg %}use-alt-bg full-width-section{% endif %}" data-section-type="logo-list">
+  {%- style -%}
+    #section-id-{{ section.id }} .logo-list__logo-image {
+      opacity: {{ section.settings.image_opacity }}%;
+    }
+    #section-id-{{ section.id }} .logo-list__link:hover .logo-list__logo-image {
+      opacity: {{ section.settings.image_opacity | times: 1.2 | at_most: 100 }}%;
+    }
+    {%- for block in section.blocks -%}
+      #section-id-{{ section.id }} .logo-list__logo-{{ forloop.index }} .logo-list__logo-image {
+        max-width: {{ block.settings.image_width }}px;
+      }
+    {%- endfor -%}
+  {%- endstyle -%}
+
+
+  {% if section.settings.title != blank %}
+    <div class="container">
+      <h2 class="section-heading" data-cc-animate data-cc-animate-delay="0.15s">
+        {{ section.settings.title | escape }}
+      </h2>
+    </div>
+  {% endif %}
+
+  <div class="relative">
+    <div class="container {% if section.settings.layout contains "carousel" %}xs:pr-0{% endif %}">
+      {%- liquid
+        assign bg_color = settings.site_bg_col
+        if section.settings.use_alt_bg
+          assign bg_color = settings.alt_bg_col
+        endif
+        assign bg_color_from = bg_color | color_modify: 'alpha', 0.99
+        assign bg_color_to = bg_color | color_modify: 'alpha', 0
+      -%}
+
+      <div class="cc-carousel-container logo-list-container{% if section.settings.layout == "carousel_on_mobile" %} cc-carousel-container--on-mobile{% endif %}{% if section.settings.layout contains "carousel" %} cc-carousel-mobile--no-scrollbar{% endif %}
+        {% unless section.settings.layout contains "carousel" %}not-a-carousel{% endunless %}"
+           style="--bg-color-from: {{ bg_color_from }};--bg-color-to: {{ bg_color_to }};">
+        <div class="logo-list logo-list--count-{{ section.blocks.size }}
+          {% if section.settings.layout == "carousel" %}cc-carousel{% endif %}
+          {% if section.settings.layout == "carousel_on_mobile" %}cc-carousel-mobile{% endif %}">
+
+          {%- for block in section.blocks -%}
+            {%- if block.settings.link != blank -%}
+              <a class="logo-list__logo logo-list__logo-{{ forloop.index }} logo-list__link" href="{{ block.settings.link }}" {{ block.shopify_attributes }} data-cc-animate>
+            {%- else -%}
+              <div class="logo-list__logo logo-list__logo-{{ forloop.index }}" {{ block.shopify_attributes }} data-cc-animate>
+            {%- endif -%}
+
+              <div class="logo-list__logo-image" style="width: {{ block.settings.image_width }}px">
+                {%- if block.settings.image != blank -%}
+                  {%- render 'responsive-image', image: block.settings.image -%}
+                {%- else -%}
+                  <div class="placeholder-image">
+                    {{- 'logo' | placeholder_svg_tag: 'placeholder-svg' -}}
+                  </div>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.title != blank -%}
+                <div class="logo-list__logo-title">
+                  {{ block.settings.title }}
+                </div>
+              {%- endif -%}
+
+            {%- unless block.settings.link != blank -%}
+              </div>
+            {%- else -%}
+            </a>
+            {%- endunless -%}
+          {%- endfor -%}
+
+          {% if section.blocks.size == 0 %}
+            {%- for i in (1..4) -%}
+              <div class="logo-list__logo">
+                <div class="logo-list__logo-image">
+                  <div class="placeholder-image">
+                    {{- 'logo' | placeholder_svg_tag: 'placeholder-svg' -}}
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+    {% if section.settings.layout contains "carousel"  %}
+      <button class="cc-carousel--previous" data-cc-animate aria-label="{{ 'products.gallery.previous' | t | escape }}">
+        {% render 'svg-chevron-left-thin' %}
+      </button>
+
+      <button class="cc-carousel--next" data-cc-animate aria-label="{{ 'products.gallery.next' | t | escape }}">
+        {% render 'svg-chevron-right-thin' %}
+      </button>
+    {% endif %}
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Logo list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Logo list"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        },
+        {
+          "value": "carousel_on_mobile",
+          "label": "Carousel on mobile"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "range",
+      "id": "image_opacity",
+      "label": "Logo opacity",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 75
+    },
+    {
+      "type": "checkbox",
+      "id": "use_alt_bg",
+      "label": "Use alternate section color",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "label": "Logo width",
+          "min": 40,
+          "max": 280,
+          "step": 10,
+          "unit": "px",
+          "default": 160,
+          "info": "If using the Grid layout, the maximum width will be restricted."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Optional"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo list",
+      "settings": {
+      },
+      "blocks": [
+      ]
+    }
+  ]
+}
+{% endschema %}

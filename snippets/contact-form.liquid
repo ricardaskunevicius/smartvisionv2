@@ -1,0 +1,36 @@
+{% form 'contact' %}
+{% if form.posted_successfully? %}
+<div class="notification success">
+  <p>{{ 'contact.form.post_success' | t }}</p>
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div class="notification errors">
+  <p>{{ 'contact.form.post_error' | t }}</p>
+  {% for field in form.errors %}
+  <p>{{ 'contact.form.post_field_error_html' | t: field: field, error: form.errors.messages[field] }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="input-row">
+  <label for="contactFormName">{{ 'contact.form.name' | t }}:</label>
+  <input type="text" id="contactFormName" name="contact[name]" />
+</div>
+<div class="input-row">
+  <label for="contactFormEmail">{{ 'contact.form.email' | t }}:</label>
+  <input type="email" id="contactFormEmail" name="contact[email]" />
+</div>
+<div class="input-row">
+  <label for="contactFormTelephone">{{ 'contact.form.phone' | t }}:</label>
+  <input type="telephone" id="contactFormTelephone" name="contact[phone]" />
+</div>
+<div class="input-row">
+  <label for="contactFormMessage">{{ 'contact.form.message' | t }}:</label>
+  <textarea rows="15" cols="75" id="contactFormMessage" name="contact[body]"></textarea>
+</div>
+<div class="input-row">
+  <input type="submit" id="contactFormSubmit" value="{{ 'contact.form.send' | t }}" class="btn" />
+</div>
+{% endform %}

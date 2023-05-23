@@ -1,0 +1,512 @@
+{%- liquid
+  assign align_search_left = false
+  assign align_search_center = false
+
+  if section.settings.logo_location == 'toolbar' and section.settings.header_layout == 'center' and section.settings.search_bar contains "input"
+    assign align_search_left = true
+  elsif section.settings.logo_location != 'toolbar' and section.settings.search_bar contains "input"
+    assign align_search_left = true
+  endif
+
+  if section.settings.logo_location == 'toolbar' and section.settings.header_layout == 'left' and section.settings.search_bar contains "input"
+    assign align_search_center = true
+  endif
+
+  if search
+    assign search_terms = search.terms | escape
+  endif
+-%}
+
+{%- style -%}
+  {%- if section.settings.logo != blank -%}
+  .logo img {
+		width: {{ section.settings.mobile_logo_width }}px;
+  }
+
+  @media (min-width: 768px) {
+		.logo img {
+				width: {{ section.settings.logo_width }}px;
+		}
+  }
+  {%- endif -%}
+
+	{%- if section.settings.sticky_header -%}
+		.section-header {
+			 position: -webkit-sticky;
+			 position: sticky;
+			 top: 0;
+		}
+	{%- endif -%}
+{%- endstyle-%}
+
+{% if template == 'gift_card' %}
+  {% comment %} Gift card template logo {% endcomment %}
+  <div class="logo container">
+    <meta itemprop="name" content="{{ shop.name }}">
+    <a class="logo" href="{{ routes.root_url }}" itemprop="url">
+      {% if section.settings.logo != blank %}
+        {% capture img_size %}{{ section.settings.logo_width | times: 2 }}x{% endcapture %}
+        <img src="{{ section.settings.logo | img_url: img_size }}"
+             alt="{{ section.settings.logo.alt | escape }}" itemprop="logo"/>
+      {% else %}
+        <span class="logo-text">{{ shop.name }}</span>
+      {% endif %}
+    </a>
+  </div>
+{% else %}
+  {% capture logo_html %}
+    <div class="logo align-{% if section.settings.header_layout == 'left' %}left{% else %}center{% endif %}">
+      <meta itemprop="name" content="{{ shop.name }}">
+      {% if section.settings.logo != blank %}
+        {% capture img_size %}{{ section.settings.logo_width | times: 2 }}x{% endcapture %}
+        <a href="{{ routes.root_url }}" itemprop="url">
+          <img src="{{ section.settings.logo | img_url: img_size }}"
+							 width="{{ section.settings.logo.width }}"
+							 height="{{ section.settings.logo.height }}"
+               {% if section.settings.compact_logo %}class="logo-desktop"{% endif %}
+               alt="{{ section.settings.logo.alt | escape }}" itemprop="logo"/>
+
+          {% if section.settings.compact_logo %}
+            <img src="{{ section.settings.compact_logo | img_url: img_size }}" width="{{ section.settings.compact_logo.width }}"
+								 height="{{ section.settings.compact_logo.height }}" class="logo-mobile" alt="{{ section.settings.compact_logo.alt | escape }}"/>
+          {% endif %}
+        </a>
+      {% else %}
+        <a href="{{ routes.root_url }}" class="logo-text" itemprop="url">{{ shop.name }}</a>
+      {% endif %}
+    </div>
+  {% endcapture %}
+
+  {% capture search_form %}
+    {%- assign show_search_suggestions = false -%}
+    {%- if section.settings.search_suggestions_title != blank or section.settings.search_suggestions_menu != blank -%}
+      {%- assign show_search_suggestions = true -%}
+    {%- endif -%}
+    <div class="main-search
+			{% if show_search_suggestions %}main-search--with-suggestions{% endif %}
+			{% if section.settings.search_text_box_large and section.settings.search_bar != "icon" %}
+				main-search--text-box-large
+			{% endif %}"
+
+         data-live-search="{{ settings.enable_live_search }}"
+         data-live-search-price="{{ settings.live_search_show_price }}"
+         data-live-search-vendor="{{ settings.live_search_show_vendor }}"
+         data-live-search-meta="{{ settings.live_search_search_meta }}"
+         data-show-sold-out-label="{{ settings.label_soldout_show }}"
+         data-show-sale-label="{{ settings.label_sale_show }}">
+
+      <div class="main-search__container {% if section.settings.search_type_dropdown and shop.types %}main-search__container--has-type-filter{% endif %}">
+        <form class="main-search__form" action="{{ routes.search_url }}" method="get" autocomplete="off">
+          <input type="hidden" name="type" value="{{ settings.search_type }}" />
+          <input type="hidden" name="options[prefix]" value="last" />
+          <input class="main-search__input" type="text" name="q" autocomplete="off" value="{%- if search_terms -%}{{ search_terms }}{%- endif -%}" placeholder="{{ 'layout.search.placeholder' | t | escape }}" aria-label="{{ 'layout.search.title' | t | escape }}" />
+					{% if section.settings.search_type_dropdown and shop.types %}
+						<select class="main-search__product-types" id="main-search__product-types" name="filter.p.product_type"
+										aria-label="{{ 'homepage.onboarding.product_type' | t | escape }}">
+							<option value="">{{ 'collections.filtering.all' | t }}</option>
+							{% for product_type in shop.types %}
+								{% if product_type != blank %}
+									<option value="{{ product_type }}">{{ product_type }}</option>
+								{% endif %}
+							{% endfor %}
+						</select>
+					{% endif %}
+          <button type="submit" aria-label="{{ 'layout.header.search_submit' | t }}">{% render 'svg-search' %}</button>
+        </form>
+
+        <div class="main_search__popup">
+          <div class="main-search__results"></div>
+          <div class="main-search__footer-buttons">
+            <div class="all-results-container"></div>
+            <a class="main-search__results-close-link btn alt outline" href="#">
+              {{ 'layout.search.close' | t }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endcapture %}
+
+  <div class="header-container" data-section-type="header" itemscope itemtype="http://schema.org/Organization" data-cc-animate data-is-sticky="{{ section.settings.sticky_header }}">
+    {%- assign featured_links = section.settings.nav_featured_link | split: ', ' -%}
+    <div class="page-header {% if section.settings.logo_location == "links" %}layout-nav{% else %}layout-{{ section.settings.header_layout }}{% endif %} using-compact-mobile-logo">
+      <div class="toolbar-container">
+        <div class="container">
+          <div id="toolbar" class="toolbar cf
+        	{% if section.settings.header_layout == 'center' %}toolbar--three-cols-xs{% else %}toolbar--two-cols-xs{% endif %}
+					{% if section.settings.logo_location == 'toolbar' and section.settings.header_layout == 'center' %}toolbar--three-cols{% else %}toolbar--two-cols{% endif %}
+			    {% if section.settings.search_text_box_large and section.settings.search_bar != "icon" %}toolbar--text-box-large{% endif %}">
+
+            <div class="toolbar-left {% if section.settings.logo == blank %}toolbar--text-logo{% endif %}
+						{% if align_search_left %}toolbar-left--search-left{% endif %}">
+              <div class="mobile-toolbar">
+                <a class="toggle-mob-nav" href="#" aria-controls="mobile-nav" aria-label="{{ 'layout.header.open_mobile_nav_aria_label' | t | escape }}">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </a>
+              </div>
+
+              {%- if section.settings.header_layout == 'left' -%}
+                {%- if section.settings.logo_location == 'toolbar' -%}
+                  <div class="toolbar-logo">
+                    {{ logo_html }}
+                  </div>
+                {%- else -%}
+                  <div class="toolbar-logo mobile-only">
+                    {{ logo_html }}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+
+              {% if align_search_left %}
+                <div class="toolbar-links">
+                  {{ search_form }}
+                </div>
+              {% endif %}
+            </div>
+
+            {% if section.settings.header_layout == 'center' %}
+              <div class="toolbar-center {% if section.settings.logo == blank %}toolbar--text-logo{% endif %}">
+                {% if section.settings.logo_location == 'toolbar' %}
+                  <div class="toolbar-logo {% if section.settings.logo_width > 115 %}toolbar-logo--large{% endif %}">
+                    {{ logo_html }}
+                  </div>
+                {%- else -%}
+                  <div class="toolbar-logo mobile-only">
+                    {{ logo_html }}
+                  </div>
+                {%- endif -%}
+              </div>
+            {% endif %}
+
+            <div class="toolbar-right {% if align_search_left %}search-left{% endif %}">
+              {% if align_search_center %}
+                <div class="toolbar-links">
+                  {{ search_form }}
+                </div>
+              {% endif %}
+
+              <div class="toolbar-icons">
+                {% assign show_search_icon = false %}
+                {% if section.settings.search_bar != "none" %}
+                  {% if section.settings.search_bar != "input" %}
+                    {% assign show_search_icon = true %}
+                  {% endif %}
+                {% endif %}
+
+                {% if section.settings.search_bar == "icon" %}
+                  <div class="hidden-search-container">
+										<div class="hidden-search-container__veil"></div>
+                    <a href="{{ routes.search_url }}" data-show-search-form class="toolbar-search toolbar-search--{{ section.settings.search_bar }}" aria-label="{{ 'layout.header.search' | t | escape }}">
+                      {% render 'svg-search' %}
+                    </a>
+                    {{ search_form }}
+                  </div>
+                {% elsif show_search_icon %}
+                  <div class="hidden-search-container hidden-search-container--mob-only">
+                    <a href="{{ routes.search_url }}" data-show-search-form class="toolbar-search mobile-only toolbar-search--{{ section.settings.search_bar }}" aria-label="{{ 'layout.header.search' | t | escape }}">
+                      {% render 'svg-search' %}
+                    </a>
+                    {{ search_form }}
+                  </div>
+                {% endif %}
+
+                {% if shop.customer_accounts_enabled %}
+                  <a href="{{ routes.account_url }}" class="toolbar-account" aria-label="{{ 'layout.customer.account' | t | escape }}">
+                    {% render 'svg-account' %}
+                  </a>
+                {% endif %}
+
+                <span class="toolbar-cart">
+								<a class="current-cart {% if template != 'cart' %}toggle-cart-summary{% endif %}"
+                   href="{{ routes.cart_url }}" title="{{ 'products.product.go_to_cart' | t }}">
+									{% comment %}<span class="beside-svg money-summary"><span class="theme-money">{% render 'price', price: cart.total_price %}</span></span>{% endcomment %}
+									<span class="current-cart-icon current-cart-icon--{{ section.settings.cart_icon }}">
+										{% if section.settings.cart_icon == "basket2" %}
+                      {% render 'svg-cart-2' %}
+                    {% elsif section.settings.cart_icon == "cart" %}
+                      {% render 'svg-cart-trolley' %}
+                    {% else %}
+                      {% render 'svg-cart' %}
+                    {% endif %}
+
+                    {% if cart.item_count > 0 %}
+                      <span class="current-cart-count">
+												<span class="inner-count">
+													{{ cart.item_count }}
+												</span>
+											</span>
+                    {% endif %}
+									</span>
+								</a>
+							</span>
+              </div>
+            </div>
+          </div>
+
+          {% if section.settings.search_bar == "input" %}
+            <div class="mobile-search-form mobile-only">
+              {{ search_form }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="container nav-container">
+        <div class="logo-nav {% if section.settings.header_layout == 'left' and section.settings.logo_location == 'links' %}logo-nav--with-logo{% endif %}">
+          {% if section.settings.logo_location == "inbetween" %}
+            <div class="cf{% if section.settings.logo_location == "links" %} mobile{% endif %}">{{ logo_html }}</div>
+          {% endif %}
+
+          {% unless section.settings.menu_linklist == blank %}
+            {% render 'main-navigation', logo_html: logo_html, featured_links: featured_links %}
+          {% endunless %}
+        </div>
+      </div>
+
+      <script id="mobile-navigation-template" type="text/template">
+        {% render 'mobile-navigation', featured_links: featured_links, show_social: section.settings.social_links_mob %}
+      </script>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+	"name": "Header",
+	"class": "section-header",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Layout"
+		},
+		{
+			"type": "checkbox",
+			"id": "sticky_header",
+			"label": "Enable sticky header",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "social_links_mob",
+			"label": "Show social media links on mobile",
+			"default": true,
+			"info": "The setting for social media links on desktop can be found in the Announcement Bar settings."
+		},
+		{
+			"type": "header",
+			"content": "Logo"
+		},
+		{
+			"type": "image_picker",
+			"id": "logo",
+			"label": "Desktop logo",
+			"info": "300 x 200px recommended"
+		},
+		{
+			"type": "image_picker",
+			"id": "compact_logo",
+			"label": "Mobile logo"
+		},
+		{
+			"type": "range",
+			"id": "logo_width",
+			"min": 50,
+			"max": 250,
+			"step": 5,
+			"label": "Desktop logo width",
+			"default": 140,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "mobile_logo_width",
+			"min": 30,
+			"max": 170,
+			"step": 5,
+			"label": "Mobile logo width",
+			"default": 85,
+			"unit": "px"
+		},
+		{
+			"type": "select",
+			"id": "logo_location",
+			"label": "Logo location",
+			"options": [{
+					"value": "toolbar",
+					"label": "Toolbar"
+				},
+				{
+					"value": "links",
+					"label": "Menu links"
+				}
+			],
+			"default": "toolbar"
+		},
+		{
+			"type": "select",
+			"id": "header_layout",
+			"label": "Logo alignment",
+			"options": [{
+					"value": "center",
+					"label": "Center"
+				},
+				{
+					"value": "left",
+					"label": "Left"
+				}
+			],
+			"default": "left"
+		},
+		{
+			"type": "header",
+			"content": "Navigation"
+		},
+		{
+			"type": "link_list",
+			"id": "menu_linklist",
+			"label": "Menu",
+			"default": "main-menu",
+			"info": "To create a mega menu, ensure every link within your menu has child links [Learn more](https://cleancanvas.co.uk/support/general/mega-menus)"
+		},
+		{
+			"type": "select",
+			"id": "mobile_parent_text_tap",
+			"label": "On mobile, tapping the link text of menu items with sub menus will",
+			"options": [{
+					"value": "page",
+					"label": "Go to the page"
+				},
+				{
+					"value": "drilldown",
+					"label": "Open the sub menu"
+				}
+			],
+			"default": "drilldown"
+		},
+		{
+			"type": "select",
+			"id": "nav_alignment",
+			"label": "Menu links alignment",
+			"options": [{
+					"value": "center",
+					"label": "Center"
+				},
+				{
+					"value": "left",
+					"label": "Left"
+				}
+			],
+			"default": "left"
+		},
+		{
+			"type": "range",
+			"id": "nav_col_limit_int",
+			"min": 3,
+			"max": 14,
+			"step": 1,
+			"label": "Maximum number of links per column",
+			"info": "Does not apply to full-width dropdown",
+			"default": 8
+		},
+		{
+			"type": "text",
+			"id": "nav_featured_link",
+			"label": "Featured link",
+			"info": "Use a different color to highlight this link",
+			"default": "Sale"
+		},
+		{
+			"type": "header",
+			"content": "Toolbar options"
+		},
+		{
+			"type": "select",
+			"id": "cart_icon",
+			"label": "Cart icon",
+			"options": [
+				{
+					"value": "basket2",
+					"label": "Basket"
+				},
+				{
+					"value": "cart",
+					"label": "Shopping cart"
+				}
+			],
+			"default": "basket2"
+		},
+		{
+			"type": "header",
+			"content": "Search"
+		},
+		{
+			"type": "select",
+			"id": "search_bar",
+			"label": "Search appearance",
+			"options": [{
+					"value": "icon",
+					"label": "Icon"
+				},
+				{
+					"value": "input",
+					"label": "Search box"
+				},
+				{
+					"value": "input_desktop",
+					"label": "Icon on mobile, search box on desktop"
+				},
+				{
+					"value": "none",
+					"label": "None"
+				}
+			],
+			"default": "input"
+		},
+		{
+			"type": "checkbox",
+			"id": "search_text_box_large",
+			"label": "Enlarge search box on desktop",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "search_type_dropdown",
+			"label": "Show product type dropdown",
+			"info": "This will show all the product types (you cannot exclude particular ones). If enabled, you should also add the Product Type filter to your search page within the [navigation page](\/admin\/menus).",
+			"default": true
+		}
+	],
+	"blocks": [{
+		"type": "menu_promotion",
+		"name": "Menu promotion",
+		"settings": [{
+				"type": "paragraph",
+				"content": "Menu promotions are shown in dropdown menus. They are not visible in the mobile menu."
+			},
+			{
+				"type": "text",
+				"id": "dropdown_link_title",
+				"label": "Dropdown link title",
+				"info": "Enter a dropdown menu item title to display the menu promotion on, e.g. 'Shop'. [Learn more](https://cleancanvas.co.uk/support/general/mega-menus#h_01EJB9WJN2QPHVTQPV8DCZQK07)"
+			},
+			{
+				"type": "image_picker",
+				"id": "image",
+				"label": "Image"
+			},
+			{
+				"type": "text",
+				"id": "text",
+				"label": "Text"
+			},
+			{
+				"type": "url",
+				"id": "link_url",
+				"label": "Link"
+			}
+		]
+	}]
+}
+{% endschema %}

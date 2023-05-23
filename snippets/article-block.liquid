@@ -1,0 +1,63 @@
+<div class="article {{ css_class | default: 'flex column max-cols-4' }}"
+  {% if animate %}
+      {% assign animate = animate | times: 0.15 %}
+      data-cc-animate="cc-fade-in-up" data-cc-animate-delay="{{ animate }}s"
+  {% endif %}>
+
+  {% if article.image %}
+    {% if crop_ratio != "" %}
+      <a href="{{ article.url }}" class="article-image">
+        {% assign ratio_split = crop_ratio | split: '-' %}
+        {% assign ratio = ratio_split.first | divided_by: 1.0 | divided_by: ratio_split.last %}
+        {% render 'responsive-image', image: article.image, aspect_ratio: ratio, crop: true %}
+      </a>
+    {% else %}
+      <a href="{{ article.url }}" class="article-image">
+        {% render 'responsive-image', image: article.image %}
+      </a>
+    {% endif %}
+  {% endif %}
+
+  <div class="reading-column">
+    <h2>{{ article.title | link_to: article.url }}</h2>
+
+    <div class="excerpt rte">
+      {{ article.excerpt_or_content }}
+    </div>
+
+    {% if show_meta_on_listing or show_author %}
+    <div class="lightly-spaced-row">
+      {% if css_class contains 'full' and show_author and article.user.image %}
+      <span class="author-image">
+        <img loading="lazy" src="{{ article.user.image | img_url: '100x' }}" alt="{{ article.user.image.alt | escape }}" />
+      </span>
+      {% endif %}
+
+      <div class="article-meta">
+        {% if show_meta_on_listing %}
+          {% assign published_at = article.published_at | date: format: 'month_date_year' %}
+          <div class="date">{{ 'blogs.article.posted_on_date' | t: date: published_at  }}</div>
+        {% endif %}
+        {% if show_author %}<div class="author">{{ 'blogs.article.posted_by_compact_html' | t: author: article.author  }}</div>{% endif %}
+        {% if article.comments_enabled? and article.comments_count > 0 and show_meta_on_listing %}
+        <div class="comments-count">{{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}</div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if show_tags_on_articles %}
+    {% capture tag_html %}
+    <div class="article-tags lightly-spaced-row">
+      {{ 'blogs.general.tagged' | t }}
+      {% for tag in article.tags %}
+      {% unless tag contains 'meta-' %}<span class="tag">{{ tag | link_to_tag: tag }}</span>{% endunless %}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    </div>
+    {% endcapture %}
+    {% if tag_html contains 'span' %}{{ tag_html }}{% endif %}
+    {% endif %}
+
+    <a class="more-link" href="{{ article.url }}" title="{{ article.title | escape }}">{{ 'blogs.general.read_more' | t }}</a>
+  </div>
+</div>

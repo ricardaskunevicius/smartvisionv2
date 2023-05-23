@@ -1,0 +1,131 @@
+{% assign nav_image_size = '400x' %}
+<nav class="main-nav cf desktop align-{{ section.settings.nav_alignment }}"
+     data-col-limit="{{ section.settings.nav_col_limit_int }}"
+     aria-label="{{ 'layout.desktop_navigation.menu_aria_label' | t | escape }}">
+  {%- if section.settings.logo_location == 'links' and section.settings.header_layout == 'left' -%}
+    <div class="logo-item logo-item-left">{{ logo_html }}</div>
+  {%- endif -%}
+  <ul>
+    {% assign halfway_index = linklists[section.settings.menu_linklist].links.size | divided_by: 2 |  plus: 1 %}
+
+    {%- for link in linklists[section.settings.menu_linklist].links -%}
+      {%- assign has_mega_drop_down = true -%}
+      {%- if link.links != blank -%}
+        {%- for child_link in link.links -%}
+          {%- if child_link.links == blank -%}
+            {%- assign has_mega_drop_down = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+    	  {%- assign has_mega_drop_down = false -%}
+      {%- endif -%}
+
+      {%- if section.settings.logo_location == 'links' and section.settings.header_layout == 'center' and forloop.index == halfway_index -%}
+        <li class="logo-item logo-item-center">{{ logo_html }}</li>
+      {%- endif -%}
+
+      <li class="nav-item{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}{% if link.active %} active{% endif %}{% if link.links != blank %} dropdown {% if has_mega_drop_down %}drop-uber{% else %}drop-norm{% endif %}{% endif %}">
+
+        <a class="nav-item-link{% if featured_links contains link.title %} nav-item-link--featured{% endif %}" href="{{ link.url }}" {% if link.links != blank %}aria-haspopup="true" aria-expanded="false"{% endif %}>
+          <span class="nav-item-link-title">{{ link.title }}</span>
+          {% if link.links != blank %}{% render 'svg-chevron-down' %}{% endif %}
+        </a>
+
+        {% if has_mega_drop_down %}
+          <div class="sub-nav">
+            {%- assign image_column_count = 0 -%}
+            {%- capture images_column_html -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.dropdown_link_title == link.title -%}
+                {%- assign image_column_count = image_column_count | plus: 1 -%}
+                <ul class="sub-nav-list sub-nav-image-list">
+                  <li class="sub-nav-item">
+                    <a class="sub-nav-item-link" href="{{ block.settings.link_url }}">
+                      <div class="sub-nav-item-image">{% render 'responsive-image', image: block.settings.image %}</div>
+                      <div class="sub-nav-item-image-title">{{ block.settings.text }}</div>
+                    </a>
+                  </li>
+                </ul>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+
+            <div class="container sub-nav-links-column sub-nav-links-column--count-{{ link.links.size }} sub-nav-links-column--beside-{{ image_column_count }}-images {% if images_column_html != blank %}sub-nav-links-column--beside-images{% endif %}">
+              <div class="sub-nav-links-column-grid-wrapper">
+                {% for child_link in link.links %}
+                <ul class="sub-nav-list">
+                  <li class="sub-nav-item">
+                    <a href="{{ child_link.url }}"><span class="sub-nav-item-title">{{ child_link.title }}</span></a>
+                  </li>
+                  {% for child_child_link in child_link.links %}
+                  <li class="sub-nav-item{% if child_child_link.active %} active{% endif %}">
+                    <a class="sub-nav-item-link" href="{{ child_child_link.url }}"{% if child_child_link.type == 'collection_link' %}{% if child_child_link.object.image %} data-img="{{ child_child_link.object.image | img_url: nav_image_size }}"{% else %} data-img="{{ child_child_link.object.products.first.featured_media.preview_image | img_url: nav_image_size }}"{% endif %}{% endif %}{% if child_child_link.type == 'product_link' and child_child_link.object.featured_media.preview_image %} data-img="{{ child_child_link.object.featured_media.preview_image | img_url: nav_image_size }}"{% endif %}>
+                      <span class="sub-nav-item-link-title">{{ child_child_link.title }}</span>
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% endfor %}
+              </div>
+            </div>
+
+            {% if images_column_html != blank %}
+              <div class="sub-nav-images-column sub-nav-images-column--count-{{ image_column_count }}">{{ images_column_html }}</div>
+            {% endif %}
+          </div>
+
+        {% elsif link.links != blank %}
+
+          {% comment %} Normal dropdown {% endcomment %}
+
+          <div class="sub-nav">
+            <div class="sub-nav-inner">
+              <ul class="sub-nav-list">
+                {% for child_link in link.links %}
+
+                <li class="sub-nav-item{% if child_link.active %} active{% endif %}{% if child_link.links != blank %} has-dropdown{% endif %}">
+                  <a class="sub-nav-item-link" href="{{ child_link.url }}"{% if child_link.type == 'collection_link' %}{% if child_link.object.image %} data-img="{{ child_link.object.image | img_url: nav_image_size }}"{% else %} data-img="{{ child_link.object.products.first.featured_media.preview_image | img_url: nav_image_size }}"{% endif %}{% endif %}{% if child_link.type == 'product_link' and child_link.object.featured_media.preview_image %} data-img="{{ child_link.object.featured_media.preview_image | img_url: nav_image_size }}"{% endif %} {% if child_link.links != blank %}aria-haspopup="true" aria-expanded="false"{% endif %}>
+                    <span class="sub-nav-item-link-title">{{ child_link.title }}</span>
+                    {% if child_link.links != blank %}{% render 'svg-chevron-down' %}{% endif %}
+                  </a>
+
+                  {% if child_link.links != blank %}
+                  <ul class="sub-sub-nav-list">
+                    {% for child_child_link in child_link.links %}
+                    <li class="sub-nav-item{% if child_child_link.active %} active{% endif %}">
+                      <a class="sub-nav-item-link" href="{{ child_child_link.url }}"{% if child_child_link.type == 'collection_link' %}{% if child_child_link.object.image %} data-img="{{ child_child_link.object.image | img_url: nav_image_size }}"{% else %} data-img="{{ child_child_link.object.products.first.featured_media.preview_image | img_url: nav_image_size }}"{% endif %}{% endif %}{% if child_child_link.type == 'product_link' and child_child_link.object.featured_media.preview_image %} data-img="{{ child_child_link.object.featured_media.preview_image | img_url: nav_image_size }}"{% endif %}>
+                        {{ child_child_link.title }}
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </li>
+
+                {% endfor %}
+              </ul>
+
+              {%- for block in section.blocks -%}
+                {%- if block.settings.dropdown_link_title == link.title -%}
+                <ul class="sub-nav-list sub-nav-image">
+                  <li class="sub-nav-item">
+                    <a class="sub-nav-item-link" href="{{ block.settings.link_url }}">
+                      <div class="sub-nav-item-image">{% render 'responsive-image', image: block.settings.image %}</div>
+                      <div class="sub-nav-item-image-title">{{ block.settings.text }}</div>
+                    </a>
+                  </li>
+                </ul>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {% endif %}
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  {% if section.settings.header_layout == 'left' and section.settings.logo_location == 'links' and section.settings.nav_alignment == 'center' %}
+    {% comment %}A placeholder div to make flex align stuff correctly{% endcomment %}
+    <div id="logo-spacer"></div>
+  {% endif %}
+</nav>

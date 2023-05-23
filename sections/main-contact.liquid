@@ -1,0 +1,86 @@
+{% if section.settings.content_layout != "hidden" %}
+  <div class="section container" data-cc-animate>
+    <div class="reading-column">
+      {% if section.settings.content_layout == "above" and section.settings.show_title %}
+        <h1 class="page-title">{{ page.title }}</h1>
+      {% endif %}
+
+      <div class="page-with-contact-form row space-below">
+        {% if section.settings.content_layout == "above" %}
+        <div class="rte full column pb-medium mb-0">
+          {{ page.content | replace: 'fullwidth"', '" data-fullwidth="true"' }}
+        </div>
+        {% endif %}
+
+        {% if section.settings.content_layout == "left" or section.settings.content_layout == "right" %}
+          <div class="rte half column">
+            {% if section.settings.content_layout == "left" %}
+              {% if section.settings.show_title %}<h1 class="page-title">{{ page.title }}</h1>{% endif %}
+              {{ page.content }}
+            {% elsif section.settings.content_layout == "right" %}
+              {% render 'contact-form' %}
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.content_layout == "left" or section.settings.content_layout == "above" or section.settings.content_layout == "right" %}
+          <div class="half column">
+            {% if section.settings.content_layout == "left" or section.settings.content_layout == "above" %}
+              {% render 'contact-form' %}
+            {% elsif section.settings.content_layout == "right" %}
+              <h1 class="page-title">{{ page.title }}</h1>
+              {{ page.content }}
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% else %}
+<div class="section container" data-cc-animate>
+  <div class="reading-column">
+    <div class="page-with-contact-form space-below">
+      {% render 'contact-form' %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Contact page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show page title",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "content_layout",
+        "label": "Page text layout",
+        "default": "left",
+        "options": [
+          {
+            "value": "hidden",
+            "label": "Hidden"
+          },
+          {
+            "value": "above",
+            "label": "Above"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

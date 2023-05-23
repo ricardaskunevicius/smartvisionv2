@@ -1,0 +1,35 @@
+<div class="onboarding">
+  <div class="onboarding-behind">
+    <div class="opposing-items opposing-items--heading">
+      <h1 class="section-heading left">{{ section.settings.title | escape }}</h1>
+
+      <span class="more-link">{{ 'collections.general.view_all' | t }}</span>
+    </div>
+
+    <div class="row">
+
+      {% for i in (1..3) %}
+
+        <div class="article third column">
+
+          <div class="article-image">
+            <div class="placeholder-image landscape">{{ 'image' | placeholder_svg_tag }}</div>
+          </div>
+
+          <div class="reading-column">
+            <h2>{{ "homepage.onboarding.article_title" | t }}</h2>
+
+            <div class="excerpt rte">
+              {{ "homepage.onboarding.article_excerpt" | t }}
+            </div>
+
+            <a class="more-link">{{ 'blogs.general.read_more' | t }}</a>
+          </div>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+</div>

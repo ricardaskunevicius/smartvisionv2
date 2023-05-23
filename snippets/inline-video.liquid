@@ -1,0 +1,27 @@
+<div data-section-type="background-video" class="section-background-video section-background-video--inline">
+  <div class="video-container video-container--background"
+    {% if video_shopify != blank %}
+      data-video-sources="{%- for source in video_shopify.sources -%}
+        {{ source.format }} {{ source.mime_type }} {{ source.url }}
+        {%- unless forloop.last -%}|{%- endunless -%}
+      {%- endfor -%}"
+      data-video-type="mp4"
+    {% elsif video_external != blank %}
+      data-video-url="{{ video_external | escape }}"
+    {% endif %}
+    data-video-autoplay="true"
+    data-video-loop="true">
+    <div class="video-container__video"></div>
+
+    {% if image != blank %}
+      {% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+      <div class="video-container__fallback rimage-outer-wrapper" data-lazy-bg="{{ img_url }}" style="background-position: {{ image.presentation.focal_point }}">
+        <noscript>
+          <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100 }}%">
+            <img src="{{ image | img_url: '1024x1024' }}" alt="{{ image.alt | escape }}" class="rimage__image">
+          </div>
+        </noscript>
+      </div>
+    {% endif %}
+  </div>
+</div>

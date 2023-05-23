@@ -1,0 +1,30 @@
+<section class="section border-top {% if section.settings.no_margins %}padless-top padless-bottom{% endif %}" data-cc-animate>
+  {% if section.settings.no_margins == false  %}<div class="container">{% endif %}
+    {{ section.settings.custom_liquid }}
+  {% if section.settings.no_margins == false  %}</div>{% endif %}
+</section>
+
+
+{% schema %}
+  {
+    "name": "Custom Liquid/HTML",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "no_margins",
+        "label": "No section spacing",
+        "default": false
+      },
+      {
+        "type": "liquid",
+        "id": "custom_liquid",
+        "label": "Custom Liquid/HTML"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Liquid/HTML"
+      }
+    ]
+  }
+{% endschema %}

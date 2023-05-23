@@ -1,0 +1,32 @@
+<div class="mailing-list">
+  {% form 'customer', id: form_id %}
+    {% if form.posted_successfully? %}
+    <div class="mailing-list__success">
+        <h4 class="no-margin">{{ 'layout.signup.post_success' | t }}</h4>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(event) {
+        $(function(){ setTimeout( function() { $(window).scrollTop( $('#{{ form_id }}').offset().top ) }, 50) });
+      });
+    </script>
+    {% else %}
+      <input type="hidden" name="contact[tags]" value="prospect,newsletter"/>
+      <div class="input-row inline-input-button">
+        <input type="email" placeholder="{{ 'layout.signup.email' | t | escape }}" aria-label="{{ 'layout.signup.email' | t | escape }}" class="required" value="" name="contact[email]" required />
+        <input type="submit" value="{{ 'layout.signup.button' | t }}" />
+      </div>
+      {% if form.errors %}
+      <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+          $(function(){ setTimeout( function() { $(window).scrollTop( $('#{{ form_id }}').offset().top ) }, 50) });
+        });
+      </script>
+      <div class="notification errors">
+        {% for field in form.errors %}
+        <div>{{ field | capitalize }} {{ form.errors.messages[field] }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endif %}
+  {% endform %}
+</div>

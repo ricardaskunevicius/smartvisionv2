@@ -1,0 +1,182 @@
+<div class="section container">
+  <div class="reading-column">
+    {% if article.image and section.settings.show_feat_image %}
+    <div class="article-image uncontain" data-cc-animate>
+      {% render 'responsive-image', image: article.image %}
+    </div>
+    {% endif %}
+
+    <h1 class="page-title" data-cc-animate data-cc-animate-delay="0.2s">{{ article.title }}</h1>
+
+    <div class="rte" data-cc-animate data-cc-animate-delay="0.4s">
+      {{ article.content | replace: 'fullwidth"', '" data-fullwidth="true"' }}
+    </div>
+
+    {% if section.settings.show_tags and article.tags.size > 0 %}
+    <div class="tags plain spaced" data-cc-animate>
+      <label>{{ 'blogs.general.tagged' | t }}</label>
+      <ul>
+        {% for tag in article.tags %}
+        <li class="tag">
+          {{ tag | link_to_tag: tag }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="section container" data-cc-animate>
+  <div class="reading-column">
+    <div class="row space-below">
+      <div class="half column">
+        {% if section.settings.show_author and article.user.image %}
+          <span class="author-image">
+            <img loading="lazy" src="{{ article.user.image | img_url: '100x' }}" alt="{{ article.user.image.alt | escape }}" />
+          </span>
+        {% endif %}
+        <div class="article-meta">
+          {% assign published_at = article.published_at | date: format: 'month_date_year' %}
+          <div class="date">{{ 'blogs.article.posted_on_date' | t: date: published_at  }}</div>
+          {% if section.settings.show_author %}<div class="author">{{ 'blogs.article.posted_by_compact_html' | t: author: article.author  }}</div>{% endif %}
+          {% if article.comments_enabled? %}
+          <div class="comments-count">{{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}</div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if section.settings.show_sharing_icons %}
+        <div class="half column align-right-desktop">
+          {% render 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="more-links">
+      <div class="row">
+        <div class="third column">
+          {% if blog.previous_article %}
+          <a class="more-link" href="{{ blog.previous_article }}">{{ 'blogs.article.older_post' | t }}</a>
+          {% endif %}
+          <span class="col-place">&nbsp;</span>
+        </div>
+
+        <div class="third column align-centre">
+          <a class="more-link" href="{{ blog.url }}">{{ 'blogs.article.back_to' | t: title: blog.title }}</a>
+        </div>
+
+        <div class="third column align-right">
+          {% if blog.next_article %}
+          <a class="more-link" href="{{ blog.next_article }}">{{ 'blogs.article.newer_post' | t }}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% paginate article.comments by 20 %}
+
+{% if blog.comments_enabled? %}
+<div class="border-top" data-cc-animate>
+  <div class="container">
+    <div id="comments" class="comments reading-column">
+
+      {% if article.comments.size > 0 or comment.created_at %}
+      <div class="section padless-bottom">
+        <h2 class="comment-title">{{ 'blogs.comments.title' | t }}</h2>
+
+        {% if comment and comment.created_at %}
+          {% render 'comment', comment: comment, article: article %}
+        {% endif %}
+
+        {% for comment in article.comments %}
+          {% render 'comment', comment: comment, article: article %}
+        {% endfor %}
+
+        {% render 'pagination', paginate: paginate %}
+      </div>
+      {% endif %}
+
+      <div id="comment-form" class="comment-form section">
+        {% form "new_comment", article %}
+        <h2 class="comment-title">{{ 'blogs.comments.form_title' | t }}</h2>
+
+        {% if form.posted_successfully? %}
+          {% if blog.moderated? %}
+            <p class="notification success">{{ 'blogs.comments.success_moderated' | t }}</p>
+          {% else %}
+            <p class="notification success">{{ 'blogs.comments.success' | t }}</p>
+          {% endif %}
+        {% endif %}
+
+        {% if form.errors %}
+        <div class="notification errors">
+          {{ 'blogs.comments.error' | t }}
+          {{ form.errors | default_errors }}
+        </div>
+        {% endif %}
+
+        <div class="input-row">
+          <label for="comment_author">{{ 'blogs.comments.name' | t }}</label>
+          <input type="text" id="comment_author" name="comment[author]" size="40" class="text" />
+        </div>
+        <div class="input-row">
+          <label for="comment_email">{{ 'blogs.comments.email' | t }}</label>
+          <input type="text" id="comment_email" name="comment[email]" size="40" class="text" />
+        </div>
+        <div class="input-row">
+          <label for="comment_body">{{ 'blogs.comments.message' | t }}</label>
+          <textarea id="comment_body" name="comment[body]" cols="40" rows="5" class="text">{{form.body}}</textarea>
+        </div>
+
+        {% if blog.moderated? %}
+        <p><em>{{ 'blogs.comments.moderated' | t }}</em></p>
+        {% endif %}
+
+        <div class="input-row">
+          <input type="submit" value="{{ 'blogs.comments.post' | t }}" class="alt outline" id="comment-submit" />
+        </div>
+
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endpaginate %}
+
+{% render 'structured-data-article', article: article %}
+
+{% schema %}
+  {
+    "name": "Article pages",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_feat_image",
+        "label": "Show featured image",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tags",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sharing_icons",
+        "label": "Show social sharing icons",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,12 @@
+<div id="comment-{{ comment.id }}" class="comment section border-bottom row">
+  <div class="half column">
+    <div class="article-meta">
+      <div>{{ comment.author }}</div>
+      <div>
+        {{ comment.created_at | time_tag: format: 'month_date_year' }}
+      </div>
+    </div>
+  </div>
+
+  <div class="half column">{{ comment.content }}</div>
+</div> <!-- /.comment -->

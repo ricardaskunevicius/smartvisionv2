@@ -1,0 +1,40 @@
+{%- liquid
+  if settings.collection_thumb_shape == 'natural'
+    assign aspect_ratio = false
+  elsif settings.collection_thumb_shape == 'circle'
+    assign aspect_ratio = 1
+  else
+    assign aspect_ratio = settings.collection_thumb_shape | times: 1.0
+  endif
+
+  unless min_cols
+    assign min_cols = 1
+  endunless
+-%}
+<div class="product-block collection-block {% if settings.collection_thumb_shape == 'circle' %}collection-block--circle{% endif %} flex column max-cols-{{ collections_per_row }} min-cols-{{ min_cols }}
+    {% if is_last %}product-block--last{% endif %}"
+     {% if animate %}data-cc-animate data-cc-animate-delay="{{ animate }}s"{% endif %}>
+  <div class="product-block__inner">
+    <div class="image">
+      <div class="inner">
+        <a href="{{ collection.url }}">
+          {%- liquid
+            assign collection_image = collection.featured_image
+            assign first_product_image = collection.all_products.first.featured_media.preview_image
+            if use_product_image and first_product_image
+              assign collection_image = first_product_image
+            endif
+          -%}
+
+          {% if collection_image != blank %}
+            {% render 'responsive-image', image: collection_image, aspect_ratio: aspect_ratio %}
+          {% else %}
+            <div class="placeholder-image">{{ 'collection-1' | placeholder_svg_tag }}</div>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+
+    <div class="title align-{{ settings.collection_text_alignment }}">{{ collection.title | link_to: collection.url }}</div>
+  </div>
+</div>

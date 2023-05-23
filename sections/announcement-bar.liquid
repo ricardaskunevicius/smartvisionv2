@@ -1,0 +1,112 @@
+{%- unless template == 'gift_card' -%}
+	{%- if section.settings.announcement_show -%}
+		{%- if template contains 'index' or section.settings.announcement_home_only == false -%}
+
+			<div class="announcement-bar {% if settings.announcement_col_bar == settings.toolbar_col_bg %}announcement-bar--same-color{% endif %}" data-cc-animate data-section-type="announcement-bar">
+				<div class="container">
+					<div class="announcement-bar__inner">
+						{%- liquid
+							assign showing_currency_or_locale = false
+							if section.settings.show_language_selector or section.settings.show_country_selector
+								assign showing_currency_or_locale = true
+							endif
+						%}
+
+						{%- if showing_currency_or_locale and section.settings.show_social_icons == false -%}
+							<div class="announcement-bar__spacer desktop-only"></div>
+						{%- elsif section.settings.show_social_icons -%}
+								<div class="toolbar-social announcement-bar__spacer desktop-only">
+									{% render 'social-icons', icon_setting: settings.social_custom_icon_announcement_bar, icon_size: 'x48' %}
+								</div>
+						{%- endif -%}
+
+						<div class="announcement-bar__text">
+							{%- if section.settings.announcement_link != blank -%}
+								<a href="{{ section.settings.announcement_link }}" class="announcement-bar__text__inner">
+							{%- else -%}
+									<span class="announcement-bar__text__inner">
+							{%- endif -%}
+
+								{{- section.settings.announcement_text | escape -}}
+
+							{%- if section.settings.announcement_link != blank -%}
+								</a>
+							{%- else -%}
+								</span>
+							{%- endif -%}
+						</div>
+
+						{%- if section.settings.show_language_selector or section.settings.show_country_selector -%}
+							<div class="localization localization--header announcement-bar__spacer">
+								{% render 'localization', input_prefix: 'header' %}
+							</div>
+						{%- elsif section.settings.show_social_icons -%}
+							<div class="announcement-bar__spacer desktop-only"></div>
+						{%- endif -%}
+					</div>
+				</div>
+			</div>
+
+		{%- endif -%}
+	{%- endif -%}
+{%- endunless -%}
+
+{% schema %}
+  {
+	"name": "Announcement bar",
+	"class": "section-announcement-bar",
+	"settings": [
+		{
+			"type": "checkbox",
+			"id": "announcement_show",
+			"label": "Show announcement",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "announcement_home_only",
+			"label": "Home page only",
+			"default": false
+		},
+		{
+			"type": "textarea",
+			"id": "announcement_text",
+			"label": "Announcement text",
+			"default": "Announce something here"
+		},
+		{
+			"type": "url",
+			"id": "announcement_link",
+			"label": "Announcement link"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_social_icons",
+			"label": "Show social media links",
+			"default": true
+		},
+		{
+			"type": "header",
+			"content": "Country/Region Selector",
+			"info": "To add a country/region, go to your [payment settings.](/admin/settings/payments)"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_country_selector",
+			"label": "Enable country/region selector",
+			"default": true
+		},
+		{
+			"type": "header",
+			"content": "Language Selector",
+			"info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_language_selector",
+			"label": "Enable language selector",
+			"default": true
+		}
+	]
+}
+{% endschema %}

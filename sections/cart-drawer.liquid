@@ -1,0 +1,464 @@
+{% if settings.cart_type contains 'drawer' and template != 'cart' %}
+<div data-section-type="cart-drawer">
+
+  {%- liquid
+    assign cart_drawer_brightness = settings.cart_summary_bg_col | color_brightness
+    assign cart_drawer_alpha = settings.cart_summary_bg_col | color_extract: 'alpha'
+    if cart_drawer_brightness < 190 and cart_drawer_alpha > 0
+      assign cart_class = "cart-summary--dark"
+    endif
+  -%}
+
+  <div id="cart-summary" class="cart-summary {% if cart.item_count == 0 %}cart-summary--empty{% endif%} cart-summary--{{ settings.cart_type }} {{ cart_class }}">
+    <div class="cart-summary__inner" aria-live="polite">
+      <a class="cart-summary__close toggle-cart-summary" href="#">
+        {% render 'svg-chevron-left' %}
+        <span class="beside-svg">{{ 'layout.cart_summary.continue_shopping' | t }}</span>
+      </a>
+
+      <div class="cart-summary__header cart-summary__section">
+        <h5 class="cart-summary__title">{{ 'layout.cart_summary.title' | t }}</h5>
+        {% if cart.item_count > 0 %}
+          <div class="cart-summary__cart-links">
+            <div>
+              <a class="cart-summary__cart-link" href="{{ routes.cart_url }}">{{ 'layout.cart_summary.cart' | t }}</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if cart.item_count > 0 %}
+
+        <form class="cart-form cart-form--checkout cart-form--checkout--sticky-{{ section.settings.checkout_sticky_form }}" action="{{ routes.cart_url }}" method="post">
+          <div class="cart-form--non-stick cart-summary__section">
+            <div class="cart-summary__subtotal {% if section.settings.enable_cart_notes == blank and section.settings.show_tax_and_shipping == false %}cart-summary__subtotal--sm-bottom{% endif %}">
+              {%- if cart.cart_level_discount_applications != blank -%}
+                <ul class="cart-discount-list">
+                  {%- for discount_application in cart.cart_level_discount_applications -%}
+                    <li class="cart-discount cart-discount--inline cart-discount--flex">
+                      <span class="cart-discount__label">{{ discount_application.title }}</span>
+                      <span class="cart-discount__amount theme-money">{% render 'price', price: discount_application.total_allocated_amount, disable_currency_code: true %}</span>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+
+              <span class="cart-summary__subtotal-label">{{ 'layout.cart_summary.subtotal' | t }}</span>
+              <span class="amount">
+                <span class="theme-money">{% render 'price', price: cart.total_price, is_total_price: true %}</span>
+              </span>
+            </div>
+
+            {% if section.settings.enable_cart_notes != blank %}
+              <div class="cart-summary__notes">
+                <label class="cart-note-label" for="cart-summary-note">{{ 'cart.label.note' | t }}</label>
+                <textarea id="cart-summary-note" name="note" rows="10" cols="50">{{ cart.note }}</textarea>
+              </div>
+            {% endif %}
+
+            {% if section.settings.show_tax_and_shipping %}
+              {%- capture taxes_shipping_checkout -%}
+                {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                  {{ 'cart.general.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- elsif cart.taxes_included -%}
+                  {{ 'cart.general.taxes_included_but_shipping_at_checkout' | t }}
+                {%- elsif shop.shipping_policy.body != blank -%}
+                  {{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                {%- else -%}
+                  {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
+                {%- endif -%}
+              {%- endcapture -%}
+
+              <div class="cart-policies rte cart-summary__section--compact">{{ taxes_shipping_checkout }}</div>
+            {% endif %}
+
+            {% if section.settings.cart_terms_page != blank %}
+              <label class="cc-checkbox terms-agreement" for="terms">
+                <input class="cc-checkbox__input" id="terms" type="checkbox" required/>
+                <span class="cc-checkbox__label">{{ 'cart.terms.agreement_html' | t: terms_url: section.settings.cart_terms_page }}</span>
+              </label>
+            {% endif %}
+
+            {% if section.settings.enable_empty_cart %}
+              <a class="btn wide btn--secondary outline btn--empty-cart" href="{{ routes.cart_clear_url }}">{{ 'layout.cart_summary.empty_cart' | t }}</a>
+            {% endif %}
+          </div>
+
+          <div class="cart-summary__buttons cart-summary__section border-bottom">
+            {% if section.settings.checkout_goes_to_cart %}
+              <a href="{{ routes.cart_url }}" class="btn wide">
+                <span class="button-text">{{ 'layout.cart_summary.checkout' | t }}</span>
+                <span class="loading-spinner"></span>
+              </a>
+            {% else %}
+              <button type="submit" name="checkout" class="btn wide">
+                <span class="button-text">{{ 'layout.cart_summary.checkout' | t }}</span>
+                <span class="loading-spinner"></span>
+              </button>
+            {% endif %}
+
+            {% if section.settings.show_additional_checkout_buttons and additional_checkout_buttons and section.settings.cart_terms_page == blank %}
+              <div class="additional-checkout-buttons">
+                {{ content_for_additional_checkout_buttons }}
+              </div>
+            {% endif %}
+          </div>
+        </form>
+
+        <div class="cart-summary__item-list-header cart-summary__section cart-accordion-btn-container">
+          <h6 class="cart-summary__item-list-header__title" id="cart-summary-products-header">{{ 'layout.cart_summary.products_header' | t }}</h6>
+          <small class="cart-summary__item-list-header__count">({{ cart.item_count }})</small>
+          <button class="cart-accordion-btn btn plain-text" aria-labelledby="cart-summary-products-header">{% render 'svg-chevron-down' %}</button>
+        </div>
+
+        <div class="cart-summary__item-list">
+          <form class="cart-form cart-summary__section" action="{{ routes.cart_url }}" method="post">
+            {% for item in cart.items %}
+              <div class="cart-summary-item-container" data-product-id="{{ item.id }}">
+                <div class="cart-summary-item">
+                  <div class="cart-summary-item__image">
+                    <a href="{{ item.url }}">
+                      {% render 'responsive-image', image: item.image %}
+                    </a>
+                  </div>
+                  <div class="cart-summary-item__detail">
+                    <div class="cart-summary-item__title-variant">
+                      <a class="cart-summary-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                      {% unless item.product.has_only_default_variant %}<div class="cart-summary-item__variant">{{ item.variant.title }}</div>{% endunless %}
+                      {% if item.selling_plan_allocation %}
+                        <div class="cart-summary-item__variant">{{ item.selling_plan_allocation.selling_plan.name }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="cart-summary-item__price">
+                      {% if item.original_line_price != item.final_line_price %}
+                        <span class="reduced-price cart-summary-item__price-current theme-money">{% render 'price', price: item.final_line_price, disable_currency_code: true %}</span>
+                        <span class="theme-money struck-out-price">{% render 'price', price: item.original_line_price, disable_currency_code: true %}</span>
+                      {% elsif item.variant.compare_at_price != blank and item.variant.price < item.variant.compare_at_price %}
+                        <span class="reduced-price cart-summary-item__price-current theme-money">{% render 'price', price: item.final_line_price, disable_currency_code: true %}</span>
+                        {%- assign total_price = item.variant.compare_at_price | times: item.quantity -%}
+                        <span class="theme-money struck-out-price">{% render 'price', price: total_price, disable_currency_code: true %}</span>
+                      {% else %}
+                        <span class="cart-summary-item__price-current theme-money">{% render 'price', price: item.final_line_price, disable_currency_code: true %}</span>
+                      {% endif %}
+
+                      {% render 'unit-price', variant: item %}
+                    </div>
+
+                    {% if item.line_level_discount_allocations.size > 0 %}
+                      <ul class="cart-discount-list align-right">
+                      {% for discount_allocation in item.line_level_discount_allocations %}
+                        <li class="cart-discount cart-discount--inline cart-discount--flex">
+                          <span class="cart-discount__label">{{ discount_allocation.discount_application.title }}</span>
+                          <span class="cart-discount__amount theme-money">{% render 'price', price: discount_allocation.amount, disable_currency_code: true %}</span>
+                        </li>
+                      {% endfor %}
+                      </ul>
+                    {% endif %}
+                    <div class="cart-summary-item__quantity">
+                      <div class="qty-adjuster qty-adjuster--with-remove qty-adjuster--ajax" data-line-item-id="{{ item.id }}" {% if item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny' %}data-limit="{{ item.variant.inventory_quantity }}"{% endif %}>
+                        <div class="qty-adjuster__inner">
+                          <button class="qty-adjuster__down" aria-label="{{ 'cart.label.decrease' | t | escape }}">{% render 'svg-minus' %}</button>
+                          <input class="qty-adjuster__value" type="text" pattern="[0-9]*" name="updates[]" value="{{ item.quantity }}" aria-label="{{ 'cart.label.quantity' | t | escape }}">
+                          <button class="qty-adjuster__up"
+                              {% if item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny' and item.variant.inventory_quantity == item.quantity %}disabled{% endif %}
+                              aria-label="{{ 'cart.label.increase' | t | escape }}">
+                            {%- render 'svg-plus' -%}
+                          </button>
+                        </div>
+                        <a class="qty-adjuster__remove" href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0">{{ 'cart.general.remove' | t }}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </form>
+        </div>
+      {% else %}
+        <div class="cart-summary__empty">
+          <div class="cart-summary__section">
+            <p>{{ 'layout.cart_summary.empty' | t }}</p>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.promo_products_show %}
+        {%- capture promo_products -%}
+          <div class="cart-summary__promo-products-title cart-summary__section {% if cart.item_count > 0 %}cart-accordion-btn-container{% endif %} border-top">
+            <h6 class="cart-summary__item-list-header__title" id="cart-summary-promo-heading">{{ section.settings.promo_products_heading }}</h6>
+            {% if cart.item_count > 0 %}<button class="cart-accordion-btn btn plain-text cart-accordion-btn--collapsed" aria-labelledby="cart-summary-promo-heading">{% render 'svg-chevron-down' %}</button>{% endif %}
+          </div>
+
+          <div class="cart-summary__promo-products {% if cart.item_count > 0 %}hidden{% endif %}">
+            <div class="cart-summary__section">
+              {%- if section.settings.promo_products_product_1 == blank and section.settings.promo_products_product_2 == blank -%}
+                <div class="cart-summary-item">
+                  <div class="cart-summary-item__image">
+                    <div class="placeholder-image">{{ 'product-1' | placeholder_svg_tag }}</div>
+                  </div>
+                  <div class="cart-summary-item__detail">
+                    <div class="cart-summary-item__title-variant">
+                      <span class="cart-summary-item__title">{{ "homepage.onboarding.product_name" | t: number: '' }}</span>
+                    </div>
+
+                    <div class="cart-summary-item__price">
+                      <span class="cart-summary-item__price-current theme-money">{% render 'price', price: 1000, disable_currency_code: true %}</span>
+                    </div>
+
+                    <span class="btn product-add">{{ 'products.grid.add_to_cart' | t }}</span>
+                  </div>
+                </div>
+              {%- else -%}
+
+                {%- for i in (1..2) -%}
+                  {%- assign setting_key = 'promo_products_product_' | append: i -%}
+                  {%- assign promo_product_handle = section.settings[setting_key] -%}
+                  {%- if promo_product_handle -%}
+                    {%- assign promo_product = all_products[promo_product_handle] -%}
+                    {%- if promo_product != blank and promo_product.available -%}
+                      {%- assign is_in_cart = false -%}
+                      {%- for item in cart.items -%}
+                        {%- if item.product.id == promo_product.id -%}
+                          {%- assign is_in_cart = true -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- unless is_in_cart -%}
+                        <div class="cart-summary-item">
+                          <div class="cart-summary-item__image">
+                            <a href="{{ promo_product.url }}">
+                              <img src="{{ promo_product.featured_media.preview_image | img_url: '50x' }}" alt="{{ item.title | escape }}"
+                                  srcset="{{ promo_product.featured_media.preview_image | img_url: '50x' }} 50w,
+                                          {{ promo_product.featured_media.preview_image | img_url: '100x' }} 100w" sizes="50px"/>
+                            </a>
+                          </div>
+                          <div class="cart-summary-item__detail">
+                            <div class="cart-summary-item__title-variant">
+                              <a class="cart-summary-item__title" href="{{ promo_product.url }}">{{ promo_product.title }}</a>
+                              {%- if settings.product_grid_show_weight -%}
+                                {%- if promo_product.variants.first.weight > 0 -%}
+                                  {%- assign a_weight = promo_product.variants.first.weight -%}
+                                  {%- for variant in promo_product.variants -%}
+                                    {%- if variant.weight != a_weight -%}
+                                      {%- assign a_weight = false -%}
+                                    {%- endif -%}
+                                  {%- endfor -%}
+                                  <div class="cart-summary-item__weight">{{ promo_product.variants.first.weight | weight_with_unit: promo_product.variants.first.weight_unit }}</div>
+                                {%- endif -%}
+                              {%- endif -%}
+                            </div>
+
+                            <div class="cart-summary-item__price">
+                              {% if promo_product.price_varies %}
+                                <span class="from">{{ 'products.general.from' | t }}</span>
+                              {% endif %}
+
+                              {% if promo_product.compare_at_price > promo_product.price %}
+                                <span class="reduced-price cart-summary-item__price-current theme-money">{% render 'price', price: promo_product.price, disable_currency_code: true %}</span>
+                                <span class="struck-out-price theme-money">{% render 'price', price: promo_product.compare_at_price, disable_currency_code: true %}</span>
+                              {% else %}
+                                <span class="cart-summary-item__price-current theme-money">{% render 'price', price: promo_product.price, disable_currency_code: true %}</span>
+                              {% endif %}
+
+                              {%- assign variant = promo_product.variants | sort: 'price' | first -%}
+                              {% render 'unit-price', variant: variant %}
+                            </div>
+
+                            {% if promo_product.variants.size > 1 %}
+                              <div class="product-form">
+                                {% if settings.prod_quick_buy_show %}
+                                  <a class="quick-buy btn" href="{{ promo_product.url }}" data-product-id="{{ promo_product.id }}">{{ 'products.grid.choose_options' | t }}</a>
+                                  {% render 'quick-buy-placeholder', product: promo_product %}
+                                {% else %}
+                                  <a class="btn" href="{{ promo_product.url }}">{{ 'products.grid.choose_options' | t }}</a>
+                                {% endif %}
+                              </div>
+                            {% else %}
+                              {% if settings.prod_quick_buy_show %}
+                                {% form 'product', promo_product, class: 'product-form product-form--mini', data-ajax-add-to-cart: true, data-product-id: promo_product.id %}
+                                  <input type="hidden" name="quantity" value="1" />
+                                  <input type="hidden" name="id" value="{{ promo_product.variants.first.id }}" />
+                                  <button type="submit" name="add" class="btn product-add">{{ 'products.grid.add_to_cart' | t }}</button>
+                                {% endform %}
+                              {% else %}
+                                <a class="btn" href="{{ promo_product.url }}">{{ 'products.general.full_details' | t }}</a>
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endcapture -%}
+        {% if promo_products contains 'cart-summary-item' %}{{ promo_products }}{% endif %}
+      {% endif %}
+
+      {% if section.settings.cart_summary_image_show %}
+        <div class="cart-summary__promo cart-summary__section border-top">
+          <div class="cart-promo {% if section.settings.cart_summary_use_tint %}has-tint{% endif %}">
+            {% if section.settings.cart_summary_image_url != blank %}
+              <a href="{{ section.settings.cart_summary_image_url }}">
+            {% endif %}
+
+            {% if section.settings.cart_summary_image != blank %}
+              {% render 'responsive-image', image: section.settings.cart_summary_image %}
+            {% endif %}
+
+            {% if section.settings.cart_summary_image_heading != blank or section.settings.cart_summary_image_subheading != blank %}
+              <div class="image-overlay overlay">
+                <div class="inner">
+                  {% if section.settings.cart_summary_image_heading != blank %}
+                    <h5 class="cart-promo__heading">{{ section.settings.cart_summary_image_heading | escape }}</h5>
+                  {% endif %}
+                  {% if section.settings.cart_summary_image_subheading != blank %}
+                    <div class="cart-promo__subheading">{{ section.settings.cart_summary_image_subheading | escape }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+
+            {% if section.settings.cart_summary_image_url != blank %}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <script type="application/json" id="LimitedCartJson">
+      {
+        "items": [
+        {%- for item in cart.items -%}
+          {
+            "id": {{ item.id | json }},
+            "product_id": {{ item.product_id | json }},
+            "quantity": {{ item.quantity | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+        ]
+      }
+    </script>
+  </div><!-- /#cart-summary -->
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Cart drawer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_cart_notes",
+        "label": "Enable order notes",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tax_and_shipping",
+        "label": "Show tax status and shipping policy link",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_sticky_form",
+        "label": "Checkout buttons stick on scroll",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_additional_checkout_buttons",
+        "label": "Show additional checkout options",
+        "default": false,
+        "info": "Display other gateways and quick checkout buttons. [Read more](https://help.shopify.com/en/manual/payments/accelerated-checkouts)"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_empty_cart",
+        "label": "Show 'Empty cart' button",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_goes_to_cart",
+        "label": "Checkout button goes to cart page",
+        "default": false
+      },
+      {
+        "type": "url",
+        "id": "cart_terms_page",
+        "label": "Page for 'Terms and Conditions' link",
+        "info": "Will not be mandatory if the Checkout button goes to the cart page. Additional checkout buttons will be hidden when cart terms are shown."
+      },
+      {
+        "type": "header",
+        "content": "Promoted products",
+        "info": "These products will not show if in the cart, or out of stock"
+      },
+      {
+        "type": "checkbox",
+        "id": "promo_products_show",
+        "label": "Show promoted products",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "promo_products_heading",
+        "label": "Heading",
+        "default": "You might like"
+      },
+      {
+        "type": "product",
+        "id": "promo_products_product_1",
+        "label": "Product 1"
+      },
+      {
+        "type": "product",
+        "id": "promo_products_product_2",
+        "label": "Product 2"
+      },
+      {
+        "type": "header",
+        "content": "Promotion image"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_summary_image_show",
+        "label": "Show promotion image",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_summary_image",
+        "label": "Image",
+        "info": "500 x 300px recommended"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_summary_use_tint",
+        "label": "Show overlay tint",
+        "default": false
+      },
+      {
+        "type": "url",
+        "id": "cart_summary_image_url",
+        "label": "Link"
+      },
+      {
+        "type": "text",
+        "id": "cart_summary_image_heading",
+        "label": "Heading",
+        "default": "Promotion"
+      },
+      {
+        "type": "text",
+        "id": "cart_summary_image_subheading",
+        "label": "Subheading",
+        "default": "Read more"
+      }
+    ]
+  }
+{% endschema %}

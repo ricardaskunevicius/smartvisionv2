@@ -1,0 +1,268 @@
+{%- liquid
+  assign heading_tag = "h2"
+  if section.settings.heading_h1
+    assign heading_tag = "h1"
+  endif
+-%}
+
+<section id="section-id-{{ section.id }}" class="section-video section border-top {% if section.settings.full_width %}full-width-section{% endif %}" data-section-type="video">
+  {%- style -%}
+    @media (min-width: 768px) {
+      #section-id-{{ section.id }} .line-1 {
+        {%- assign title_size_medium = section.settings.title_size | times: 0.7 -%}
+        font-size: {{ title_size_medium }}px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      #section-id-{{ section.id }} .line-1 {
+        font-size: {{ section.settings.title_size }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  {% unless section.settings.full_width %}<div class="container">{% endunless %}
+
+  {% if section.settings.video_shopify != blank or section.settings.video_external != blank %}
+    <div class="align-centre">
+      <div class="video-container video-container--image video-container--modal-mobile
+        {% if section.settings.image == blank and section.settings.image_overlay_style == "shadow" %}has-tint--shadow-in{% endif %}
+        {% if section.settings.image_overlay_style != "none" %}has-tint has-tint--{{ section.settings.image_overlay_style }}{% else %}no-tint{% endif %}"
+        {% if section.settings.video_shopify != blank %}
+          data-video-sources="{%- for source in section.settings.video_shopify.sources -%}
+            {{ source.format }} {{ source.mime_type }} {{ source.url }}
+            {%- unless forloop.last -%}|{%- endunless -%}
+          {%- endfor -%}"
+          data-video-type="mp4"
+        {% elsif section.settings.video_external != blank %}
+          data-video-url="{{ section.settings.video_external | escape }}"
+        {% endif %}
+          data-cc-animate
+          data-video-autoplay="false"
+          data-video-loop="false">
+        <a class="video-container__stop" href="#" aria-label="{{ 'general.accessibility_labels.video_stop' | t | escape }}">{% render 'svg-x' %}</a>
+        <div class="video-container__video"></div>
+
+        {%- liquid
+          if section.settings.image
+            assign cover_image = section.settings.image
+          elsif section.settings.video_shopify
+            assign cover_image = section.settings.video_shopify.preview_image
+          endif
+        -%}
+        <div class="video-container__cover lazyload--placeholder">
+          {%- if cover_image -%}
+            {% assign img_url = cover_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+            <div class="rimage-outer-wrapper" data-lazy-bg="{{ img_url }}" style="background-position: {{ cover_image.presentation.focal_point }}">
+              <noscript>
+                <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: cover_image.aspect_ratio | times: 100 }}%">
+                  <img src="{{ cover_image | img_url: '1024x1024' }}" alt="{{ cover_image.alt | escape }}" class="rimage__image">
+                </div>
+              </noscript>
+            </div>
+          {%- else -%}
+            <div class="placeholder-image placeholder--banner dark">
+              {{- 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' -}}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="image-overlay overlay--v-{{ section.settings.text_alignment | split: ' ' | first }} overlay--h-{{ section.settings.text_alignment | split: ' ' | last }}">
+          <div class="inner {% if section.settings.text_alignment contains "left" or  section.settings.text_alignment contains "right" %}container{% endif %}">
+            {%- if section.settings.subheading != blank -%}
+              <div class="feature-subheader" data-cc-animate data-cc-animate-delay="0.2s">
+                {{ section.settings.subheading | escape }}
+              </div>
+            {% endif %}
+
+            {%- if section.settings.title != blank -%}
+              <{{ heading_tag }} class="line-1  {% if section.settings.title_size >= 86 %}line-1--large{% endif %}" data-cc-animate data-cc-animate-delay="0.3s">
+                {{ section.settings.title | newline_to_br }}
+              </{{ heading_tag }}>
+            {%- endif -%}
+
+            {%- if section.settings.text != blank -%}
+              <div class="rte line-2 {% if section.settings.enlarge_text %}large-text{% endif %}" data-cc-animate data-cc-animate-delay="0.4s">
+                {{ section.settings.text }}
+              </div>
+            {%- endif -%}
+
+            <div class="line-3" data-cc-animate data-cc-animate-delay="0.5s">
+              <a href="#" class="video-container__play" aria-label="{{ 'general.accessibility_labels.video_play' | t | escape }}">{% render 'svg-play' %}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% unless section.settings.full_width %}</div>{% endunless %}
+</section>
+
+
+{% schema %}
+  {
+    "name": "Video",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Video"
+      },
+      {
+        "id": "video_shopify",
+        "type": "video",
+        "label": "Video upload",
+        "info": "Hosted by Shopify. Replaces External video if both are set."
+      },
+      {
+        "id": "video_external",
+        "type": "text",
+        "label": "External video",
+        "info": "Supports YouTube and Vimeo.",
+        "default": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc"
+      },
+      {
+        "id": "image",
+        "type": "image_picker",
+        "label": "Custom cover image",
+        "info": "Required for External videos. Shows over the video before it's played."
+      },
+      {
+        "type": "header",
+        "content": "Text"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading"
+      },
+      {
+        "type": "textarea",
+        "id": "title",
+        "label": "Heading",
+        "default": "Video"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "min": 16,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Heading text size",
+        "default": 40
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_h1",
+        "label": "Set as primary page heading",
+        "info": "Uses <h1> tag. One per page recommended. [Learn more](https://cleancanvas.co.uk/support/canopy/seo)",
+        "default": false
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Say it with a video.</p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "enlarge_text",
+        "label": "Enlarge text",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "top left",
+            "label": "Top left"
+          },
+          {
+            "value": "top center",
+            "label": "Top center"
+          },
+          {
+            "value": "top right",
+            "label": "Top right"
+          },
+          {
+            "value": "center left",
+            "label": "Middle left"
+          },
+          {
+            "value": "center center",
+            "label": "Middle center"
+          },
+          {
+            "value": "center right",
+            "label": "Middle right"
+          },
+          {
+            "value": "bottom left",
+            "label": "Bottom left"
+          },
+          {
+            "value": "bottom center",
+            "label": "Bottom center"
+          },
+          {
+            "value": "bottom right",
+            "label": "Bottom right"
+          }
+        ],
+        "default": "center center"
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "id": "full_width",
+        "type": "checkbox",
+        "label": "Full width",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "image_overlay_style",
+        "label": "Image tint",
+        "default": "standard",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "label": "Vignette",
+            "value": "vignette"
+          },
+          {
+            "label": "Text shadow",
+            "value": "shadow"
+          },
+          {
+            "label": "Bottom",
+            "value": "bottom"
+          },
+          {
+            "label": "Top",
+            "value": "top"
+          }
+        ]
+      }
+	  ],
+	  "presets": [
+	    {
+        "name": "Video",
+        "settings": {
+        }
+	    }
+	  ]
+  }
+{% endschema %}

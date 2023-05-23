@@ -1,0 +1,25 @@
+{% if paginate.pages > 1 %}
+<ul class="pagination">
+  {% if paginate.previous %}
+  	<li><a href="{{ paginate.previous.url }}" class="prev">{% render 'svg-chevron-left' %}</a></li>
+  {% else %}
+  	<li><span class="linkless prev">{% render 'svg-chevron-left' %}</span></li>
+  {% endif %}
+
+  {% for part in paginate.parts %}
+    <li {% if paginate.current_page == part.title %}class="active"{% endif %}>
+      {% if part.is_link %}
+        {{ part.title | link_to: part.url }}
+      {% else %}
+        <span class="linkless">{{ part.title }}</span>
+      {% endif %}
+    </li>
+  {% endfor %}
+
+  {% if paginate.next %}
+  	<li><a href="{{ paginate.next.url }}" class="next">{% render 'svg-chevron-right' %}</a></li>
+  {% else %}
+  	<li><span class="linkless next">{% render 'svg-chevron-right' %}</span></li>
+  {% endif %}
+</ul>
+{% endif %}

@@ -1,0 +1,284 @@
+{% style %}
+  {% if section.settings.alternate_bg_color == false %}
+    {% assign brightness = section.settings.color_bg | color_brightness %}
+    {% assign alpha = section.settings.color_bg | color_extract: 'alpha' %}
+
+    .section-id-{{ section.id }} .testimonials-section__text {
+      background: {{ section.settings.color_bg }};
+    }
+
+    {% if brightness < 190 and alpha > 0 %}
+      .section-id-{{ section.id }},
+      .section-id-{{ section.id }} h2,
+      .section-id-{{ section.id }} a,
+      .section-id-{{ section.id }} .slick-dots button::before {
+        color: #fff;
+      }
+    {% endif %}
+  {% endif %}
+
+  .section-id-{{ section.id }} .icon-star {
+    color: {{ section.settings.color_star }};
+  }
+
+  @media (min-width: 768px) {
+    .section-id-{{ section.id }} .testimonial__text {
+      {%- assign title_size_medium = section.settings.title_size | times: 0.8 | at_least: settings.font_size_heading_int -%}
+        font-size: {{ title_size_medium }}px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .section-id-{{ section.id }} .testimonial__text {
+      font-size: {{ section.settings.title_size }}px;
+    }
+  }
+
+  {% if section.settings.use_dot_images %}
+    {% for block in section.blocks %}
+      {% if block.settings.image %}
+        .section-id-{{ section.id }} .slick-dots li:nth-child({{ forloop.index }}) button {
+          background-image: url({{ block.settings.image | img_url: '80x' }});
+        }
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endstyle %}
+
+<section class="section testimonials-section section-id-{{ section.id }} border-top {% if section.settings.alternate_bg_color %}use-alt-bg full-width-section{% endif %}"  data-section-type="testimonials">
+  <div class="container {% if section.settings.color_bg == "rgba(0,0,0,0)" %}no-bg-color{% endif %}">
+    <div class="testimonials-section__text {% if section.settings.color_bg == settings.site_bg_col %}p-0{% endif %}" data-cc-animate>
+      {% unless section.settings.heading == blank %}
+        <div class="align-center {% unless section.settings.full_width %}reading-width{% endunless %}">
+          <h2 class="section-heading">{{ section.settings.heading | escape }}</h2>
+        </div>
+      {% endunless %}
+
+      <div class="slideshow slideshow--navigation-dots {% if section.settings.use_dot_images %}slideshow--navigation-dots-custom{% endif %}"
+           data-transition="{{ section.settings.slide_transition }}"
+           data-autoplay="{{ section.settings.autoplay }}"
+           data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+           data-navigation="dots">
+        {% for block in section.blocks %}
+          <div class="slide slide-{{ forloop.index }}">
+            <div class="testimonial-container {% unless section.settings.full_width %}reading-width{% endunless %} align-{{ section.settings.text_alignment }} {% if block.settings.image != blank and section.settings.use_dot_images == false %}testimonial-container--with-image{% endif %}">
+              {% if block.settings.image != blank and section.settings.use_dot_images == false %}
+                <div class="testimonial__image">
+                  {%- liquid
+                    assign max_width = block.settings.image.width
+                    if max_width > 200
+                      assign max_width = 200
+                    endif
+                  -%}
+                  <img loading="lazy" src="{{ block.settings.image | img_url: '300x' }}" height="{{ block.settings.image.height }}"
+                       width="{{ block.settings.image.width }}" alt="{{ block.settings.image.alt | escape }}" style="max-width: {{ max_width }}px"/>
+                </div>
+              {% endif %}
+
+              <div class="testimonial__text">
+                {%- if block.settings.icon != "none" -%}
+                  {% if block.settings.icon == "quote" %}
+                    <span class="icon-quote">&#8220;</span>
+                  {% elsif block.settings.icon == "3_stars" %}
+                    <span class="icon-star">&starf;&starf;&starf;&star;&star;</span>
+                  {% elsif block.settings.icon == "4_stars" %}
+                    <span class="icon-star">&starf;&starf;&starf;&starf;&star;</span>
+                  {% elsif block.settings.icon == "5_stars" %}
+                    <span class="icon-star">&starf;&starf;&starf;&starf;&starf;</span>
+                  {% endif %}
+                {%- endif -%}
+
+                {%- if block.settings.quote != blank -%}
+                  <blockquote class="line-1 rte">
+                    {{ block.settings.quote | newline_to_br }}
+                  </blockquote>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <div class="line-2 {% if section.settings.title_size > 25 %}scale-font-size{% endif %}">
+                    {{ block.settings.title }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "min": 17,
+        "max": 45,
+        "step": 1,
+        "unit": "px",
+        "label": "Quote text size",
+        "default": 23
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Background color",
+        "default": "#f4f4f4"
+      },
+      {
+        "type": "color",
+        "id": "color_star",
+        "label": "Star color",
+        "default": "#eeaf2e"
+      },
+      {
+        "id": "alternate_bg_color",
+        "type": "checkbox",
+        "label": "Use alternate section color",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Wide display",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Testimonial navigation"
+      },
+      {
+        "type": "select",
+        "id": "slide_transition",
+        "label": "Transition",
+        "options": [
+          {
+            "value": "slide",
+            "label": "Slide"
+          },
+          {
+            "value": "fade",
+            "label": "Fade"
+          }
+        ],
+        "default": "slide"
+      },
+      {
+        "id": "autoplay",
+        "type": "checkbox",
+        "label": "Auto-rotate testimonials",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "autoplay_speed",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "unit": "s",
+        "label": "Change testimonials every",
+        "default": 7
+      },
+      {
+        "id": "use_dot_images",
+        "type": "checkbox",
+        "label": "Use author images instead of dots",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "options": [
+              {
+                "value": "none",
+                "label": "None"
+              },
+              {
+                "value": "quote",
+                "label": "Quote"
+              },
+              {
+                "value": "3_stars",
+                "label": "3 Stars"
+              },
+              {
+                "value": "4_stars",
+                "label": "4 Stars"
+              },
+              {
+                "value": "5_stars",
+                "label": "5 Stars"
+              }
+            ],
+            "default": "5_stars"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Author image"
+          },
+          {
+            "type": "textarea",
+            "id": "quote",
+            "label": "Quote",
+            "default": "Add customer reviews and testimonials to showcase your store's happy customers."
+          },
+          {
+            "id": "title",
+            "type": "text",
+            "label": "Author name",
+            "default": "Author name"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Testimonials",
+        "blocks": [
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

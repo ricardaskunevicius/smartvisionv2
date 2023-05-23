@@ -1,0 +1,79 @@
+<div class="product-gallery half column"
+     data-enable-zoom="{{ section.settings.enable_product_image_zoom }}"
+     data-slideshow-mob-nav="{{ section.settings.mobile_slideshow_navigation }}"
+     data-full-image-width="{{ product.media.first.preview_image.width }}"
+     {% if animate %}data-cc-animate{% endif %}>
+
+  <div class="main">
+    {% if section.settings.enable_product_image_zoom %}
+      <div class="product-gallery--hover-veil"></div>
+    {% endif %}
+
+    <div class="product-slideshow">
+      {% for media in product.media %}
+        {%- render 'media', media: media -%}
+      {% endfor %}
+    </div>
+
+    {%- assign models = product.media | where: 'media_type', 'model' -%}
+    {% if models.size > 0 %}
+      <script type="application/json" class="model-json">
+        {{- product.media | where: 'media_type', 'model' | json -}}
+      </script>
+
+        <button
+                class="view-in-space"
+                data-shopify-xr
+                data-shopify-model3d-first-id="{{ models.first.id }}"
+                data-shopify-model3d-id="{{ models.first.id }}"
+                data-shopify-first-title="{{ product.title | escape }}"
+                data-shopify-title="{{ product.title | escape }}"
+                data-shopify-xr-hidden>
+          {%- render 'icon-3d-badge-full-color' -%}
+          <span class="view-in-space__text">{{ 'products.product.view_in_space' | t }}</span>
+        </button>
+    {% endif %}
+  </div>
+
+  {% if product.media.size > 1 and template contains 'product' or section.settings.prod_show_thumbnails != blank %}
+    <div class="thumbnails slick-slider--indented-side-icons">
+      {% for media in product.media %}
+        <a class="thumbnail thumbnail--media-{{ media.media_type }}"
+           href="{{ media.preview_image | img_url: 'master' }}"
+           data-src="{{ media.preview_image | img_url: '842x' }}"
+           data-full-image-width="{{ media.preview_image.width }}"
+           data-media-type="{{ media.media_type }}"
+           data-media-id="{{ media.id }}"
+           aria-label="{{ 'general.accessibility_labels.select_thumbnail' | t | escape }}">
+
+          <div class="rimage-outer-wrapper" style="max-width: {{ media.preview_image.width }}px">
+            <div class="rimage-wrapper lazyload--placeholder" style="padding-top:{{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 | minus: 0.1 | round: 1 }}%">
+              {% assign img_url = media.preview_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+              <img class="rimage__image"
+                   data-lazy-src="{{ img_url }}"
+                   loading="lazy"
+                   width="{{ media.preview_image.width }}"
+                   height="{{ media.preview_image.height }}"
+                   alt="{{ media.preview_image.alt | escape }}">
+            </div>
+          </div>
+
+          {%- if media.media_type == 'video' or media.media_type =='external_video' -%}
+            <div class="thumbnail__badge">
+              {% render 'icon-video-badge-full-color' %}
+            </div>
+          {%- endif -%}
+
+          {%- if media.media_type == 'model' -%}
+            <div class="thumbnail__badge">
+              {% render 'icon-3d-badge-full-color' %}
+            </div>
+          {%- endif -%}
+
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+
+</div>

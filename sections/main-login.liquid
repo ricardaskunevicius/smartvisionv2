@@ -1,0 +1,87 @@
+<div class="section container" data-cc-animate>
+  <div class="small-form-column">
+    <div id="login">
+      <h2 class="page-title">{{ 'customer.login.title' | t }}</h2>
+
+      {% form 'customer_login' %}
+      {% if form.errors %}
+      <div class="notification errors">
+        {{ form.errors | default_errors }}
+      </div>
+      {% endif %}
+
+      <div class="input-row">
+        <label for="customer_email" class="label">{{ 'customer.login.email' | t }}</label>
+        <input type="email" value="" name="customer[email]" id="customer_email" class="text" />
+      </div>
+
+      {% if form.password_needed %}
+      <div class="input-row">
+        <label for="customer_password" class="label">{{ 'customer.login.password' | t }}</label>
+        <input type="password" value="" name="customer[password]" id="customer_password" class="text" size="16" />
+      </div>
+
+      <p><a class="standard-link" href="#" onclick="showRecoverPasswordForm();return false;">{{ 'customer.login.forgot_password' | t }}</a></p>
+      {% endif %}
+
+      <div class="input-row">
+        <input class="btn" type="submit" value="{{ 'customer.login.sign_in' | t }}" />
+      </div>
+
+      <a class="standard-link" href="{{ routes.account_register_url }}">{{ 'customer.login.create_new_account' | t }}</a>
+      {% endform %}
+    </div>
+
+    <div id="recover-password" style="display:none;">
+      <h2 class="page-title">{{ 'customer.login.reset_password' | t }}</h2>
+      <p class="note">{{ 'customer.login.reset_password_subtext' | t }}</p>
+
+      {% form 'recover_customer_password' %}
+      {% if form.posted_successfully? %}
+      <script>document.addEventListener("DOMContentLoaded", function(event) { showRecoverPasswordForm(); });</script>
+      <div class="notification errors">
+        {{ 'customer.login.reset_sent' | t }}
+      </div>
+      {% endif %}
+      {% if form.errors %}
+      <script>document.addEventListener("DOMContentLoaded", function(event) { showRecoverPasswordForm(); });</script>
+      <div class="notification errors">
+        {{ form.errors | default_errors }}
+      </div>
+      {% endif %}
+      <div class="input-row">
+        <label for="recover-email" class="label">{{ 'customer.login.email' | t }}</label>
+        <input type="email" value="" size="30" name="email" id="recover-email" class="text" />
+      </div>
+      <div class="input-row">
+        <input class="btn" type="submit" value="{{ 'customer.login.submit_recover' | t }}" /> {{ 'customer.general.or' | t }}
+        <span class="note"><a class="standard-link" href="#" onclick="hideRecoverPasswordForm();return false;">{{ 'customer.login.cancel' | t }}</a></span>
+      </div>
+      {% endform %}
+    </div>
+
+    {% if shop.checkout.guest_login %}
+    <div id="guest">
+      <h2>{{ 'customer.login.guest_title' | t }}</h2>
+      {% form 'guest_login' %}
+      <input class="btn" type="submit" value="{{ 'customer.login.guest_continue' | t }}" />
+      {% endform %}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  function showRecoverPasswordForm() {
+    document.getElementById('recover-password').style.display = 'block';
+    document.getElementById('login').style.display='none';
+  }
+
+  function hideRecoverPasswordForm() {
+    document.getElementById('recover-password').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+  }
+
+  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
+</script>

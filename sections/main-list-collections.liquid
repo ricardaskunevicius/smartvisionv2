@@ -1,0 +1,495 @@
+{%- if section.settings.height == "fixed" -%}
+  {%- style -%}
+    {%- if section.settings.height == 'fixed' -%}
+      {% if section.settings.header_mode == blank %}
+        .collection-header .rimage-outer-wrapper,
+        .collection-header .placeholder-image {
+        height: {{ section.settings.height_mobile }}px;
+        }
+      {% elsif section.settings.header_mode == 'coloured-split' %}
+        .collection-header .header-text,
+        .collection-header .header-image {
+        min-height: {{ section.settings.height_mobile }}px;
+        }
+      {%- endif -%}
+    {%- endif -%}
+
+    @media (min-width: 768px) {
+    {%- if section.settings.height == 'fixed' -%}
+      {% if section.settings.header_mode == blank %}
+        .collection-header .rimage-outer-wrapper,
+        .collection-header .placeholder-image {
+        height: {{ section.settings.height_desktop }}px;
+        }
+      {% elsif section.settings.header_mode == 'coloured-split' %}
+        .collection-header .header-text,
+        .collection-header .header-image {
+        min-height: {{ section.settings.height_desktop }}px;
+        }
+      {%- endif -%}
+    {%- endif -%}
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+<div class="section container">
+  {%- if section.settings.header_mode == blank and section.settings.image and section.settings.header_mode != "hidden" -%}
+    <div class="collection-header cc-banner height--{{ section.settings.height }} {% if section.settings.image_overlay_style != "none" %}has-tint has-tint--{{ section.settings.image_overlay_style }}{% else %}no-tint{% endif %}" data-cc-animate>
+      {% assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+      <div class="rimage-outer-wrapper rimage-background" data-lazy-bg="{{ img_url }}" style="background-position: {{ section.settings.image.presentation.focal_point }};">
+        {%- if section.settings.height == 'natural' -%}
+          <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%"></div>
+        {%- endif -%}
+        <noscript>
+          <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%">
+            <img src="{{ section.settings.image | img_url: '1024x1024' }}" alt="{{ section.settings.image.alt | escape }}" class="rimage__image">
+          </div>
+        </noscript>
+      </div>
+
+      {%- if section.settings.title != blank or section.settings.description != blank -%}
+        <div class="image-overlay overlay--v-{{ section.settings.text_alignment | split: ' ' | first }} overlay--h-{{ section.settings.text_alignment | split: ' ' | last }} ">
+          <div class="inner {% if section.settings.text_alignment contains "left" or  section.settings.text_alignment contains "right" %}container{% endif %}">
+            {%- if section.settings.title != blank -%}
+              <h1 class="line-1  line-1--large" data-cc-animate data-cc-animate-delay="0.3s">
+                {{ section.settings.title }}
+              </h1>
+            {%- endif -%}
+
+            {%- if section.settings.description != blank -%}
+              <div class="rte line-2"  data-cc-animate data-cc-animate-delay="0.4s">
+                {{ section.settings.description }}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- elsif section.settings.header_mode != "hidden"  -%}
+    <div class="collection-header
+          {{ section.settings.header_mode }}
+          {% if section.settings.height == "fixed" %}collection-header--fixed-height{% endif %} {% if section.settings.image %}has-image{% endif %}" data-cc-animate>
+      <div class="header-text
+            overlay--v-{{ section.settings.text_alignment | split: ' ' | first }}
+            overlay--h-{{ section.settings.text_alignment | split: ' ' | last }}">
+        <h1 class="page-title">{{ section.settings.title }}</h1>
+
+        {% if section.settings.description != blank %}
+          <div class="rte">{{ section.settings.description }}</div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.header_mode == "coloured-split" and section.settings.image %}
+        <div class="header-image">
+          {%- if section.settings.image -%}
+            {% if section.settings.height == "fixed" %}
+              {% assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+              <div class="rimage-outer-wrapper" data-lazy-bg="{{ img_url }}" style="background-position: {{ section.settings.image.presentation.focal_point }}">
+                <noscript>
+                  <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%">
+                    <img src="{{ section.settings.image | img_url: '1024x1024' }}" alt="{{ section.settings.image.alt | escape }}" class="rimage__image">
+                  </div>
+                </noscript>
+              </div>
+            {%- else -%}
+              {%- render 'responsive-image', image: section.settings.image -%}
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {% endif %}
+    </div>
+  {%- endif -%}
+</div>
+
+<div id="collections" class="collection-{{ section.settings.layout }}" data-section-type="collection-listing" data-cc-animate data-cc-animate-delay="0.2s">
+  {% if section.settings.display_type == 'all' %}
+
+    {% paginate collections by 24 %}
+
+      {% if section.settings.layout == 'rows' %}
+
+        {% for collection in collections %}
+          <div class="section border-top">
+            <div class="container">
+              <div class="opposing-items opposing-items--heading">
+                <h2 class="left section-heading">{{ collection.title | link_to: collection.url }}</h2>
+                <a class="more-link" href="{{ collection.url }}">
+                  {{ 'collections.general.view_all' | t }}
+                </a>
+              </div>
+
+              <div class="product-list product-grid row grid" data-normheights=".image" data-normheights-inner="img">
+                {%- capture product_blocks -%}
+                  {%- for product in collection.products limit: section.settings.products_per_row -%}
+                    {% render 'product-block', product: product, max_cols: section.settings.products_per_row %}
+                  {%- endfor -%}
+                {%- endcapture -%}
+
+                {%- if product_blocks contains 'product-block__weight-value' -%}
+                  {{ product_blocks | replace: '<div class="product-block__weight"></div>', '<div class="product-block__weight">&nbsp;</div>' }}
+                {%- else -%}
+                  {{ product_blocks }}
+                {%- endif -%}
+
+                {%- for i in (1..section.settings.products_per_row) -%}
+                  <div class="product-block product-block--flex-spacer flex column max-cols-{{ section.settings.products_per_row }} min-cols-{{ section.settings.mobile_products_per_row }}"></div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      {% else %}
+
+        <div class="container">
+          <div class="row grid" data-normheights=".image" data-normheights-inner="img">
+            {% for collection in collections %}
+              {%
+                render 'collection-block',
+                  collection: collection,
+                  animate: animate,
+                  collections_per_row: section.settings.products_per_row,
+                  min_cols: section.settings.mobile_products_per_row,
+                  use_product_image: section.settings.collection_use_prod_image
+              %}
+            {% endfor %}
+          </div>
+        </div>
+
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <div class="container align-right">
+          {% render 'pagination', paginate: paginate %}
+        </div>
+      {% endif %}
+
+    {% endpaginate %}
+
+  {% else %}
+
+    {% if section.settings.layout == 'rows' %}
+
+      {% for block in section.blocks %}
+        {%- assign collection = collections[block.settings.collection] -%}
+        <div class="section border-top">
+          <div class="container">
+          <div class="opposing-items opposing-items--heading">
+            <h2 class="left section-heading">{{ collection.title | link_to: collection.url }}</h2>
+            <a class="more-link" href="{{ collection.url }}">
+              {{ 'collections.general.view_all' | t }}
+            </a>
+          </div>
+
+          <div class="product-list product-grid row grid" data-normheights=".image" data-normheights-inner="img">
+            {%- capture product_blocks -%}
+              {%- for product in collection.products limit: section.settings.products_per_row -%}
+                {% render 'product-block', product: product, max_cols: section.settings.products_per_row, min_cols: section.settings.mobile_products_per_row %}
+              {%- endfor -%}
+            {%- endcapture -%}
+
+            {%- if product_blocks contains 'product-block__weight-value' -%}
+              {{ product_blocks | replace: '<div class="product-block__weight"></div>', '<div class="product-block__weight">&nbsp;</div>' }}
+            {%- else -%}
+              {{ product_blocks }}
+            {%- endif -%}
+
+            {%- for i in (1..section.settings.products_per_row) -%}
+              <div class="product-block product-block--flex-spacer flex column max-cols-{{ section.settings.products_per_row }} min-cols-{{ section.settings.mobile_products_per_row }}"></div>
+            {%- endfor -%}
+          </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    {% else %}
+
+      <div class="container">
+        <div class="row grid" data-normheights=".image" data-normheights-inner="img">
+          {% for block in section.blocks %}
+            {%- assign collection = collections[block.settings.collection] -%}
+            {% if collection != blank %}
+              {%
+                render 'collection-block',
+                  collection: collection,
+                  animate: animate,
+                  collections_per_row: section.settings.products_per_row,
+                  min_cols: section.settings.mobile_products_per_row,
+                  use_product_image: section.settings.collection_use_prod_image
+              %}
+            {% else %}
+              <div class="product-block collection-block {% if settings.collection_thumb_shape == 'circle' %}collection-block--circle{% endif %} flex column max-cols-{{ section.settings.products_per_row }} min-cols-{{ section.settings.mobile_products_per_row }}">
+                <div class="image">
+                  <div class="inner">
+                    {% capture placeholder_svg_name %}collection-{{ forloop.index | modulo: 6 | plus: 1 }}{% endcapture %}
+                    <div class="placeholder-image">{{ placeholder_svg_name | placeholder_svg_tag }}</div>
+                  </div>
+                </div>
+
+                <div class="title align-{{ settings.collection_text_alignment }}">
+                  {{ "homepage.onboarding.collection_name" | t: number: forloop.index }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+    {% endif %}
+
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Collection list",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Product collections"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>Show off all your product collections, or a curated selection, using this page</p>"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "header_mode",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "hidden",
+            "label": "No heading"
+          },
+          {
+            "value": "",
+            "label": "Text over image"
+          },
+          {
+            "value": "coloured-split",
+            "label": "Text next to image"
+          },
+          {
+            "value": "text-only",
+            "label": "No image"
+          }
+        ],
+        "default": "coloured-split"
+      },
+      {
+        "type": "radio",
+        "id": "height",
+        "label": "Height",
+        "default": "natural",
+        "options": [
+          {
+            "value": "natural",
+            "label": "Natural"
+          },
+          {
+            "value": "fixed",
+            "label": "Fixed height"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "height_desktop",
+        "min": 200,
+        "max": 650,
+        "step": 50,
+        "unit": "px",
+        "label": "Desktop fixed height",
+        "default": 350
+      },
+      {
+        "type": "range",
+        "id": "height_mobile",
+        "min": 100,
+        "max": 1000,
+        "step": 50,
+        "unit": "px",
+        "label": "Mobile fixed height",
+        "default": 250
+      },
+      {
+        "type": "select",
+        "id": "image_overlay_style",
+        "label": "Image tint",
+        "info": "Applies to 'Text over image' layout only.",
+        "default": "standard",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Standard",
+            "value": "standard"
+          },
+          {
+            "label": "Vignette",
+            "value": "vignette"
+          },
+          {
+            "label": "Text shadow",
+            "value": "shadow"
+          },
+          {
+            "label": "Bottom",
+            "value": "bottom"
+          },
+          {
+            "label": "Top",
+            "value": "top"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "top left",
+            "label": "Top left"
+          },
+          {
+            "value": "top center",
+            "label": "Top center"
+          },
+          {
+            "value": "top right",
+            "label": "Top right"
+          },
+          {
+            "value": "center left",
+            "label": "Middle left"
+          },
+          {
+            "value": "center center",
+            "label": "Middle center"
+          },
+          {
+            "value": "center right",
+            "label": "Middle right"
+          },
+          {
+            "value": "bottom left",
+            "label": "Bottom left"
+          },
+          {
+            "value": "bottom center",
+            "label": "Bottom center"
+          },
+          {
+            "value": "bottom right",
+            "label": "Bottom right"
+          }
+        ],
+        "default": "center center"
+      },
+      {
+        "type": "header",
+        "content": "Collections"
+      },
+      {
+        "type": "radio",
+        "id": "display_type",
+        "label": "Collections to show",
+        "info": "All of your collections are listed by default. To customize your list, choose 'Selected' and add collections above.",
+        "default": "all",
+        "options": [
+          {
+            "value": "all",
+            "label": "All"
+          },
+          {
+            "value": "selected",
+            "label": "Selected"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "rows",
+        "options": [
+          {
+            "value": "rows",
+            "label": "Rows"
+          },
+          {
+            "value": "grid",
+            "label": "Grid"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Maximum number of items per row",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "mobile_products_per_row",
+        "label": "Mobile items per row",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_use_prod_image",
+        "label": "Use the first product image as the collection image",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "grid_show_vendor",
+        "label": "Show vendor",
+        "info": "Only applies if Layout is set to Rows",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

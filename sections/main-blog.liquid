@@ -1,0 +1,172 @@
+<div class="section container" data-section-type="blog-template">
+  <div class="inline-row cf mt-0" data-cc-animate>
+    <!-- Begin breadcrumbs -->
+    {% render 'breadcrumbs' %}
+    <!-- End breadcrumbs -->
+
+    {% if section.settings.show_sharing_icons %}
+    <div class="inline-item right">
+      {% render 'social-sharing', share_title: blog.title, share_permalink: blog.url, share_image: false %}
+    </div>
+    {% endif %}
+  </div>
+
+  {% if section.settings.blog_show_title %}
+    <div class="page-title opposing-items float-right" data-cc-animate data-cc-animate-delay="0.2s">
+      <h1 class="left">
+        {{ blog.title }}
+        {% for tag in current_tags %} / {{ tag }}{% endfor %}
+        {% if section.settings.show_rss %}<a target="_blank" href="{{ blog.url }}.atom" aria-label="RSS Feed">{% render 'svg-rss' %}</a>{% endif %}
+      </h1>
+
+      {% if section.settings.show_tags and blog.all_tags.size > 0 %}
+      <ul class="right last tags plain">
+        <li class="tag{% unless current_tags.size > 0 %} active{% endunless %}">{{ 'blogs.general.all_articles' | t | link_to: blog.url }}</li>
+        {% for tag in blog.all_tags %}
+        <li class="tag{% if current_tags contains tag %} active{% endif %}">
+          {{ tag | link_to_tag: tag }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% paginate blog.articles by 12 %}
+
+  {% if blog.articles.size > 0 %}
+
+  <div class="articles row grid {% if section.settings.tile_mode contains 'masonry' %}use-masonry{% endif %} {% if section.settings.use_inf_scroll %}use-infinite-scroll{% endif %}">
+
+    {% capture article_class %}{% if section.settings.tile_mode contains 'tile' %}flex column max-cols-4{% else %}full column{% endif %}{% endcapture %}
+    {% capture header_size %}{% if section.settings.tile_mode == '' %}2048x{% else %}640x{% endif %}{% endcapture %}
+
+    {% for article in blog.articles %}
+      {% render 'article-block',
+        css_class: article_class,
+        article: article,
+        crop_ratio: section.settings.crop_ratio,
+        animate: 1,
+        show_meta_on_listing: section.settings.show_meta_on_listing,
+        show_author: section.settings.show_author,
+        show_tags_on_articles: section.settings.show_tags_on_articles
+      %}
+    {% endfor %}
+
+  </div>
+  {% else %}
+
+  <p data-cc-animate>{{ 'blogs.general.no_matches' | t }}</p>
+
+  {% endif %}
+
+  {% if paginate.pages > 1 %}
+  <div class="inline-row cf" data-cc-animate>
+    <div class="inline-item left"><div class="results-count results-count--lower">{{ 'blogs.general.results' | t: count: blog.articles_count }}</div></div>
+    <div class="inline-item right">{% render 'pagination', paginate: paginate %}</div>
+  </div>
+  {% endif %}
+
+  {% endpaginate %}
+</div>
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "blog_show_title",
+        "label": "Show page title",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_rss",
+        "label": "Show RSS feed link",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tags",
+        "label": "Show tag filter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_meta_on_listing",
+        "label": "Show date and comment count",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tags_on_articles",
+        "label": "Show tags under each article",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sharing_icons",
+        "label": "Show social sharing icons",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "tile_mode",
+        "label": "Article layout",
+        "options": [
+          {
+            "value": "",
+            "label": "Full width"
+          },
+          {
+            "value": "tile",
+            "label": "Tiles - in rows"
+          },
+          {
+            "value": "tile-masonry",
+            "label": "Tiles - in columns"
+          }
+        ],
+        "default": ""
+      },
+      {
+        "type": "select",
+        "id": "crop_ratio",
+        "label": "Crop style",
+        "options": [
+          {
+            "value": "",
+            "label": "None"
+          },
+          {
+            "value": "1-1",
+            "label": "Square"
+          },
+          {
+            "value": "3-4",
+            "label": "Portrait"
+          },
+          {
+            "value": "16-9",
+            "label": "Landscape"
+          }
+        ],
+        "default": "16-9"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_inf_scroll",
+        "label": "Enable infinite-scroll",
+        "info": "As visitors scroll down, more articles are loaded in automatically.",
+        "default": false
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,72 @@
+{%- liquid
+  assign uses_comma_decimals = false
+  assign currency_test_string = 101 | money_without_currency
+  if currency_test_string == '1,01'
+  	assign uses_comma_decimals = true
+  endif
+-%}
+<div class="cc-price-range">
+  <div class="cc-price-range__input-row">
+    <div class="cc-price-range__input-container">
+      <span class="cc-price-range__input-currency-symbol">{{ cart.currency.symbol }}</span>
+      <input class="cc-price-range__input cc-price-range__input--min"
+        id="CCPriceRangeMin"
+        name="{{ filter.min_value.param_name }}"
+        {%- if filter.min_value.value -%}
+          {%- if uses_comma_decimals -%}
+            value="{{ filter.min_value.value | money_without_currency | remove: ' ' | remove: "'" | remove: '.' | replace: ',', '.' | round }}"
+          {%- else -%}
+            value="{{ filter.min_value.value | money_without_currency | remove: ' ' | remove: "'" | remove: ',' | round }}"
+          {%- endif -%}
+        {% endif %}
+        placeholder="0"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        step="10"
+        min="0"
+        {%- if uses_comma_decimals -%}
+          max="{{ filter.range_max | money_without_currency | remove: ' ' | remove: "'" | remove: '.' | replace: ',', '.' | round }}"
+        {%- else -%}
+          max="{{ filter.range_max | money_without_currency | remove: ' ' | remove: "'" | remove: ',' | round }}"
+        {% endif %}
+        aria-label="{{ 'collections.price_range.min_label' | t | escape }}" />
+    </div>
+    <div class="cc-price-range__input-container">
+      <span class="cc-price-range__input-currency-symbol">{{ cart.currency.symbol }}</span>
+      <input class="cc-price-range__input cc-price-range__input--max"
+        id="CCPriceRangeMax"
+        name="{{ filter.max_value.param_name }}"
+        {%- if filter.max_value.value -%}
+          {%- if uses_comma_decimals -%}
+            value="{{ filter.max_value.value | money_without_currency | remove: ' ' | remove: "'" | remove: '.' | replace: ',', '.' | round }}"
+          {%- else -%}
+            value="{{ filter.max_value.value | money_without_currency | remove: ' ' | remove: "'" | remove: ',' | round }}"
+          {% endif %}
+        {%- endif -%}
+        {%- if uses_comma_decimals -%}
+          placeholder="{{ filter.range_max | money_without_currency | remove: ' ' | remove: "'" | remove: '.' | replace: ',', '.' | round }}"
+        {%- else -%}
+          placeholder="{{ filter.range_max | money_without_currency | remove: ' ' | remove: "'" | remove: ',' | round }}"
+        {% endif %}
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        step="10"
+        min="0"
+        {%- if uses_comma_decimals -%}
+          max="{{ filter.range_max | money_without_currency | remove: ' ' | remove: '.' | replace: ',', '.' | round }}"
+        {%- else -%}
+          max="{{ filter.range_max | money_without_currency | remove: ' ' | remove: ',' | round }}"
+        {% endif %}
+        aria-label="{{ 'collections.price_range.max_label' | t | escape }}" />
+    </div>
+  </div>
+
+  <div class="cc-price-range__bar">
+    <div class="cc-price-range__bar-inactive"></div>
+    <div class="cc-price-range__bar-active"></div>
+    <div class="cc-price-range__control cc-price-range__control--min"></div>
+    <div class="cc-price-range__control cc-price-range__control--max"></div>
+  </div>
+</div>

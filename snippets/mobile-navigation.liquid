@@ -1,0 +1,109 @@
+<nav id="mobile-nav">
+  <div class="inner">
+    <div>
+      <header class="side-menu-header h2">
+        {{ 'layout.header.menu' | t }}
+
+        <a href="#" class="side-menu-header--close" aria-label="{{ 'layout.header.close_mobile_nav_aria_label' | t | escape }}">
+          {% render 'svg-x' %}
+        </a>
+      </header>
+
+      {% comment %} Start of main menu {% endcomment %}
+      <nav aria-label="{{ 'layout.mobile_navigation.menu_aria_label' | t | escape }}">
+        <ul class="mobile-nav-menu plain">
+          {% for link in linklists[section.settings.menu_linklist].links %}
+            <li class="nav-item{% if link.active %} active{% endif %}">
+              <a class="nav-item-link{% if featured_links contains link.title %} nav-item-link--featured{% endif %}"
+                 href="{% if link.links != blank %}{% if section.settings.mobile_parent_text_tap == "page" %}{{ link.url }}{% else %}#{% endif %}{% else %}{{ link.url }}{% endif %}">
+                {{ link.title }}
+              </a>
+
+              {% if link.links != blank %}
+              <button class="open-sub-nav"
+                data-sub-nav="menu-{{ forloop.index }}"
+                aria-haspopup="true"
+                aria-controls="sub-nav-menu-{{ forloop.index }}">{% render 'svg-chevron-right' %}</button>
+              {% endif %}
+            </li>
+          {% endfor %}
+
+          {% if shop.customer_accounts_enabled %}
+            <li class="nav-item nav-item--account">
+              <a href="{{ routes.account_url }}" class="nav-item-link">
+                {{ 'layout.customer.account' | t }}
+              </a>
+            </li>
+
+            {% if customer %}
+            <li class="nav-item">
+              <a href="{{ routes.account_logout_url }}" class="nav-item-link">
+                {{ 'layout.customer.log_out' | t  }}
+              </a>
+            </li>
+            {% endif %}
+          {% endif %}
+        </ul>
+
+        {% if show_social %}
+          {%- capture social_link_html -%}
+            {%- render 'social-icons', icon_setting: settings.social_custom_icon_mobile_nav, icon_size: 'x48' -%}
+          {%- endcapture -%}
+          {%- if social_link_html contains '</a>' -%}
+            <div class="header">
+              {{ social_link_html}}
+            </div>
+          {%- endif -%}
+        {% endif %}
+      </nav>
+    </div>
+    <footer class="localization localization--mobile-menu" id="localization--mobile-menu"></footer>
+  </div>
+
+  {% comment %} Output sub-nav {% endcomment %}
+  {% for link in linklists[section.settings.menu_linklist].links %}
+    {% if link.links != blank %}
+      {% assign outer_forloop_index = forloop.index %}
+
+      <div id="sub-nav-menu-{{ forloop.index }}" class="sub-nav" data-is-subnav-for="menu-{{ forloop.index }}">
+        <div class="header">
+          <a class="close-sub-nav" href="#"><span>{% render 'svg-chevron-left' %}</span> {{ 'layout.navigation.back' | t }}</a>
+        </div>
+
+        <ul class="sub-nav-list plain">
+          {% for child_link in link.links %}
+          <li class="sub-nav-item{% if child_link.active %} active{% endif %}">
+            <a class="sub-nav-item-link"
+               href="{% if child_link.links != blank %}{% if section.settings.mobile_parent_text_tap == "page" %}{{ child_link.url }}{% else %}#{% endif %}{% else %}{{ child_link.url }}{% endif %}">
+              {{ child_link.title }}
+            </a>
+            {% if child_link.links != blank %}
+            <button class="open-sub-nav"
+              data-sub-nav="menu-{{ outer_forloop_index }}-{{ forloop.index }}"
+              aria-haspopup="true" aria-controls="sub-nav-menu-{{ outer_forloop_index }}-{{ forloop.index }}">{% render 'svg-chevron-right' %}</button>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% for child_link in link.links %}
+        {% if child_link.links != blank %}
+        <div id="sub-nav-menu-{{ outer_forloop_index }}-{{ forloop.index }}" class="sub-nav" data-is-subnav-for="menu-{{ outer_forloop_index }}-{{ forloop.index }}">
+          <div class="header">
+            <a class="close-sub-nav" href="#"><span>{% render 'svg-chevron-left' %}</span> {{ 'layout.navigation.back' | t }}</a>
+          </div>
+
+          <ul class="sub-nav-list plain">
+            {% for child_child_link in child_link.links %}
+            <li class="sub-nav-item{% if child_child_link.active %} active{% endif %}">
+              <a class="sub-nav-item-link" href="{{ child_child_link.url }}">{{ child_child_link.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</nav>

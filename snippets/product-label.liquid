@@ -1,0 +1,75 @@
+{%- assign product_label_rendered = false -%}
+{%- if product.available == false and settings.label_soldout_show -%}
+  <span class="product-label product-label--soldout"><span>{{ 'products.labels.sold_out' | t }}</span></span>
+  {%- assign product_label_rendered = true -%}
+
+{%- elsif cheapest_variant.compare_at_price > cheapest_variant.price and settings.label_sale_show -%}
+  <span class="product-label product-label--sale">
+    <span>
+      {% if settings.prod_sale_method == "standard" %}
+        {{ 'products.labels.sale' | t }}
+      {% elsif settings.prod_sale_method == "money" %}
+        {%- assign save_amount = cheapest_variant.compare_at_price | minus: cheapest_variant.price -%}
+        {{ 'products.product.save' | t }} {% render 'price', price: save_amount %}
+      {% elsif settings.prod_sale_method == "percentage" %}
+        {%- liquid
+          assign percentage = 1.0 | times: cheapest_variant.price | divided_by: cheapest_variant.compare_at_price
+          assign percentage = 1.0 | minus: percentage
+          assign percentage = percentage | times: 100.0 | round
+        %}
+        {{ 'products.product.save' | t }} {{ percentage }}&percnt;
+      {% endif %}
+    </span>
+  </span>
+
+  {%- assign product_label_rendered = true -%}
+
+{%- elsif settings.label_remain_show and product.variants.first.inventory_management != blank -%}
+  {%- liquid
+    assign total_inventory_quantity = 0
+    for variant in product.variants
+      if variant.inventory_quantity > 0
+        assign total_inventory_quantity = total_inventory_quantity | plus: variant.inventory_quantity
+      endif
+    endfor
+  -%}
+  {%- if total_inventory_quantity > 0 -%}
+    {%- if settings.prod_stock_warn_limit_int == 0 or total_inventory_quantity <= settings.prod_stock_warn_limit_int -%}
+      <span class="product-label product-label--low-inventory"><span>{{ 'products.labels.only_x_left' | t: quantity: total_inventory_quantity }}</span></span>
+      {%- assign product_label_rendered = true -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if settings.label_new_in_show and product_label_rendered == false -%}
+  {%- liquid
+    assign show_new_in = false
+    if settings.label_new_in_show
+      if settings.prod_new_method == 'date'
+        assign now_s = 'now' | date: '%s' | plus: 0
+        assign pub_s = product.created_at | date: '%s' | plus: 0
+        assign diff_days = now_s | minus: pub_s | divided_by: 86400
+
+        if diff_days < settings.prod_new_in_limit_int
+          assign show_new_in = true
+        endif
+      elsif settings.prod_new_method == 'tag'
+        if product.tags contains 'New'
+          assign show_new_in = true
+        endif
+      else
+        for collection in product.collections
+          assign split_collection_handle = collection.handle | split: '-'
+          if split_collection_handle contains 'new'
+            assign show_new_in = true
+            break
+          endif
+        endfor
+      endif
+    endif
+  -%}
+
+  {%- if show_new_in -%}
+    <span class="product-label product-label--new-in"><span>{{ 'products.labels.new_in' | t }}</span></span>
+  {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,342 @@
+<section id="section-id-{{ section.id }}" class="border-top section-text-with-icons section-id-{{ section.id }} section full-width-section cc-is-carousel cc-carousel-scrolling"
+         style="background-color: {{ section.settings.background_color }} !important;" data-cc-animate>
+  <div class="cc-carousel-container container {% if section.settings.mobile_stack == false %}cc-carousel-container--on-mobile cc-carousel-mobile--no-scrollbar{% endif %}"
+    style="--bg-color-from: {{ section.settings.background_color | color_modify: 'alpha', 0.99 }};--bg-color-to: {{ section.settings.background_color | color_modify: 'alpha', 0 }};">
+
+    {%- liquid
+      assign no_text = true
+      for block in section.blocks
+        if block.settings.text != blank
+          assign no_text = false
+        endif
+      endfor
+    %}
+
+    <div class="icon-columns align-{{ section.settings.icon_alignment }}
+      {% if no_text %}icon-columns--no-text{% endif %}
+      section-spacing--{{ section.settings.section_spacing }}
+      {% if section.settings.mobile_stack == false %}cc-carousel cc-carousel-mobile{% endif %}">
+
+      {% for block in section.blocks %}
+        {%- liquid
+          assign is_short_text = false
+          if section.settings.mobile_stack == false
+            assign title_length = block.settings.title | size
+            assign text_length = block.settings.text | size
+            if title_length < 35 and text_length < 35
+              assign is_short_text = true
+            endif
+          endif
+        %}
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" {% if block.settings.title %}aria-label="{{ block.settings.title | escape }}"{% endif %} id="block-id-{{ block.id }}"
+             class="icon-columns__column align-{{ section.settings.icon_alignment }} {% if is_short_text %}icon-columns__column--short{% endif %}" {{ block.shopify_attributes }}
+          data-cc-animate="cc-fade-in" data-cc-animate-delay="{{ forloop.index | times: 0.15 }}s">
+        {%- else -%}
+          <div id="block-id-{{ block.id }}" class="icon-columns__column align-{{ section.settings.icon_alignment }} {% if is_short_text %}icon-columns__column--short{% endif %}" {{ block.shopify_attributes }}
+            data-cc-animate="cc-fade-in" data-cc-animate-delay="{{ forloop.index | times: 0.15 }}s">
+        {%- endif -%}
+
+          <div class="icon-columns__column--inner">
+            {%- if block.settings.icon != blank or block.settings.image != blank -%}
+              <div class="icon-column__image" style="{% if section.settings.icon_alignment == "center" %}max-{% endif %}width: {{ section.settings.icon_width }}px;color: {{ section.settings.icon_color }} !important;">
+                {%- if block.settings.image != blank -%}
+                  {%- render 'responsive-image', image: block.settings.image -%}
+                {%- else -%}
+                  {% render 'icon', icon: block.settings.icon, width: section.settings.icon_width %}
+                {%- endif -%}
+              </div>
+            {% endif -%}
+
+            <div class="icon-column__content" style="color: {{ section.settings.text_color }} !important;">
+              {% if block.settings.title != blank %}
+                <p class="icon-column__title" style="font-size: {{ section.settings.title_size }}px">{{ block.settings.title }}</p>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <div class="icon-column__text rte" style="font-size: {{ section.settings.text_size }}px">{{ block.settings.text }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Text with icons",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_spacing",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "extra_small",
+          "label": "Extra small"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "icon_alignment",
+      "label": "Icon alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "min": 14,
+      "max": 114,
+      "step": 1,
+      "label": "Icon width",
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#2c2528"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#2c2528"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#eeeeee"
+    },
+    {
+      "id": "mobile_stack",
+      "type": "checkbox",
+      "label": "Stack on mobile",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "check_mark",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "chat_bubble",
+              "label": "Chat bubble"
+            },
+            {
+              "value": "check_mark",
+              "label": "Check mark"
+            },
+            {
+              "value": "dryer",
+              "label": "Dryer"
+            },
+            {
+              "value": "eye",
+              "label": "Eye"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "iron",
+              "label": "Iron"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "leather",
+              "label": "Leather"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "map_pin",
+              "label": "Map pin"
+            },
+            {
+              "value": "pants",
+              "label": "Pants"
+            },
+            {
+              "value": "plane",
+              "label": "Plane"
+            },
+            {
+              "value": "price_tag",
+              "label": "Price tag"
+            },
+            {
+              "value": "question_mark",
+              "label": "Question mark"
+            },
+            {
+              "value": "return",
+              "label": "Return"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            },
+            {
+              "value": "shirt",
+              "label": "Shirt"
+            },
+            {
+              "value": "shoe",
+              "label": "Shoe"
+            },
+            {
+              "value": "silhouette",
+              "label": "Silhouette"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "washing",
+              "label": "Washing"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text with icons",
+      "settings": {
+        "icon_alignment": "left",
+        "icon_width": 26,
+        "title_size": 14,
+        "text_size": 14,
+        "icon_color": "#696969",
+        "text_color": "#515151",
+        "background_color": "#f4f2e9",
+        "section_spacing": "extra_small",
+        "mobile_stack": false
+      },
+      "blocks": [
+        {
+          "type": "text_block",
+          "settings": {
+            "icon": "box",
+            "title": "Free Returns",
+            "text": "<p>On all orders, no fuss<\/p>"
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "icon": "chat_bubble",
+            "title": "Chat With Us",
+            "text": "<p>Talk to our team via chat<\/p>"
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "icon": "truck",
+            "title": "No-Contact Delivery",
+            "text": "<p>Free on orders over $100<\/p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

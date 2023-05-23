@@ -1,0 +1,267 @@
+<footer id="page-footer" class="page-footer" data-section-type="footer" data-cc-animate>
+  <div class="container">
+
+    <div class="back-to-top-row align-centre">
+      <a class="hash-link" href="#page-wrap-content"><span class="beside-svg">{{ 'layout.footer.back_to_top' | t }}</span> {% render 'svg-chevron-up' %}</a>
+    </div>
+
+    <div class="row section padless-top signup-row">
+
+      <div class="extra-column half column">
+        {% if section.settings.footer_display_newsletter %}
+          {% if section.settings.newsletter_text != blank %}
+            <div class="rte lightly-spaced-row">{{ section.settings.newsletter_text }}</div>
+          {% endif %}
+          {% render 'mailing-signup', form_id: 'footer_signup_form' %}
+        {% endif %}
+      </div>
+
+      <div class="social-column align-right-desktop {% if section.settings.footer_display_newsletter %}half column{% else %}full column{% endif %}">
+        {% render 'social-icons', icon_setting: settings.social_custom_icon_footer, icon_size: 'x48' %}
+      </div>
+
+    </div>
+
+    {% if section.settings.footer_complexity == 'columns' %}
+
+      <div class="footer-columns row section padless-top">
+        {% if section.settings.show_footer_logo %}
+          <div class="logo-column column">
+            <div class="footer-logo-container">
+              {% if section.settings.footer_logo != blank %}
+                <a href="{{ routes.root_url }}">{{ section.settings.footer_logo | img_url: '500x' | img_tag: section.settings.footer_logo.alt }}</a>
+              {% else %}
+                <div class="placeholder-image">{{ 'image' | placeholder_svg_tag }}</div>
+              {% endif%}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if section.settings.text_content != blank %}
+          <div class="text-beside-logo-column column">
+            <div class="rte">{{ section.settings.text_content }}</div>
+          </div>
+        {% endif %}
+
+        {% if section.settings.footer_linklist != blank %}
+        <div class="links-column column" role="navigation" aria-label="{{ 'layout.footer.menu_1_aria_label' | t | escape }}">
+          <ul class="plain">
+            {% for link in linklists[section.settings.footer_linklist].links %}
+              <li>{{ link.title | link_to: link.url }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if section.settings.footer_linklist2 != blank %}
+        <div class="links-column column" role="navigation" aria-label="{{ 'layout.footer.menu_2_aria_label' | t | escape }}">
+          <ul class="plain">
+            {% for link in linklists[section.settings.footer_linklist2].links %}
+              <li>{{ link.title | link_to: link.url }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if section.settings.footer_linklist3 != blank %}
+        <div class="links-column column" role="navigation" aria-label="{{ 'layout.footer.menu_3_aria_label' | t | escape }}">
+          <ul class="plain">
+            {% for link in linklists[section.settings.footer_linklist3].links %}
+              <li>{{ link.title | link_to: link.url }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+
+    {% else %}
+
+      {% if section.settings.text_content != blank %}
+        <div class="rte align-center">{{ section.settings.text_content }}</div>
+      {% endif %}
+
+      <div class="{% if section.settings.show_footer_logo %}menu-with-logo{% endif %}">
+        {% if section.settings.show_footer_logo %}
+          <span class="footer-logo">
+            {% if section.settings.footer_logo != blank %}
+              <a href="{{ routes.root_url }}">{{ section.settings.footer_logo | img_url: '500x' | img_tag: section.settings.footer_logo.alt }}</a>
+            {% else %}
+              <div class="placeholder-image">{{ 'image' | placeholder_svg_tag }}</div>
+            {% endif%}
+          </span>
+        {% endif %}
+
+        <nav aria-label="{{ 'layout.footer.menu_1_aria_label' | t | escape }}">
+          <ul class="plain inline list-divide">
+            {% for link in linklists[section.settings.footer_linklist].links %}
+              <li>{{ link.title | link_to: link.url }}</li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+
+      {% if section.settings.footer_linklist2 != blank %}
+        <nav aria-label="{{ 'layout.footer.menu_2_aria_label' | t | escape }}">
+          <ul class="plain inline list-divide">
+            {% for link in linklists[section.settings.footer_linklist2].links %}
+              <li>{{ link.title | link_to: link.url }}</li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
+      {% if section.settings.footer_linklist3 != blank %}
+        <nav aria-label="{{ 'layout.footer.menu_3_aria_label' | t | escape }}">
+          <ul class="plain inline list-divide">
+            {% for link in linklists[section.settings.footer_linklist3].links %}
+              <li>{{ link.title | link_to: link.url }}</li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
+    {% endif %}
+
+    {% if section.settings.show_language_selector or section.settings.show_country_selector %}
+      <div class="footer-lower inline-row spaced">
+        <div class="inline-item left localization localization--footer">
+          {% render 'localization', input_prefix: 'footer' %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="footer-lower inline-row spaced">
+      {% if section.settings.footer_payment_icons %}
+        <div class="inline-item right last payment-methods">
+          {% for type in shop.enabled_payment_types %}
+            {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="inline-item left">
+        <div class="copy">
+          {{ 'layout.footer.copyright' | t }}
+          &copy; {{ "now" | date: "%Y" }} <a href="{{ routes.root_url }}">{{ shop.name }}</a>
+        </div>
+
+        {{ powered_by_link }}
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "select",
+        "id": "footer_complexity",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "simple",
+            "label": "Simple"
+          },
+          {
+            "value": "columns",
+            "label": "Columns"
+          }
+        ],
+        "default": "simple"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_payment_icons",
+        "label": "Show payment icons",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_footer_logo",
+        "label": "Show logo",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Image"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "richtext",
+        "id": "text_content",
+        "label": "Text"
+      },
+      {
+        "type": "header",
+        "content": "Menus"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist",
+        "label": "Primary menu",
+        "default": "footer",
+        "info": "This menu won't show dropdown items"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist2",
+        "label": "Additional menu 1",
+        "info": "This menu won't show dropdown items"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist3",
+        "label": "Additional menu 2",
+        "info": "This menu won't show dropdown items"
+      },
+      {
+        "type": "header",
+        "content": "Newsletter"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_display_newsletter",
+        "label": "Show newsletter sign-up",
+        "default": true
+      },
+      {
+        "type": "richtext",
+        "id": "newsletter_text",
+        "label": "Content above input"
+      },
+      {
+        "type": "header",
+        "content": "Country/Region Selector",
+        "info": "To add a country/region, go to your [payment settings.](/admin/settings/payments)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_country_selector",
+        "label": "Enable country/region selector",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Language Selector",
+        "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_language_selector",
+        "label": "Enable language selector",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

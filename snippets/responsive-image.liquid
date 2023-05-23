@@ -1,0 +1,25 @@
+{%- if aspect_ratio -%}
+  {%- assign cover = crop -%}
+{%- else -%}
+  {%- assign aspect_ratio = image.aspect_ratio -%}
+  {%- assign cover = false -%}
+{%- endif -%}
+<div class="rimage-outer-wrapper" {% unless cover or no_max_width %}style="max-width: {{ image.width }}px"{% endunless %}>
+  <div class="rimage-wrapper lazyload--placeholder" style="padding-top:{{ 1 | divided_by: aspect_ratio | times: 100 }}%">
+    {% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+    <img class="rimage__image {% if cover %} cover{% endif %}"
+       data-lazy-src="{{ img_url }}"
+       loading="lazy"
+       alt="{{ image.alt | escape }}"
+       width="{{ image.width }}"
+       height="{{ image.height }}"
+       {% if cover %}data-parent-fit="cover"{% endif %}
+       {% if image.presentation %}style="object-position: {{ image.presentation.focal_point }}"{% endif %}>
+
+    <noscript>
+      {% assign img_url = image | img_url: '1024x1024' %}
+      <img src="{{ img_url }}" alt="{{ image.alt | escape }}" class="rimage__image {% if cover %} cover{% endif %}">
+    </noscript>
+  </div>
+</div>
+{% assign aspect_ratio = false %}

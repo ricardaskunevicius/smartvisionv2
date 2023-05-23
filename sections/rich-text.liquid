@@ -1,0 +1,225 @@
+{%- liquid
+  assign heading_tag = "h2"
+  if section.settings.heading_h1
+    assign heading_tag = "h1"
+  endif
+-%}
+
+<section id="section-id-{{ section.id }}" class="border-top section-id-{{ section.id }} section {% if section.settings.alternate_bg_color %}use-alt-bg full-width-section{% endif %}">
+  {% assign brightness = section.settings.color_bg | color_brightness %}
+  {% assign alpha = section.settings.color_bg | color_extract: 'alpha' %}
+
+  {% style %}
+      @media (min-width: 768px) {
+        #section-id-{{ section.id }} .h2 {
+          {%- assign title_size_medium = section.settings.title_size | times: 0.8 | at_least: settings.font_size_heading_int -%}
+            font-size: {{ title_size_medium }}px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        #section-id-{{ section.id }} .h2 {
+          font-size: {{ section.settings.title_size }}px;
+        }
+      }
+  {% endstyle %}
+
+  {% if section.settings.alternate_bg_color == false %}
+    <style>
+      .section-id-{{ section.id }} .rich-text-section {
+        background: {{ section.settings.color_bg }};
+      }
+    </style>
+  {% endif %}
+
+  <div class="container {% if section.settings.color_bg == "rgba(0,0,0,0)" %}no-bg-color{% endif %}">
+    <div class="rich-text-section" data-cc-animate>
+      <div class="rich-text-section__text
+        {% if section.settings.no_padding %}pb-0 pt-0{% endif %}
+        {% unless section.settings.full_width %}reading-width{% endunless %}
+        align-{{ section.settings.text_alignment }}
+        {% if section.settings.alternate_bg_color == false %}
+          {% if section.settings.color_bg != "rgba(0,0,0,0)" and section.settings.color_bg != blank %}
+            {% if brightness < 190 and alpha > 0 %}light-text-section{% else %}dark-text-section{% endif %}
+          {% endif %}
+        {% endif %}">
+
+        {% if section.settings.subheading != blank %}
+          <div class="feature-subheader" data-cc-animate data-cc-animate-delay="0.2s">
+            {{ section.settings.subheading | escape }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.title != blank %}
+          <{{ heading_tag }} class="h2" data-cc-animate data-cc-animate-delay="0.3s">
+            {{ section.settings.title | newline_to_br }}
+          </{{ heading_tag }}>
+        {% endif %}
+
+        <div class="rte {% if section.settings.enlarge_text %}large-text{% endif %}" data-cc-animate data-cc-animate-delay="0.4s">
+          {{ section.settings.text }}
+        </div>
+
+        {% if section.settings.button_label != blank %}
+          <div class="button-container" data-cc-animate data-cc-animate-delay="0.5s">
+            {% capture button_class %}
+              {% if section.settings.button_style == 'link' %}
+                link-display
+              {% else %}
+                btn
+                {% if section.settings.enlarge_text %}btn--large{% endif %}
+                {% if section.settings.button_style == 'secondary' %}btn--secondary{% endif %}
+                {% if section.settings.button_style == 'auto' %}btn-auto{% endif %}
+              {% endif %}
+            {% endcapture %}
+
+            {% if section.settings.button_link != blank %}
+              <a class="{{ button_class }}" href="{{ section.settings.button_link }}">
+            {% else %}
+              <span class="{{ button_class }}">
+            {% endif %}
+
+              {{ section.settings.button_label | escape }}
+
+            {% if section.settings.button_link != blank %}
+              </a>
+            {% else %}
+              </span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Rich text",
+    "settings": [
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading"
+      },
+      {
+        "type": "textarea",
+        "id": "title",
+        "label": "Heading",
+        "default": "Rich text"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "min": 16,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Heading text size",
+        "default": 40
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_h1",
+        "label": "Set as primary page heading",
+        "info": "Uses <h1> tag. One per page recommended. [Learn more](https://cleancanvas.co.uk/support/canopy/seo)",
+        "default": false
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use this text to share information about your store with your customers.</p><p>Describe products, share announcements, or welcome customers to your store.</p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "enlarge_text",
+        "label": "Enlarge text",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Button style",
+        "default": "primary",
+        "options": [
+          {
+            "label": "Button - primary",
+            "value": "primary"
+          },
+          {
+            "label": "Button - secondary",
+            "value": "secondary"
+          },
+          {
+            "label": "Button - auto",
+            "value": "auto"
+          },
+          {
+            "label": "Link",
+            "value": "link"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "default": "center",
+        "options": [
+          {
+            "label": "Left",
+            "value": "left"
+          },
+          {
+            "label": "Center",
+            "value": "center"
+          },
+          {
+            "label": "Right",
+            "value": "right"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Wide display",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "no_padding",
+        "label": "Reduce spacing",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Background color"
+      },
+      {
+        "id": "alternate_bg_color",
+        "type": "checkbox",
+        "label": "Use alternate section color",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich text",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

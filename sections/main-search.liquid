@@ -1,0 +1,237 @@
+{%- liquid
+  assign current_sort_by = search.sort_by | default: search.default_sort_by
+
+  if search.url
+    assign results_url = search.url
+  else
+    assign terms = search.terms | escape
+    assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: current_sort_by | append: '&type=' | append: settings.search_type
+  endif
+-%}
+
+<div class="section container"
+     data-section-type="search-template"
+     data-components="price-range,accordion,sticky-scroll-direction"
+     data-use-infinite-scroll="{{ section.settings.infinite_scroll_enabled }}"
+     data-is-sticky="{{ section.settings.filters_sticky }}"
+     data-ajax-filtering="{{ section.settings.ajax_products }}"
+     {% if section.settings.filter_mode == "sidebar" %}data-is-sidebar="true"{% endif %}>
+
+  {% paginate search.results by section.settings.pagination_limit_int %}
+
+    {% liquid
+      assign searchTermsSplit = search.terms | split: "*"
+      if searchTermsSplit[0] contains "product_type"
+        assign searchTerms = terms | replace : searchTermsSplit[0], ""
+        assign searchTerms = terms | remove_first : "*"
+      endif
+    %}
+
+    <div class="align-center spaced-row" data-cc-animate data-cc-animate-delay="0.2s">
+      {% if section.settings.show_page_title %}<h1 class="page-title">{{ 'general.search.results_title' | t }}</h1>{% endif %}
+
+      {% if section.settings.show_search_box %}
+        <form class="inline-input-button lightly-spaced-row" id="search-page-form" action="{{ routes.search_url }}">
+          <input type="hidden" name="type" value="{{ settings.search_type }}" />
+          <input type="hidden" name="options[prefix]" value="last" />
+          <input type="text" name="q" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ terms | escape }}"
+                 aria-label="{{ 'general.search.search_label' | t | escape }}" />
+          <button type="submit">{{ 'general.search.search_button' | t }}</button>
+        </form>
+      {% endif %}
+    </div>
+
+    {% render 'search-filter',
+      mode: "search",
+      results: search,
+      results_url: results_url,
+      section: section,
+      current_sort_by: current_sort_by,
+      paginate: paginate
+    %}
+  {% endpaginate %}
+</div>
+
+
+{% schema %}
+  {
+    "name": "Search results",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_page_title",
+        "label": "Show page title",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search_box",
+        "label": "Show search box",
+        "info": "If your navigation has a search bar, you may want to hide this one.",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "range",
+        "id": "pagination_limit_int",
+        "min": 12,
+        "max": 50,
+        "step": 1,
+        "label": "Number of results per page",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Maximum results per row",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "mobile_products_per_row",
+        "label": "Mobile results per row",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "checkbox",
+        "id": "infinite_scroll_enabled",
+        "label": "Enable infinite-scroll",
+        "info": "As visitors scroll down, more results are loaded in automatically.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "grid_show_vendor",
+        "label": "Show vendor in product results",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "FILTERS"
+      },
+      {
+        "type": "paragraph",
+        "content": "To create the search filters, go to your [navigation](\/admin\/menus) page."
+      },
+      
+  {
+    "type": "checkbox",
+    "id": "show_filter_counts",
+    "label": "Show filter counts",
+    "default": false
+  }
+,
+      
+  {
+    "type": "checkbox",
+    "id": "show_filter_deadends",
+    "label": "Show filters with zero results",
+    "default": true
+  }
+,
+      
+  {
+    "type": "checkbox",
+    "id": "ajax_products",
+    "label": "Filter and sort without reloading the page",
+    "default": true,
+    "info": "Some apps require this to be disabled"
+  }
+,
+      
+  {
+    "type": "radio",
+    "id": "filter_mode",
+    "label": "Filter mode",
+    "options": [
+      {
+        "value": "none",
+        "label": "None"
+      },
+      {
+        "value": "simple",
+        "label": "Simple"
+      },
+      {
+        "value": "sidebar",
+        "label": "Sidebar"
+      }
+    ],
+    "info": "'Simple' is only recommended if you have a small number of filters. Note, it doesn't allow for multiple options within a filter to be selected and it won't show the price range filter.",
+    "default": "sidebar"
+  }
+,
+      {
+        "type": "header",
+        "content": "Sidebar Settings"
+      },
+      
+  {
+    "type": "checkbox",
+    "id": "filters_sticky",
+    "label": "Enable sticky filters",
+    "info": "This will turn the sticky navigation off for this page",
+    "default": false
+  }
+,
+      
+  {
+    "type": "select",
+    "id": "collapse_filters_method",
+    "label": "Sidebar filter group collapse",
+    "default": "none",
+    "options": [
+      {
+        "value": "none",
+        "label": "None"
+      },
+      {
+        "value": "over-6",
+        "label": "Over 6 items"
+      },
+      {
+        "value": "over-12",
+        "label": "Over 12 items"
+      },
+      {
+        "value": "over-18",
+        "label": "Over 18 items"
+      },
+      {
+        "value": "all",
+        "label": "All"
+      }
+    ]
+  }
+,
+      {
+        "type": "header",
+        "content": "Sorting"
+      },
+      
+  {
+    "type": "checkbox",
+    "id": "enable_sorting",
+    "label": "Show 'Sort by' dropdown",
+    "default": true
+  }
+
+	  ]
+  }
+{% endschema %}

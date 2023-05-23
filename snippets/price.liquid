@@ -1,0 +1,36 @@
+{%- liquid
+  assign show_currency_code = settings.currency_code_enabled
+
+  if disable_currency_code
+    assign show_currency_code = false
+  elsif is_total_price
+    assign show_currency_code = settings.cart_currency_code_enabled
+  endif
+
+  if show_currency_code
+    assign formatted_price = price | money_with_currency
+  else
+    assign formatted_price = price | money
+  endif
+
+  if settings.superscript_decimals
+    unless shop.money_format contains 'money' or shop.money_format contains '.'
+      if shop.money_format contains '{{amount}}' or shop.money_format contains '{{ amount }}' or shop.money_format contains '{{amount_with_apostrophe_separator}}' or shop.money_format contains '{{ amount_with_apostrophe_separator }}'
+        assign formatted_price = formatted_price | replace: '.', '<sup>'
+        if show_currency_code
+          assign formatted_price = formatted_price | replace: ' ', '</sup> '
+        else
+          assign formatted_price = formatted_price | concat: '</sup>'
+        endif
+      elsif shop.money_format contains '{{amount_with_comma_separator}}' or shop.money_format contains '{{ amount_with_comma_separator }}'
+        assign formatted_price = formatted_price | replace: ',', '<sup>'
+        if show_currency_code
+          assign formatted_price = formatted_price | replace: ' ', '</sup> '
+        else
+          assign formatted_price = formatted_price | concat: '</sup>'
+        endif
+      endif
+    endunless
+  endif
+-%}
+{{ formatted_price }}

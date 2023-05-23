@@ -1,0 +1,41 @@
+<div id="customer-register" class="section container" data-cc-animate>
+  <div id="register" class="small-form-column">
+    <h1 class="page-title">{{ 'customer.register.title' | t }}</h1>
+
+    {% form 'create_customer' %}
+
+    {% if form.errors %}
+    <div class="notification errors">
+      {{ form.errors | default_errors }}
+    </div>
+    {% endif %}
+
+    <div id="first_name" class="input-row">
+      <label for="first_name" class="label">{{ 'customer.register.first_name' | t }}</label>
+      <input type="text" value="" name="customer[first_name]" id="first_name" class="text" size="30" />
+    </div>
+
+    <div id="last_name" class="input-row">
+      <label for="last_name" class="label">{{ 'customer.register.last_name' | t }}</label>
+      <input type="text" value="" name="customer[last_name]" id="last_name" class="text" size="30" />
+    </div>
+
+    <div id="email" class="input-row">
+      <label for="email" class="label">{{ 'customer.register.email' | t }}</label>
+      <input type="email" value="" name="customer[email]" id="email" class="text" size="30" />
+    </div>
+
+    <div id="password" class="input-row">
+      <label for="password" class="label">{{ 'customer.register.password' | t }}</label>
+      <input type="password" value="" name="customer[password]" id="password" class="password text" size="30" />
+    </div>
+
+    <div class="input-row">
+      <input class="btn" type="submit" value="{{ 'customer.register.submit' | t }}" /> {{ 'customer.general.or' | t }}
+      <span class="note"><a class="standard-link" href="{{ routes.root_url  }}">{{ 'customer.register.cancel' | t }}</a></span>
+    </div>
+
+    {% endform %}
+
+  </div><!-- #register -->
+</div><!-- #customer-register -->

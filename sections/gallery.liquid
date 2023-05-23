@@ -1,0 +1,443 @@
+<section id="section-id-{{ section.id }}" class="border-top section section-gallery {% if section.settings.alternate_bg_color %}use-alt-bg full-width-section {% endif %}"
+     data-section-type="gallery">
+  {% style %}
+    #section-id-{{ section.id }} .gallery__item {
+      height: {{ section.settings.mobile_image_height }}px;
+    }
+
+    {% if section.settings.caption_show %}
+      {% assign caption_opacity = section.settings.caption_opacity | divided_by: 100.00 %}
+      #section-id-{{ section.id }} .gallery__item .image-overlay .inner {
+        background-color: {{ section.settings.caption_bg | color_modify: 'alpha', caption_opacity  }};
+        color: {{ section.settings.caption_color }};
+      }
+    {% endif %}
+
+    @media (min-width: 768px) {
+      #section-id-{{ section.id }} .gallery__item {
+        height: {{ section.settings.desktop_image_height }}px;
+      }
+
+      #section-id-{{ section.id }} .line-1 {
+        {%- assign title_size_medium = section.settings.title_size | times: 0.9 -%}
+        font-size: {{ title_size_medium }}px;
+      }
+
+      #section-id-{{ section.id }} .feature-subheader {
+        {%- assign sub_title_size_medium = section.settings.sub_title_size | times: 0.9 -%}
+        font-size: {{ sub_title_size_medium }}px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      #section-id-{{ section.id }} .line-1 {
+        font-size: {{ section.settings.title_size }}px;
+      }
+
+      #section-id-{{ section.id }} .feature-subheader {
+        font-size: {{ section.settings.sub_title_size }}px;
+      }
+    }
+
+  {% endstyle %}
+
+  <div class="container">
+    {% if section.settings.title != blank %}
+        <h2 class="section-heading h1 left" data-cc-animate>{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    <div class="cc-gallery
+      gallery--not-full-width
+      gallery--grid-{{ section.settings.grid }}
+      {% if section.settings.enable_margin %} gallery--with-margins{% endif %}
+      {% if section.settings.enable_carousel %} gallery--mobile-carousel{% endif %}
+      {% if section.settings.caption_show %} gallery--with-captions{% endif %}
+      {% if section.settings.caption_show %} gallery--caption-{{ section.settings.caption_shape }}{% endif %}
+      {% if section.settings.title != blank %} gallery--with-title{% endif %}"
+      data-grid="{{ section.settings.grid }}">
+
+      <div class="gallery__row">
+        {%- for block in section.blocks -%}
+          {%- assign forloop_mod_grid = forloop.index0 | modulo: section.settings.grid -%}
+
+          {%- if forloop.index0 > 0 and forloop_mod_grid == 0 -%}
+            </div><div class="gallery__row gallery__row--{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {%- endif -%}
+          {%- assign show_overlay_text = false -%}
+          {%- if block.settings.title != blank or block.settings.subheading != blank or block.settings.button_label != blank -%}
+            {%- assign show_overlay_text = true -%}
+          {%- endif -%}
+
+          <div class="gallery__item
+              gallery__item-{{ forloop.index }}
+              {% if block.settings.enlarge_image %}gallery__item--enlarged{% endif %}
+               {% if section.settings.image_overlay_style != "none" %}has-tint has-tint--{{ section.settings.image_overlay_style }}{% else %}no-tint{% endif %}
+              image-overlay--edge-boxes
+              lazyload--placeholder
+              {% unless section.settings.enable_margin == false %}image-overlay--edge-boxes--pad-to-corner{% endunless %}
+              " {{ block.shopify_attributes }}
+               data-cc-animate>
+
+            {%- unless block.settings.link == blank or block.settings.text contains '</a>' -%}<a class="image-overlay__image-link" href="{{ block.settings.link }}">{%- endunless -%}
+
+            {%- if block.settings.image == blank and block.settings.video_shopify == blank and block.settings.video_external == blank -%}
+              <div class="gallery__image placeholder-image {% if show_overlay_text %}dark{% endif %}">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- elsif block.settings.video_shopify != blank or block.settings.video_external != blank -%}
+              {% render 'inline-video', video_shopify: block.settings.video_shopify, video_external: block.settings.video_external, image: block.settings.image %}
+            {%- elsif block.settings.image != blank -%}
+              {% assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+              <div class="gallery__image rimage-outer-wrapper rimage-background" data-lazy-bg="{{ img_url }}" style="background-position: {{ block.settings.image.presentation.focal_point }}">
+                <noscript>
+                  <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%">
+                    <img src="{{ block.settings.image | img_url: '1024x1024' }}" alt="{{ block.settings.image.alt | escape }}" class="rimage__image">
+                  </div>
+                </noscript>
+              </div>
+            {%- endif -%}
+
+            {%- if show_overlay_text -%}
+            <div class="image-overlay overlay--v-{{ block.settings.text_alignment | split: ' ' | first }} overlay--h-{{ block.settings.text_alignment | split: ' ' | last }}"
+                 data-cc-animate data-cc-animate-delay="{{ forloop.index |  times: 0.1 }}s">
+              <div class="inner {% if block.settings.text_alignment contains "left" or  block.settings.text_alignment contains "right" %}container{% endif %}">
+                {%- if block.settings.subheading != blank -%}
+                  <div class="feature-subheader">
+                    {{ block.settings.subheading | escape }}
+                  </div>
+                {% endif %}
+
+                {%- if block.settings.title != blank -%}
+                  <h2 class="line-1 {% if section.settings.title_size >= 86 %}line-1--large{% endif %}">
+                    {{ block.settings.title | newline_to_br }}
+                  </h2>
+                {%- endif -%}
+
+                {%- if block.settings.text != blank -%}
+                  <div class="rte line-2 {% if block.settings.enlarge_text %}large-text{% endif %}">
+                    {{ block.settings.text }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank -%}
+                  <div class="line-3 {% if section.settings.button_style == 'link' %}line-3--link{% endif %}">
+                    {% capture button_class %}
+                      {% if section.settings.button_style == 'link' %}
+                        link-display link-display--alt link-display--underlined
+                      {% else %}
+                        btn
+                        {% if section.settings.button_style == 'secondary' %}
+                          btn--secondary
+                        {% elsif section.settings.button_style == 'overlay' %}
+                          alt btn-overlay
+                        {% endif %}
+                      {% endif %}
+                    {% endcapture %}
+
+                    <span class="{{ button_class }}">
+                      {{ block.settings.button_label | escape }}
+                    </span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- endif -%}
+            {%- unless block.settings.link == blank or block.settings.text contains '</a>' -%}</a>{%- endunless -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Maximum columns per row",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "desktop_image_height",
+      "min": 100,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop row heights",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "min": 100,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile row heights",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "sub_title_size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading text size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading text size",
+      "default": 26
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "primary",
+      "options": [
+        {
+          "label": "Button - primary",
+          "value": "primary"
+        },
+        {
+          "label": "Button - secondary",
+          "value": "secondary"
+        },
+        {
+          "label": "Button - outline",
+          "value": "overlay"
+        },
+        {
+          "label": "Link",
+          "value": "link"
+        }
+      ]
+    },
+    {
+      "id": "enable_margin",
+      "type": "checkbox",
+      "label": "Add spacing",
+      "default": true
+    },
+    {
+      "id": "enable_carousel",
+      "type": "checkbox",
+      "label": "Enable mobile slideshow",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_overlay_style",
+      "label": "Image tint",
+      "default": "standard",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Standard",
+          "value": "standard"
+        },
+        {
+          "label": "Vignette",
+          "value": "vignette"
+        },
+        {
+          "label": "Text shadow",
+          "value": "shadow"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        },
+        {
+          "label": "Top",
+          "value": "top"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate_bg_color",
+      "label": "Use alternate section color",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Caption"
+    },
+    {
+      "type": "checkbox",
+      "id": "caption_show",
+      "label": "Show caption box",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Text",
+      "default": "#464654"
+    },
+    {
+      "type": "color",
+      "id": "caption_bg",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "caption_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Background opacity",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image",
+          "info": "If coupled with a video, it will show while the video is loading, or if it cannot autoplay. Required for External videos."
+        },
+        {
+          "id": "video_shopify",
+          "type": "video",
+          "label": "Video upload",
+          "info": "Hosted by Shopify. Replaces External video if both are set."
+        },
+        {
+          "id": "video_external",
+          "type": "text",
+          "label": "External video",
+          "info": "Supports YouTube and Vimeo."
+        },
+        {
+          "type": "checkbox",
+          "id": "enlarge_image",
+          "label": "Enlarge image/video",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Subheading"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "top left",
+              "label": "Top left"
+            },
+            {
+              "value": "top center",
+              "label": "Top center"
+            },
+            {
+              "value": "top right",
+              "label": "Top right"
+            },
+            {
+              "value": "center left",
+              "label": "Middle left"
+            },
+            {
+              "value": "center center",
+              "label": "Middle center"
+            },
+            {
+              "value": "center right",
+              "label": "Middle right"
+            },
+            {
+              "value": "bottom left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom center",
+              "label": "Bottom center"
+            },
+            {
+              "value": "bottom right",
+              "label": "Bottom right"
+            }
+          ],
+          "default": "center center"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gallery",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

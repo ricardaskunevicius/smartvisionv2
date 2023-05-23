@@ -1,0 +1,83 @@
+{%- liquid
+  if collection and settings.prod_thumb_url_within_coll and product.collections contains collection
+    assign product_url = product.url | within: collection
+  else
+    assign product_url = product.url
+  endif
+
+  assign cheapest_variant = product.variants | sort: 'price' | first
+-%}
+<div class="product-block-mini">
+  <div class="product-block-mini__image">
+    <a href="{{ product_url }}">
+      {% render 'responsive-image', image: product.featured_media.preview_image %}
+    </a>
+  </div>
+
+  <div class="product-block-mini__detail">
+    <a class="product-block-mini__title" href="{{ product_url }}">{{ product.title | escape }}</a>
+
+    <div class="product-block-mini__price">
+      <div class="price {% if cheapest_variant.compare_at_price > cheapest_variant.price %}on-sale{% endif %}">
+        {% if product.price_varies %}
+          <span class="from">{{ 'products.general.from' | t }}</span>
+        {% endif %}
+
+        <span class="amount theme-money">{% render 'price', price: cheapest_variant.price %}</span>
+
+        {% if cheapest_variant.compare_at_price > cheapest_variant.price %}
+          <del><span class="theme-money">{% render 'price', price: cheapest_variant.compare_at_price %}</span></del>
+        {% endif %}
+
+        {% render 'unit-price', variant: cheapest_variant %}
+      </div>
+    </div>
+
+    {% if settings.prod_quick_buy_show %}
+      <div class="product-block-mini__action">
+        {% if product.variants.size > 1 %}
+          <a class="quick-buy btn {% unless product.available %}disabled{% endunless %}" href="{{ product_url }}" data-product-id="{{ product.id }}">
+            {% if product.available %}{{ 'products.grid.choose_options' | t }}{% else %}{{ 'products.product.unavailable' | t }}{% endif %}
+          </a>
+          {% render 'quick-buy-placeholder', product: product %}
+        {% else %}
+          {%- liquid
+            assign current_variant = product.selected_or_first_available_variant
+            if settings.cart_type contains 'drawer'
+              assign enable_ajax = true
+            else
+              assign enable_ajax = false
+            endif
+
+            if settings.cart_type == 'drawer-dynamic'
+              assign open_cart_drawer = true
+            else
+              assign open_cart_drawer = false
+            endif
+          -%}
+
+          <div class="product-form product-form--mini" data-ajax-add-to-cart="{{ enable_ajax }}" data-open-cart-drawer="{{ open_cart_drawer }}" data-product-id="{{ product.id }}">
+            {% form 'product', product, class: 'mini-product-purchase-form' %}
+              <input type="hidden" name="quantity" value="1" />
+              <input type="hidden" name="id" value="{{ current_variant.id }}" />
+              <button type="submit" name="add" class="btn product-add" {% unless product.available %}disabled="disabled"{% endunless %} aria-live="polite">
+                <span class="button-text">{% if product.available %}{{ 'products.grid.add_to_cart' | t }}{% else %}{{ 'products.product.unavailable' | t }}{% endif %}</span>
+                <span class="loading-spinner" aria-label="{{ 'products.product.adding_to_cart' | t }}"></span>
+                <span class="added-to-cart-check" aria-label="{{ 'products.product.added_to_cart' | t }}"></span>
+              </button>
+            {% endform %}
+          </div>
+          <div class="qty-adjuster-container">
+            <div class="qty-adjuster qty-adjuster--ajax" {% if current_variant.inventory_management != blank and current_variant.inventory_policy == 'deny' %}data-limit="{{ current_variant.inventory_quantity }}"{% endif %}>
+              <div class="qty-adjuster__inner">
+                <button class="btn qty-adjuster__down" aria-label="{{ 'cart.label.decrease' | t | escape }}">{% render 'svg-minus' %}</button>
+                <input class="qty-adjuster__value" type="text" pattern="[0-9]*" name="quantity" value="" aria-label="{{ 'cart.label.quantity' | t | escape }}">
+                <button class="btn qty-adjuster__up" aria-label="{{ 'cart.label.increase' | t | escape }}">{% render 'svg-plus' %}</button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>

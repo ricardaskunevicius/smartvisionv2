@@ -1,0 +1,469 @@
+{%- liquid
+  if collection.url.size == 0
+    assign results_url = routes.all_products_collection_url
+  else
+    assign results_url = collection.url
+  endif
+
+  if results_url contains "?"
+    assign results_url = results_url | split: "?" | first
+  endif
+
+  assign current_sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+
+{%- if section.settings.height == "fixed" -%}
+  {%- style -%}
+    {%- if section.settings.height == 'fixed' -%}
+      {% if section.settings.header_mode == blank %}
+        .collection-header .rimage-outer-wrapper,
+        .collection-header .placeholder-image {
+          height: {{ section.settings.height_mobile }}px;
+        }
+      {% elsif section.settings.header_mode == 'coloured-split' %}
+        .collection-header .header-text,
+        .collection-header .header-image {
+          min-height: {{ section.settings.height_mobile }}px;
+        }
+      {%- endif -%}
+    {%- endif -%}
+
+    @media (min-width: 768px) {
+      {%- if section.settings.height == 'fixed' -%}
+        {% if section.settings.header_mode == blank %}
+          .collection-header .rimage-outer-wrapper,
+          .collection-header .placeholder-image {
+          height: {{ section.settings.height_desktop }}px;
+          }
+        {% elsif section.settings.header_mode == 'coloured-split' %}
+          .collection-header .header-text,
+          .collection-header .header-image {
+          min-height: {{ section.settings.height_desktop }}px;
+          }
+        {%- endif -%}
+      {%- endif -%}
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+<div class="section collection-page"
+     data-section-type="collection-template"
+     data-components="price-range,accordion,sticky-scroll-direction"
+     data-use-infinite-scroll="{{ section.settings.infinite_scroll_enabled }}"
+     data-is-sticky="{{ section.settings.filters_sticky }}"
+     data-ajax-filtering="{{ section.settings.ajax_products }}"
+     {% if section.settings.filter_mode == "sidebar" %}data-is-sidebar="true"{% endif %}>
+
+  {% paginate collection.products by section.settings.pagination_limit_int %}
+    <div class="container">
+      {% capture collection_header %}
+        {%- if section.settings.header_mode == blank and collection.featured_image and section.settings.header_mode != "hidden" -%}
+          <div class="collection-header cc-banner height--{{ section.settings.height }} {% if section.settings.image_overlay_style != "none" %}has-tint has-tint--{{ section.settings.image_overlay_style }}{% else %}no-tint{% endif %}" data-cc-animate>
+						{% assign img_url = collection.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+						<div class="rimage-outer-wrapper rimage-background" data-lazy-bg="{{ img_url }}">
+              {%- if section.settings.height == 'natural' -%}
+                <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: collection.featured_image.aspect_ratio | times: 100 }}%"></div>
+              {%- endif -%}
+              <noscript>
+                <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: collection.featured_image.aspect_ratio | times: 100 }}%">
+                  <img src="{{ collection.featured_image | img_url: '1024x1024' }}" alt="{{ collection.featured_image.alt | escape }}" class="rimage__image">
+                </div>
+              </noscript>
+            </div>
+
+            {%- if collection.title != blank or collection.description != blank -%}
+              <div class="image-overlay overlay--v-{{ section.settings.text_alignment | split: ' ' | first }} overlay--h-{{ section.settings.text_alignment | split: ' ' | last }} ">
+                <div class="inner {% if section.settings.text_alignment contains "left" or  section.settings.text_alignment contains "right" %}container{% endif %}">
+                  {%- if collection.title != blank -%}
+                    <h1 class="line-1  line-1--large" data-cc-animate data-cc-animate-delay="0.3s">
+                      {{ collection.title }}
+                    </h1>
+                  {%- endif -%}
+
+                  {%- if collection.description != blank -%}
+                    <div class="rte line-2"  data-cc-animate data-cc-animate-delay="0.4s">
+                      {{ collection.description }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- elsif section.settings.header_mode != "hidden"  -%}
+          <div class="collection-header
+            {{ section.settings.header_mode }}
+            {% if section.settings.height == "fixed" %}collection-header--fixed-height{% endif %} {% if collection.featured_image %}has-image{% endif %} handle-{{ collection.handle }}" data-cc-animate>
+            <div class="header-text
+              overlay--v-{{ section.settings.text_alignment | split: ' ' | first }}
+              overlay--h-{{ section.settings.text_alignment | split: ' ' | last }}">
+              <h1 class="page-title">{{ collection.title }}</h1>
+
+              {% if collection.description != blank %}
+                <div class="rte">{{ collection.description }}</div>
+              {% endif %}
+            </div>
+
+            {% if section.settings.header_mode == "coloured-split" and collection.featured_image %}
+              <div class="header-image">
+                {%- if collection.featured_image -%}
+                  {% if section.settings.height == "fixed" %}
+										{% assign img_url = collection.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+										<div class="rimage-outer-wrapper rimage-background" data-lazy-bg="{{ img_url }}">
+                      <noscript>
+                        <div class="rimage-wrapper" style="padding-top:{{ 1 | divided_by: collection.featured_image.aspect_ratio | times: 100 }}%">
+                          <img src="{{ collection.featured_image | img_url: '1024x1024' }}" alt="{{ collection.featured_image.alt | escape }}" class="rimage__image">
+                        </div>
+                      </noscript>
+                    </div>
+                  {%- else -%}
+                    {%- render 'responsive-image', image: collection.featured_image -%}
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {% endif %}
+          </div>
+        {%- endif -%}
+      {% endcapture %}
+
+      {% if section.settings.breadcrumb_align == "above_heading" %}
+        <div class="collection-breadcrumb collection-breadcrumb--above inline-row cf no-margin-top" data-cc-animate>
+          {% render 'breadcrumbs' %}
+        </div>
+      {% endif %}
+
+      {{ collection_header }}
+
+      {% if section.settings.breadcrumb_align == "below_heading" %}
+        <div class="collection-breadcrumb inline-row cf collection-breadcrumb--below" data-cc-animate>
+          {% render 'breadcrumbs' %}
+        </div>
+      {% endif %}
+
+      {% render "search-filter",
+        mode: "collection",
+        results: collection,
+        section: section,
+        results_url: results_url,
+        paginate: paginate,
+        current_sort_by: current_sort_by
+      %}
+
+    </div>
+  {% endpaginate %}
+</div>
+
+{% schema %}
+{
+	"name": "Collection pages",
+	"class": "main-collection-section",
+	"settings": [{
+			"type": "header",
+			"content": "Heading"
+		},
+		{
+			"type": "select",
+			"id": "header_mode",
+			"label": "Layout",
+			"options": [{
+					"value": "hidden",
+					"label": "No heading"
+				},
+				{
+					"value": "",
+					"label": "Text over image"
+				},
+				{
+					"value": "coloured-split",
+					"label": "Text next to image"
+				},
+				{
+					"value": "text-only",
+					"label": "No image"
+				}
+			],
+			"default": "coloured-split"
+		},
+		{
+			"type": "radio",
+			"id": "height",
+			"label": "Height",
+			"default": "natural",
+			"options": [{
+					"value": "natural",
+					"label": "Natural"
+				},
+				{
+					"value": "fixed",
+					"label": "Fixed height"
+				}
+			]
+		},
+		{
+			"type": "range",
+			"id": "height_desktop",
+			"min": 200,
+			"max": 650,
+			"step": 50,
+			"unit": "px",
+			"label": "Desktop fixed height",
+			"default": 350
+		},
+		{
+			"type": "range",
+			"id": "height_mobile",
+			"min": 100,
+			"max": 1000,
+			"step": 50,
+			"unit": "px",
+			"label": "Mobile fixed height",
+			"default": 250
+		},
+		{
+			"type": "select",
+			"id": "image_overlay_style",
+			"label": "Image tint",
+			"info": "Applies to 'Text over image' layout only.",
+			"default": "standard",
+			"options": [{
+					"label": "None",
+					"value": "none"
+				},
+				{
+					"label": "Standard",
+					"value": "standard"
+				},
+				{
+					"label": "Vignette",
+					"value": "vignette"
+				},
+				{
+					"label": "Text shadow",
+					"value": "shadow"
+				},
+				{
+					"label": "Bottom",
+					"value": "bottom"
+				},
+				{
+					"label": "Top",
+					"value": "top"
+				}
+			]
+		},
+		{
+			"type": "select",
+			"id": "text_alignment",
+			"label": "Text alignment",
+			"options": [{
+					"value": "top left",
+					"label": "Top left"
+				},
+				{
+					"value": "top center",
+					"label": "Top center"
+				},
+				{
+					"value": "top right",
+					"label": "Top right"
+				},
+				{
+					"value": "center left",
+					"label": "Middle left"
+				},
+				{
+					"value": "center center",
+					"label": "Middle center"
+				},
+				{
+					"value": "center right",
+					"label": "Middle right"
+				},
+				{
+					"value": "bottom left",
+					"label": "Bottom left"
+				},
+				{
+					"value": "bottom center",
+					"label": "Bottom center"
+				},
+				{
+					"value": "bottom right",
+					"label": "Bottom right"
+				}
+			],
+			"default": "center center"
+		},
+		{
+			"type": "select",
+			"id": "breadcrumb_align",
+			"label": "Breadcrumb",
+			"default": "above_heading",
+			"options": [{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "above_heading",
+					"label": "Above the heading"
+				},
+				{
+					"value": "below_heading",
+					"label": "Below the heading"
+				}
+			]
+		},
+		{
+			"type": "header",
+			"content": "Layout"
+		},
+		{
+			"type": "range",
+			"id": "pagination_limit_int",
+			"min": 12,
+			"max": 50,
+			"step": 1,
+			"label": "Number of products per page",
+			"default": 36
+		},
+		{
+			"type": "range",
+			"id": "products_per_row",
+			"label": "Maximum products per row",
+			"min": 2,
+			"max": 5,
+			"step": 1,
+			"default": 4
+		},
+		{
+			"type": "select",
+			"id": "mobile_products_per_row",
+			"label": "Mobile products per row",
+			"options": [
+				{
+					"value": "1",
+					"label": "1"
+				},
+				{
+					"value": "2",
+					"label": "2"
+				}
+			],
+			"default": "2"
+		},
+		{
+			"type": "checkbox",
+			"id": "infinite_scroll_enabled",
+			"label": "Enable infinite-scroll",
+			"info": "As visitors scroll down, more products are loaded in automatically.",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "grid_show_vendor",
+			"label": "Show vendor",
+			"default": false
+		},
+		{
+			"type": "header",
+			"content": "Filters"
+		},
+    {
+      "type": "paragraph",
+      "content": "To create the collection filters, go to your [navigation](\/admin\/menus) page."
+    },
+		{
+			"type": "checkbox",
+			"id": "show_filter_counts",
+			"label": "Show filter counts",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "show_filter_deadends",
+			"label": "Show filters with zero results",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "ajax_products",
+			"label": "Filter and sort without reloading the page",
+			"default": true,
+			"info": "Some apps require this to be disabled"
+		},
+		{
+			"type": "radio",
+			"id": "filter_mode",
+			"label": "Filter mode",
+			"options": [{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "simple",
+					"label": "Simple"
+				},
+				{
+					"value": "sidebar",
+					"label": "Sidebar"
+				}
+			],
+			"info": "'Simple' is only recommended if you have a small number of filters. Note, it doesn't allow for multiple options within a filter to be selected and it won't show the price range filter.",
+			"default": "sidebar"
+		},
+    {
+      "type": "header",
+      "content": "Sidebar Settings"
+    },
+		{
+			"type": "checkbox",
+			"id": "filters_sticky",
+			"label": "Enable sticky filters",
+			"info": "This will turn the sticky navigation off for this page",
+			"default": false
+		},
+		{
+			"type": "select",
+			"id": "collapse_filters_method",
+			"label": "Sidebar filter group collapse",
+			"default": "none",
+			"options": [{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "over-6",
+					"label": "Over 6 items"
+				},
+				{
+					"value": "over-12",
+					"label": "Over 12 items"
+				},
+				{
+					"value": "over-18",
+					"label": "Over 18 items"
+				},
+				{
+					"value": "all",
+					"label": "All"
+				}
+			]
+		},
+		{
+			"type": "header",
+			"content": "Sorting"
+		},
+		{
+			"type": "checkbox",
+			"id": "enable_sorting",
+			"label": "Show 'Sort by' dropdown",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "sort_show_featured",
+			"label": "Show 'Featured' option in sort by dropdown",
+			"default": true
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+{% case media.media_type %}
+  {% when 'image' %}
+    <div class="product-media product-media--image"
+         data-media-id="{{ media.id }}"
+         data-media-type="{{ media.media_type }}">
+      <a class="main-img-link {% unless template contains 'lightbox' %}main-img-link--lightbox{% endunless %}"
+         href="{% unless template contains 'lightbox' %}{{ media.preview_image | img_url: 'master' }}{% else %}{{ product.url | within: collection }}{% endunless %}"
+         title="">
+        {% render 'responsive-image', image: media.preview_image %}
+      </a>
+    </div>
+
+  {% when 'external_video', 'video' %}
+    <div class="product-media product-media--video product-media--frame product-media--host-{{ media.host }}"
+         data-media-type="video"
+         data-media-host="{% if media.media_type == 'video' %}local{% else %}{{ media.host }}{% endif %}"
+         data-media-id="{{ media.id }}"
+         data-enable-video-looping="{{ section.settings.enable_video_looping }}">
+      <div class="product-media--frame-inner" style="padding-bottom: {{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 }}%">
+        {%- capture video_embed -%}
+          {%- if media.media_type == 'video' -%}
+            {{ media | media_tag: image_size: '1024x', autoplay: false, loop: section.settings.enable_video_looping, controls: true, preload: 'none', aspect-ratio: media.aspect_ratio, class: "cc-video js-video" }}
+          {%- else -%}
+            {%- if media.host == 'youtube' -%}
+              {{ media | external_video_url: autoplay: false, loop: section.settings.enable_video_looping, playlist: media.external_id | external_video_tag: class: "cc-video js-video", loading: 'lazy', aspect-ratio: media.aspect_ratio }}
+            {%- else -%}
+              {{ media | external_video_url: autoplay: false, loop: section.settings.enable_video_looping | external_video_tag: class: "cc-video js-video", loading: 'lazy', aspect-ratio: media.aspect_ratio }}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endcapture -%}
+
+        <template>
+          {{ video_embed }}
+        </template>
+        <noscript>
+          {{ video_embed }}
+        </noscript>
+
+        {%- unless media.media_type == 'video' -%}
+          <div class="product-media--video-mask-left"></div>
+          <div class="product-media--video-mask-right"></div>
+          <div class="product-media--video-mask-top"></div>
+          {%- unless media.host == 'youtube' -%}
+            <div class="product-media--video-mask-bottom"></div>
+          {%- endunless -%}
+        {%- endunless -%}
+
+        <div class="product-media__poster lazyload--placeholder">
+          {% assign img_url = media.preview_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+          <div class="rimage-outer-wrapper rimage-background" data-lazy-bg="{{ img_url }}"></div>
+          <button class="product-media__video-play-btn" aria-label="{{ 'general.accessibility_labels.video_play' | t | escape }}">{% render 'icon-video-badge-full-color' %}</button>
+        </div>
+      </div>
+    </div>
+
+  {% when 'model' %}
+    <div class="product-media product-media--model product-media--frame"
+         data-media-type="{{ media.media_type }}"
+         data-media-id="{{ media.id }}">
+      <div class="product-media--frame-inner" style="padding-top: 100%;">
+        <div class="product-media--model-mask-top"></div>
+        <div class="product-media--model-mask-bottom"></div>
+        <div class="product-media--model-mask-left"></div>
+        <div class="product-media--model-mask-right"></div>
+        {{ media | model_viewer_tag: image_size: '700x700', reveal: 'interaction', toggleable: true, data-model-id: media.id}}
+      </div>
+    </div>
+
+  {% else %}
+    <div class="product-media product-media--frame"
+         data-media-type="{{ media.media_type }}"
+         data-media-id="{{ media.id }}">
+      <div class="product-media--frame-inner"
+           style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100 }}%;">
+        {{ media | media_tag: class: 'media-item', image_size: '700x700' }}
+      </div>
+    </div>
+
+{% endcase %}

@@ -1,1 +1,104 @@
-{"sections":{"main":{"type":"main-product","blocks":{"vendor_and_type":{"type":"vendor_and_type","settings":{}},"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}},"rating":{"type":"rating","settings":{}},"variant_picker":{"type":"variant_picker","settings":{}},"buy_buttons":{"type":"buy_buttons","settings":{}},"divider":{"type":"divider","settings":{}},"description":{"type":"description","settings":{}}},"block_order":["vendor_and_type","title","price","rating","variant_picker","buy_buttons","divider","description"],"settings":{}},"product-recommendations":{"type":"product-recommendations","settings":{}}},"order":["main","product-recommendations"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor_and_type": {
+          "type": "vendor_and_type",
+          "settings": {
+            "prod_show_brand": true,
+            "prod_show_type": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_h1": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "prod_clicky_opt_names": "",
+            "stock_warning_show": false,
+            "stock_warning_limit": 5,
+            "show_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "enable_payment_button": true,
+            "show_pickup_availability": true,
+            "show_backorder_text": true
+          }
+        },
+        "divider": {
+          "type": "divider",
+          "settings": {
+            "show_line": true,
+            "spacing_above": "small",
+            "spacing_below": "small",
+            "show_in_quickbuy": false
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_quickbuy": false,
+            "display": "standard"
+          }
+        },
+        "75840c96-a2a0-4cd9-9c0b-11682b3b19f7": {
+          "type": "shopify:\/\/apps\/lensadvizor-select-lenses-app\/blocks\/app-block\/86552bcb-0c5c-439e-b59c-d8577012ea59",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "vendor_and_type",
+        "title",
+        "price",
+        "rating",
+        "variant_picker",
+        "buy_buttons",
+        "divider",
+        "description",
+        "75840c96-a2a0-4cd9-9c0b-11682b3b19f7"
+      ],
+      "settings": {
+        "page_width": "medium",
+        "description_below": false,
+        "show_reviews": true,
+        "enable_video_looping": false,
+        "enable_product_image_zoom": false,
+        "mobile_slideshow_navigation": "arrows"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "recommendations_title": "You may also like",
+        "grid_show_vendor": false,
+        "products_per_row": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-recommendations"
+  ]
+}

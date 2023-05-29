@@ -130,6 +130,7 @@
     },
     "1613486043a1de1650": {
       "type": "rich-text",
+      "disabled": true,
       "settings": {
         "subheading": "",
         "title": "Rich text",
@@ -431,9 +432,9 @@
         "163350604940b8284f-4": {
           "type": "variant_picker",
           "settings": {
-            "prod_clicky_opt_names": "",
+            "prod_clicky_opt_names": "dq5249-052",
             "stock_warning_show": false,
-            "stock_warning_limit": 5
+            "stock_warning_limit": 1
           }
         },
         "163350604940b8284f-5": {

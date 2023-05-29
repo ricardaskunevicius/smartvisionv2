@@ -178,6 +178,7 @@
     },
     "1613031288643f7b4a": {
       "type": "gallery",
+      "disabled": true,
       "blocks": {
         "31d318d6-d6aa-43b0-8823-25d2804e8701": {
           "type": "image",
@@ -254,6 +255,7 @@
     },
     "1590157729940": {
       "type": "featured-collections",
+      "disabled": true,
       "blocks": {
         "1590157729940-0": {
           "type": "collection",
@@ -305,6 +307,7 @@
     },
     "16025138477b66c39b": {
       "type": "background-video",
+      "disabled": true,
       "settings": {
         "video_external": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
         "subheading": "",
@@ -325,6 +328,7 @@
     },
     "1619085348a65975c4": {
       "type": "gallery",
+      "disabled": true,
       "blocks": {
         "1619085348a65975c4-0": {
           "type": "image",
@@ -388,6 +392,7 @@
     },
     "1590158040284": {
       "type": "image-with-text",
+      "disabled": true,
       "settings": {
         "subheading": "",
         "title": "Media with text",

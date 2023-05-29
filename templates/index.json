@@ -432,7 +432,7 @@
         "163350604940b8284f-4": {
           "type": "variant_picker",
           "settings": {
-            "prod_clicky_opt_names": "44977675993401",
+            "prod_clicky_opt_names": "",
             "stock_warning_show": false,
             "stock_warning_limit": 1
           }
@@ -455,7 +455,7 @@
         "163350604940b8284f-5"
       ],
       "settings": {
-        "product": "",
+        "product": "dq5233-097",
         "page_width": "medium",
         "prod_show_thumbnails": true,
         "enable_video_looping": false,

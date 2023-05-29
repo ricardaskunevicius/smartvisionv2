@@ -54,11 +54,12 @@
         "1478797384865-0": {
           "type": "image",
           "settings": {
-            "subheading": "Subheading",
-            "title": "Tell your story",
+            "image": "shopify:\/\/shop_images\/woman-leans-back-on-a-white-couch-with-a-small-puppy_3000x_4a71347c-c911-478b-b223-1fa21f30cc4f.webp",
+            "subheading": "Welcome to our new e-shop",
+            "title": "We opening a new page",
             "title_size": 60,
             "heading_h1": false,
-            "text": "<p>Pair text with an image to tell a story<\/p>",
+            "text": "<p>Exiting delas inside<\/p>",
             "enlarge_text": true,
             "button_1_link": "",
             "button_1_label": "",

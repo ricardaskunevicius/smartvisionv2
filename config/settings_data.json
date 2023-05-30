@@ -151,6 +151,7 @@
           "footer_complexity": "columns",
           "footer_payment_icons": true,
           "show_footer_logo": true,
+          "footer_logo": "shopify:\/\/shop_images\/GC_logo_k_V5.png",
           "text_content": "",
           "footer_linklist": "footer",
           "footer_linklist2": "",

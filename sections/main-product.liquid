@@ -205,7 +205,7 @@
   {% if product.selected_or_first_available_variant.metafields.global.color %}
         <div style="text-align: center">
         <h3>TRY THESE FRAMES WITH OUR VIRTUAL TRY-ON</h3>
-        <div {{product.selected_or_first_available_variant.metafields.global.color }}</div>
+        <div> {{ product.selected_or_first_available_variant.metafields.global.color }}</div>
       </div>
 {% endif %}
               {% if product.description != blank %}

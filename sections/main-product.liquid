@@ -220,7 +220,7 @@
                   <div class="product-detail-accordion" data-show-in-quickbuy="{{ block.settings.show_in_quickbuy }}">
                     {% render 'accordion', allow_multi_open: true, add_content_class: 'rte', first_item_open: description_is_open, item1_title: description_title, item1_content: product.description %}
                   </div>
-                {% else %}
+                {% else %}aaa
                   <div class="product-description rte product-detail__gap-lg"
                        {% # data-show-in-quickbuy="{{ block.settings.show_in_quickbuy }}" {{ block.shopify_attributes }}>{{ product.description }} %}
                         {{ product.description }}

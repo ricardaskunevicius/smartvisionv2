@@ -111,7 +111,12 @@
                             </tr>
                             <tr>
                                 <td>Color: </td>
-                                <td class="strong"><span>Green</span></td>
+                                <td class="strong"><span>
+                                  {% if product.selected_or_first_available_variant.metafields.global.color %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.color }}
+                                  {% endif %}
+                                  </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Material: </td>

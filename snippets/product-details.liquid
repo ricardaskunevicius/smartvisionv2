@@ -182,10 +182,10 @@
                                   -
                                   {% if product.selected_or_first_available_variant.metafields.global.sideLength %} 
                                       {{ product.selected_or_first_available_variant.metafields.global.sideLength }}
-                                  {% endif %}
+                                  {% endif %}(
                                   {% if product.selected_or_first_available_variant.metafields.global.size %} 
                                       {{ product.selected_or_first_available_variant.metafields.global.size }}
-                                  {% endif %}
+                                  {% endif %})
                                 </td>
                             </tr>
                             <tr>
@@ -202,7 +202,7 @@
                                 <td class="strong">
                                   {% if product.selected_or_first_available_variant.metafields.global.material %} 
                                       {{ product.selected_or_first_available_variant.metafields.global.material }}
-                                  {% endif %}1
+                                  {% endif %}
                                 </td>
                             </tr>
                             <tr>

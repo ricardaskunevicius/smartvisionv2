@@ -223,8 +223,8 @@
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-1.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__width">
                                 <p>
-                                  {% if product.selected_or_first_available_variant.metafields.global.lensWidth %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.lensWidth }}
+                                  {% if product.selected_or_first_available_variant.metafields.global.frameWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.frameWidth }}
                                   {% endif %}
                                   mm</p>
                                 <p>Width of glasses</p>
@@ -246,14 +246,18 @@
                             <div class="row">
                                 <div class="col-xs-6 dimensions-sizes dimensions-sizes__lens-height">
                                     <p>
-                                    {% if product.selected_or_first_available_variant.metafields.global.lensHeight %} 
-                                        {{ product.selected_or_first_available_variant.metafields.global.lensHeight }}
-                                    {% endif %}                                       
+                                  {% if product.selected_or_first_available_variant.metafields.global.lensWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.lensWidth }}
+                                  {% endif %}                                      
                                       mm</p>
                                     <p>Lens width</p>
                                 </div>
                                 <div class="col-xs-6 dimensions-sizes dimensions-sizes__lens-width">
-                                    <p>44 mm</p>
+                                    <p>
+                                    {% if product.selected_or_first_available_variant.metafields.global.lensHeight %} 
+                                        {{ product.selected_or_first_available_variant.metafields.global.lensHeight }}
+                                    {% endif %} 
+                                      mm</p>
                                     <p>Lens height</p>
                                 </div>
                             </div>

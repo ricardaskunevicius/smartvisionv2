@@ -173,27 +173,27 @@
                             <tr>
                                 <td>Size: </td>
                                 <td class="strong">
-                                  {% if product.selected_or_first_available_variant.metafields.global.lensWidth %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.lensWidth }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.lensWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.lensWidth }}
                                   {% endif %}
                                   -
-                                  {% if product.selected_or_first_available_variant.metafields.global.bridgeWidth %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.bridgeWidth }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.bridgeWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.bridgeWidth }}
                                   {% endif %}
                                   -
-                                  {% if product.selected_or_first_available_variant.metafields.global.sideLength %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.sideLength }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.sideLength %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.sideLength }}
                                   {% endif %}(
-                                  {% if product.selected_or_first_available_variant.metafields.global.size %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.size }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.size %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.size }}
                                   {% endif %})
                                 </td>
                             </tr>
                             <tr>
                                 <td>Color: </td>
                                 <td class="strong"><span>
-                                  {% if product.selected_or_first_available_variant.metafields.global.color %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.color }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.color %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.color }}
                                   {% endif %}
                                   </span>
                                 </td>
@@ -201,16 +201,16 @@
                             <tr>
                                 <td>Material: </td>
                                 <td class="strong">
-                                  {% if product.selected_or_first_available_variant.metafields.global.material %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.material }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.material %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.material }}
                                   {% endif %}
                                 </td>
                             </tr>
                             <tr>
                                 <td>Shape: </td>
                                 <td class="strong">
-                                  {% if product.selected_or_first_available_variant.metafields.global.shape %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.shape }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.shape %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.shape }}
                                   {% endif %}
                                 </td>
                             </tr>
@@ -224,8 +224,8 @@
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-1.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__width">
                                 <p>
-                                  {% if product.selected_or_first_available_variant.metafields.global.frameWidth %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.frameWidth }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.frameWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.frameWidth }}
                                   {% endif %}
                                   mm</p>
                                 <p>Width of glasses</p>
@@ -235,8 +235,8 @@
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-2.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__temple-length">
                                 <p>
-                                  {% if product.selected_or_first_available_variant.metafields.global.sideLength %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.sideLength }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.sideLength %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.sideLength }}
                                   {% endif %}                                  
                                   mm</p>
                                 <p>Temple length</p>
@@ -247,16 +247,16 @@
                             <div class="row">
                                 <div class="col-xs-6 dimensions-sizes dimensions-sizes__lens-height">
                                     <p>
-                                  {% if product.selected_or_first_available_variant.metafields.global.lensWidth %} 
-                                      {{ product.selected_or_first_available_variant.metafields.global.lensWidth }}
+                                  {% if product.selected_or_first_available_variant.metafields.variant.lensWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.variant.lensWidth }}
                                   {% endif %}                                      
                                       mm</p>
                                     <p>Lens width</p>
                                 </div>
                                 <div class="col-xs-6 dimensions-sizes dimensions-sizes__lens-width">
                                     <p>
-                                    {% if product.selected_or_first_available_variant.metafields.global.lensHeight %} 
-                                        {{ product.selected_or_first_available_variant.metafields.global.lensHeight }}
+                                    {% if product.selected_or_first_available_variant.metafields.variant.lensHeight %} 
+                                        {{ product.selected_or_first_available_variant.metafields.variant.lensHeight }}
                                     {% endif %} 
                                       mm</p>
                                     <p>Lens height</p>
@@ -267,8 +267,8 @@
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-4.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__bridge">
                                 <p>
-                                    {% if product.selected_or_first_available_variant.metafields.global.bridgeWidth %} 
-                                        {{ product.selected_or_first_available_variant.metafields.global.bridgeWidth }}
+                                    {% if product.selected_or_first_available_variant.metafields.variant.bridgeWidth %} 
+                                        {{ product.selected_or_first_available_variant.metafields.variant.bridgeWidth }}
                                     {% endif %}                                      
                                   mm</p>
                                 <p>Bridge</p>

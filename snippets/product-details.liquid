@@ -222,14 +222,22 @@
                         <div class="dimension">
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-1.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__width">
-                                <p>118 mm</p>
+                                <p>
+                                  {% if product.selected_or_first_available_variant.metafields.global.lensWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.lensWidth }}
+                                  {% endif %}
+                                  mm</p>
                                 <p>Width of glasses</p>
                             </div>
                         </div>
                         <div class="dimension">
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-2.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__temple-length">
-                                <p>140 mm</p>
+                                <p>
+                                  {% if product.selected_or_first_available_variant.metafields.global.sideLength %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.sideLength }}
+                                  {% endif %}                                  
+                                  mm</p>
                                 <p>Temple length</p>
                             </div>
                         </div>
@@ -237,7 +245,11 @@
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-3.svg?344" class="size-matrix-img">
                             <div class="row">
                                 <div class="col-xs-6 dimensions-sizes dimensions-sizes__lens-height">
-                                    <p>49 mm</p>
+                                    <p>
+                                    {% if product.selected_or_first_available_variant.metafields.global.lensHeight %} 
+                                        {{ product.selected_or_first_available_variant.metafields.global.lensHeight }}
+                                    {% endif %}                                       
+                                      mm</p>
                                     <p>Lens width</p>
                                 </div>
                                 <div class="col-xs-6 dimensions-sizes dimensions-sizes__lens-width">
@@ -249,7 +261,11 @@
                         <div class="dimension">
 <img src="https://cdn.shopify.com/s/files/1/0307/8632/2477/files/size_matrix-4.svg?344" class="size-matrix-img">
                             <div class="dimensions-sizes dimensions-sizes__bridge">
-                                <p>20 mm</p>
+                                <p>
+                                    {% if product.selected_or_first_available_variant.metafields.global.bridgeWidth %} 
+                                        {{ product.selected_or_first_available_variant.metafields.global.bridgeWidth }}
+                                    {% endif %}                                      
+                                  mm</p>
                                 <p>Bridge</p>
                             </div>
                         </div>

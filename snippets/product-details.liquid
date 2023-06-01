@@ -172,7 +172,22 @@
                             <tr>
                                 <td>Size: </td>
                                 <td class="strong">
-                                    49-20-140
+                                  {% if product.selected_or_first_available_variant.metafields.global.lensWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.lensWidth }}
+                                  {% endif %}
+                                  -
+                                  {% if product.selected_or_first_available_variant.metafields.global.bridgeWidth %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.bridgeWidth }}
+                                  {% endif %}
+                                  -
+                                  {% if product.selected_or_first_available_variant.metafields.global.sideLength %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.sideLength }}
+                                  {% endif %}
+                                  {% if product.selected_or_first_available_variant.metafields.global.size %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.size }}
+                                  {% endif %}
+
+                                  49-20-140
                                     
                                     (Narrow)
                                     
@@ -189,11 +204,19 @@
                             </tr>
                             <tr>
                                 <td>Material: </td>
-                                <td class="strong">Plastic</td>
+                                <td class="strong">
+                                  {% if product.selected_or_first_available_variant.metafields.global.material %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.material }}
+                                  {% endif %}1
+                                </td>
                             </tr>
                             <tr>
                                 <td>Shape: </td>
-                                <td class="strong">Square</td>
+                                <td class="strong">
+                                  {% if product.selected_or_first_available_variant.metafields.global.shape %} 
+                                      {{ product.selected_or_first_available_variant.metafields.global.shape }}
+                                  {% endif %}
+                                </td>
                             </tr>
                         </tbody>
                     </table>

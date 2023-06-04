@@ -166,7 +166,8 @@
                     <h4>Description</h4>
                     <p>{{ product.description }}</p>
                 </div>
-                <div style="width: 20%;display: table-cell;" class="float_div">
+                {% if product.type == "Glasses" or product.type == "Sunglasses" %}               
+                  <div style="width: 20%;display: table-cell;" class="float_div">
                     <h4>Fit and details</h4>
                     <table class="table">
                         <tbody>
@@ -217,6 +218,7 @@
                         </tbody>
                     </table>
                 </div>
+                {% endif %}              
                 <div style="width: 30%;display: table-cell;" class="float_div">
                     <div> </div>
                   {% if product.type == "Glasses" or product.type == "Sunglasses" %} 

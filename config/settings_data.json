@@ -128,7 +128,7 @@
         "settings": {
           "sticky_header": true,
           "social_links_mob": true,
-          "logo": "shopify:\/\/shop_images\/GC_logo_k_V5.png",
+          "logo": "shopify:\/\/shop_images\/GlassesClub.svg",
           "compact_logo": "{{ shop.brand.logo }}",
           "logo_width": 105,
           "mobile_logo_width": 75,

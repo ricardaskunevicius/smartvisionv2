@@ -42,9 +42,9 @@
         "icon_width": 26,
         "title_size": 15,
         "text_size": 14,
-        "icon_color": "#696969",
-        "text_color": "#515151",
-        "background_color": "#f4f2e9",
+        "icon_color": "#ffffff",
+        "text_color": "#ffffff",
+        "background_color": "#5261e4",
         "mobile_stack": false
       }
     },
@@ -56,10 +56,10 @@
           "settings": {
             "image": "shopify:\/\/shop_images\/woman-leans-back-on-a-white-couch-with-a-small-puppy_3000x_4a71347c-c911-478b-b223-1fa21f30cc4f.webp",
             "subheading": "Welcome to our new e-shop",
-            "title": "We opening a new page",
+            "title": "We are opening a new page",
             "title_size": 60,
             "heading_h1": false,
-            "text": "<p>Exiting delas inside<\/p>",
+            "text": "<p>Exiting deals inside<\/p>",
             "enlarge_text": true,
             "button_1_link": "",
             "button_1_label": "",

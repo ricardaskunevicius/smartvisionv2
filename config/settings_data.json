@@ -56,7 +56,7 @@
     "product_grid_show_weight": false,
     "prod_block_layout": "above align-center",
     "label_sale_show": true,
-    "prod_sale_method": "percentage",
+    "prod_sale_method": "money",
     "label_soldout_show": true,
     "label_remain_show": true,
     "prod_stock_warn_limit_int": 4,

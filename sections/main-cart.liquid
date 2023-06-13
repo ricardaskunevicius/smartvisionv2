@@ -68,7 +68,6 @@
                 {% comment %} Line Item Properties {% endcomment %}
                 {% for p in item.properties %}
                 <div class="property">
-                  {% comment %} {% unless p.last == blank %} {% endcomment %}
                   {% assign first_character_in_key = p.first | truncate: 1, '' %}
                   {% unless p.last == blank or first_character_in_key == '_' %}
                   <span class="label">{{ p.first }}:</span>

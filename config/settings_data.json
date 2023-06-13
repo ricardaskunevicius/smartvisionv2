@@ -74,7 +74,7 @@
     "swatch_option_name": "Colour",
     "swatch_method": "image",
     "prod_thumb_show_options": true,
-    "swatch_show_filters": false,
+    "swatch_show_filters": true,
     "swatch_shape": "natural",
     "swatch_shape_grid": "circle",
     "search_type": "product,article,page",

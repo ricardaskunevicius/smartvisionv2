@@ -20,7 +20,7 @@
         "ajax_products": true,
         "filter_mode": "sidebar",
         "filters_sticky": false,
-        "collapse_filters_method": "none",
+        "collapse_filters_method": "over-6",
         "enable_sorting": true,
         "sort_show_featured": true
       }

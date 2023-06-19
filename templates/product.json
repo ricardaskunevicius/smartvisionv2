@@ -55,16 +55,16 @@
             "show_in_quickbuy": false
           }
         },
+        "75840c96-a2a0-4cd9-9c0b-11682b3b19f7": {
+          "type": "shopify:\/\/apps\/lensadvizor-select-lenses-app\/blocks\/app-block\/86552bcb-0c5c-439e-b59c-d8577012ea59",
+          "settings": {
+          }
+        },
         "description": {
           "type": "description",
           "settings": {
             "show_in_quickbuy": false,
             "display": "standard"
-          }
-        },
-        "75840c96-a2a0-4cd9-9c0b-11682b3b19f7": {
-          "type": "shopify:\/\/apps\/lensadvizor-select-lenses-app\/blocks\/app-block\/86552bcb-0c5c-439e-b59c-d8577012ea59",
-          "settings": {
           }
         }
       },
@@ -76,8 +76,8 @@
         "variant_picker",
         "buy_buttons",
         "divider",
-        "description",
-        "75840c96-a2a0-4cd9-9c0b-11682b3b19f7"
+        "75840c96-a2a0-4cd9-9c0b-11682b3b19f7",
+        "description"
       ],
       "settings": {
         "page_width": "medium",

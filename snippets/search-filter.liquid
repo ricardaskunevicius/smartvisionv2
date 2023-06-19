@@ -285,7 +285,7 @@
 
                           <span class="cc-checkbox__label">
                               {% assign filter_caption = value.label | escape %}
-                              {% render 'custom_filter_caption',filter_caption:filter_caption %}</span>
+                              {% render 'custom_filter_caption',filter_caption:filter_caption,filter_title:filter_title %}</span>
                           
 
                               {% if section.settings.show_filter_counts %}

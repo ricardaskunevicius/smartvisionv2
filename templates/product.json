@@ -81,7 +81,7 @@
       ],
       "settings": {
         "page_width": "medium",
-        "description_below": true,
+        "description_below": false,
         "show_reviews": true,
         "enable_video_looping": false,
         "enable_product_image_zoom": false,

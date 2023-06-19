@@ -43,7 +43,7 @@
           "settings": {
             "enable_payment_button": true,
             "show_pickup_availability": true,
-            "show_backorder_text": true
+            "show_backorder_text": false
           }
         },
         "divider": {

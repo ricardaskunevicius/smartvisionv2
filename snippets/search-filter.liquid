@@ -264,7 +264,7 @@
                               {% if value.count == 0 and value.active == false %}disabled{% endif %}>
                               <label class="swatch-option {% if value.count == 0 and value.active == false %}swatch-option--unavailable{% endif %}"
                                    data-value="{{ value.value | escape }}" title="{{ value.label | escape }}"
-                                   for="Filter-{{ value.param_name }}-{{ value.value | handle }}">AA
+                                   for="Filter-{{ value.param_name }}-{{ value.value | handle }}">
                             </label>
                           </li>
                         {%- endif -%}

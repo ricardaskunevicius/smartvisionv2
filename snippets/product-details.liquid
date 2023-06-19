@@ -140,8 +140,8 @@
     border: #111111 1px;
   }
   .shippingTableCells {
-    border: #111111 1px solid;
-    text-align: center;
+    border: #111111 1px solid !important;
+    text-align: center !important;
     vertical-align: middle;
   }
 
@@ -158,39 +158,123 @@
     font-weight: bold;
   }
 </style>
-<div style="text-align: center">
-  <h3>30 DAY FIT &amp; STYLE GUARANTEE</h3>
-</div>
 <ul class="tabs">
   <li>
     <a class="active" href="#tab1">
       Description
     </a>
   </li>
-  <li>
-    <a href="#tab3" class="">
-      Shipping
-    </a>
-  </li>
+  {% if product.type == "Glasses" or product.type == "Sunglasses" %}
   <li>
     <a href="#tab4" class="">
-      Warranty
+      Frame & Measurements
+    </a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="#tab3" class="">
+      Shipping & Returns
     </a>
   </li>
 
 </ul>
 <!--Start tab content-->
+<!-- Description -->
 <ul class="tabs-content">
   <li
     class="active"
     id="tab1"
     style="display: block;">
-    <div style="width: 100%; display: table;">
-      <div style="display: table-row">
-        <div style="width: 50%; display: table-cell;" class="float_div">
+    <div style="width: 100%;">
           <h4>Description</h4>
           <p>{{ product.description }}</p>
-        </div>
+        
+    </div>
+  </li>
+<!-- shipping -->
+  <li
+    id="tab3"
+    class=""
+    style="display: none;">
+    <div style="width: 100%;">
+      <h4 >Shipping</h4>
+      <p>At Glasses Club, we offer:<br></p>
+      <ol>
+        <li>FREE delivery to your chosen address in Lithuania, Latvia and Estonia  for all orders over 50 €.</li>
+        <li>FREE delivery to your chosen address in European Union for all orders over 100 €.</li>
+        <li>Rest of the world - shipping fees below apply.
+        </li>
+      </ol>
+      <p>
+        <b>Shipping time and delivery methods</b>
+      </p>
+      <table class="shippingTable">
+        <tr class="shippingTableCells">
+          <th class="shippingTableCells">
+            <b>Delivery method</b>
+          </th>
+          <th class="shippingTableCells">
+            <b>Baltic countries <br>(Lithuania, Latvia, Estonia)</b>
+          </th>
+          <th class="shippingTableCells">
+            <b>European Union countries</b>
+          </th>
+          <th class="shippingTableCells">
+            <b>UK and rest of the world</b>
+          </th>
+        </tr>
+        <tr class="shippingTableCells">
+          <td class="shippingTableCells">
+            <b>Omniva parcel boxes</b>
+          </td>
+          <td class="shippingTableCells">
+            <p>2-4 working days <br>(FREE above 50 € or 4,99 €)</p>
+          </td class="shippingTableCells">
+          <td class="shippingTableCells">-</td>
+          <td class="shippingTableCells">-</td>
+        </tr>
+        <tr class="shippingTableCells">
+          <td class="shippingTableCells">
+            <b>Express Delivery DHL</b>
+          </td>
+          <td class="shippingTableCells">
+            <p>2-6 working days <br>10 € delivery fee</p>
+          </td>
+          <td class="shippingTableCells">
+            <p>2-6 working days <br>15 € delivery fee</p>
+          </td>
+          <td class="shippingTableCells">
+            <p>2-6 working days <br>15 € delivery fee</p>
+          </td>
+        </tr>
+        <tr class="shippingTableCells">
+          <td class="shippingTableCells">
+            <b>DPD courier</b>
+          </td>
+          <td class="shippingTableCells">
+            <p>5-6 working days <br>(FREE above 50 € or 5,99 €)</p>
+          </td>
+          <td class="shippingTableCells">
+            <p>7-14 working days <br>(FREE above 100 € or 10 €)</p>
+          </td>
+          <td class="shippingTableCells">
+            <p>7-14 working days <br>(FREE above 100 € or 10 €)</p>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <p>
+        If, for any reason, you are not completely satisfied with your order, you may return it within the first 100 days for absolutely no reason. Read more in our
+        <a href="/policies/refund-policy">Returns & Refunds</a>
+      </p>
+    </div>
+  </li>
+<!-- measurements -->
+  <li
+    id="tab4"
+    class=""
+    style="display: none;">
+    <div>
         {% if product.type == "Glasses" or product.type == "Sunglasses" %}
           <div style="width: 20%;display: table-cell;" class="float_div">
             <h4>Fit and details</h4>
@@ -309,149 +393,6 @@
               </div>
             </div>
           {% endif %}
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li
-    id="tab3"
-    class=""
-    style="display: none;">
-    <div>
-      <h4>Shipping</h4>
-      <p>At Glasses Club, we offer:<br></p>
-      <ol>
-        <li>FREE delivery to your chosen address in Lithuania, Latvia and Estonia  for all orders over 50 €.</li>
-        <li>FREE delivery to your chosen address in European Union for all orders over 100 €.</li>
-        <li>Rest of the world - shipping fees below apply.
-        </li>
-      </ol>
-      <p>
-        <b>Shipping time and delivery methods</b>
-      </p>
-      <table class="shippingTable">
-        <tr class="shippingTableCells">
-          <th class="shippingTableCells">
-            <b>Delivery method</b>
-          </th>
-          <th class="shippingTableCells">
-            <b>Baltic countries <br>(Lithuania, Latvia, Estonia)</b>
-          </th>
-          <th class="shippingTableCells">
-            <b>European Union countries</b>
-          </th>
-          <th class="shippingTableCells">
-            <b>UK and rest of the world</b>
-          </th>
-        </tr>
-        <tr class="shippingTableCells">
-          <td class="shippingTableCells">
-            <b>Omniva parcel boxes</b>
-          </td>
-          <td class="shippingTableCells">
-            <p>2-4 working days <br>(FREE above 50 € or 4,99 €)</p>
-          </td class="shippingTableCells">
-          <td class="shippingTableCells">-</td>
-          <td class="shippingTableCells">-</td>
-        </tr>
-        <tr class="shippingTableCells">
-          <td class="shippingTableCells">
-            <b>Express Delivery DHL</b>
-          </td>
-          <td class="shippingTableCells">
-            <p>2-6 working days <br>10 € delivery fee</p>
-          </td>
-          <td class="shippingTableCells">
-            <p>2-6 working days <br>15 € delivery fee</p>
-          </td>
-          <td class="shippingTableCells">
-            <p>2-6 working days <br>15 € delivery fee</p>
-          </td>
-        </tr>
-        <tr class="shippingTableCells">
-          <td class="shippingTableCells">
-            <b>DPD courier</b>
-          </td>
-          <td class="shippingTableCells">
-            <p>5-6 working days <br>(FREE above 50 € or 5,99 €)</p>
-          </td>
-          <td class="shippingTableCells">
-            <p>7-14 working days <br>(FREE above 100 € or 10 €)</p>
-          </td>
-          <td class="shippingTableCells">
-            <p>7-14 working days <br>(FREE above 100 € or 10 €)</p>
-          </td>
-        </tr>
-      </table>
-      <br>
-      <!-- update URL for live -->
-      <p>
-        If, for any reason, you are not completely satisfied with your order, you may return it within the first 100 days for absolutely no reason. Read more in our
-        <a href="/policies/refund-policy">Returns & Refunds</a>
-      </p>
-    </div>
-  </li>
-
-  <li
-    id="tab4"
-    class=""
-    style="display: none;">
-    <div>
-      <h4>2 YEAR MANUFACTURER'S WARRANTY</h4>
-      <p>At GlassesClub, quality is our main focus. We aim to provide the best possible products in the market,
-        but in case you feel like you have received faulty lenses or frames, there is nothing to worry about, as
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    we offer a 730 days manufacturer's warranty. See the list below to check the issues that are covered
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    under warranty and, if they occur, we will repair or replace your items at no extra charge. The warranty
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    is valid for two years after purchase.</p>
-      <h3>ISSUES COVERED</h3>
-      <p>
-        • Cracks caused by other reasons than careless handling</p>
-      <p>
-        • Coatings that start peeling off</p>
-      <p>
-        • Broken nose pads</p>
-      <p>
-        • Weakened (or broken) hinges</p>
-      <p>
-        • Chipped logos, jewels, or other similar adornments</p>
-      <p>
-        • Fading of colour or oxidation</p>
-      <h3>ISSUES NOT-COVERED</h3>
-      <p>
-        • Exposure to water for extensive amounts of time</p>
-      <p>
-        • Cleaning performed not in accordance with our recommendations</p>
-      <p>
-        • Careless handling</p>
-      <p>
-        • Exposure to water for extensive amounts of time</p>
-      <p></p>
-      <h3>NATURAL WEARINGNESS</h3>
-      <p>Because of environmental factors and regular wear, signs of weariness appear on optical items naturally
-        over time. The reduced glossiness of the frame, scratches on both the frame and the lenses, and such are
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    signs of natural weariness. The warranty does not cover these as they are not considered to be the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    manufacturer's fault. Rimless and half-rimless glasses are prone to breakage and must, therefore, be
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    worn with extra care. In this case, the damage is not covered under warranty. GlassesClub offers 30%
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    discount items needed for this type of eyeglasses repair (including lenses, parts, and materials).</p>
-      <p></p>
-      <h3>30 DAY LENS GUARANTEE</h3>
-      <p>To ensure impeccable quality, each lens undergoes a 6 step process. The verification is performed using
-        the most innovative digital technology, designed specifically for the purpose. That way, complete
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    accuracy is ensured, while possibilities of scratches, distortions, and defects are reduced to a
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    minimum. A scratch-resistant coating is provided with the purchase of any lens at no extra charge. We
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    want you to be happy with your order, so, in case you do not feel completely satisfied with your
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    purchase, you can return it for free within 30 days. A 30 day return period is provided for all
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    products, including glasses made to your individual prescription. The refund will be processed and
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    credited back to your original method of payment within 14 days once we have received the return.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Alternatively, we will replace the lenses at no extra charge.</p>
-      <p>In case of breaking, do NOT try to repair your eyewear yourself. The manufacturer's warranty does not
-        cover products that have been tampered by an unauthorized company or person. Please note that frames and
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    lenses have separate guarantees that cannot be interchanged.</p>
-      <p>At GlassesClub, our primary goal is to ensure the maximum quality of the products we provide, thus
-        safeguarding your utmost satisfaction. We are sure that you will love our product, as we do everything
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    we can that each order is manufactured to perfection.</p>
-      <p><br></p>
     </div>
   </li>
 </ul>

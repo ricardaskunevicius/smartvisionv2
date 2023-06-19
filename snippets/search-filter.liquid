@@ -128,7 +128,7 @@
                             {%- assign num_available_options = num_available_options | plus: 1 -%}
                             <option value="{{ value.value | escape }}"
                                     {% if value.active %}selected{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
-                              {% render 'custom_filter_caption' %}a_a{% if section.settings.show_filter_counts %} ({{ value.count }}){% endif %}
+                              {{ value.label }} {% if section.settings.show_filter_counts %} ({{ value.count }}){% endif %}
                             </option>
                           {%- endif -%}
                         {%- endfor -%}

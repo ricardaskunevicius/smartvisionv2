@@ -283,9 +283,12 @@
                                  {% if value.active %}checked{% endif %}
                               {% if value.count == 0 and value.active == false %}disabled{% endif %}>
 
-                          <span class="cc-checkbox__label">{% render 'custom_filter_caption' %}</span>
+                          <span class="cc-checkbox__label">
+                              {% assign filter_caption = value.label | escape %}
+                              {% render 'custom_filter_caption' %}</span>
+                          
 
-                          {% if section.settings.show_filter_counts %}
+                              {% if section.settings.show_filter_counts %}
                             <span class="cc-checkbox__count">{{ value.count }}</span>
                           {% endif %}
                         </label>

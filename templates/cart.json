@@ -1,1 +1,24 @@
-{"sections":{"main":{"type":"main-cart","settings":{}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "cart_show_title": true,
+        "show_notes": false,
+        "show_tax_and_shipping": true,
+        "show_additional_checkout_buttons": true,
+        "show_backorder_text": false,
+        "continue_shopping_page": "shopify:\/\/collections",
+        "cart_terms_page": "",
+        "cart_notification_show": false,
+        "cart_notification_text": "",
+        "cart_notification_pos": "",
+        "shipping_calculator": false,
+        "shipping_calculator_default_country": "United States"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

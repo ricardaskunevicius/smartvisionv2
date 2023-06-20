@@ -3,6 +3,12 @@
     width:30px;
     height:auto;
   }
+  .filter-shape-color-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 9px;
+    border-radius: 20px;
+  }
 </style>
 {% comment %} Shapes {% endcomment %}
 {% if filter_caption == 'aviator' %}
@@ -32,6 +38,6 @@
 {% comment %} Shapes {% endcomment %}
 
 {% if filter_title == 'Color' %}
-<img src="https://cdn.shopify.com/s/files/1/0751/1012/1785/files/filter_{{ filter_caption }}.jpg?v=1687266377" class="filter_img"/>&nbsp;
+<img src="https://cdn.shopify.com/s/files/1/0751/1012/1785/files/filter_{{ filter_caption }}.jpg?v=1687266377" class="filter-shape-color-icon"/>&nbsp;
 {% endif %}
 <span>{{ filter_caption  | capitalize }}</span>

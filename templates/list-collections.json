@@ -1,1 +1,26 @@
-{"sections":{"main":{"type":"main-list-collections","settings":{}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "title": "All products",
+        "description": "",
+        "header_mode": "coloured-split",
+        "height": "natural",
+        "height_desktop": 350,
+        "height_mobile": 250,
+        "image_overlay_style": "standard",
+        "text_alignment": "center center",
+        "display_type": "all",
+        "layout": "rows",
+        "products_per_row": 4,
+        "mobile_products_per_row": "2",
+        "collection_use_prod_image": false,
+        "grid_show_vendor": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

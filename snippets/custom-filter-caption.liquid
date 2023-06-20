@@ -40,7 +40,7 @@
 {% comment %} Colors {% endcomment %}
 
 {% if filter_title == 'Color' %}
-{%  assign local_filter = filter_title | replace: ' ', '_'  %}  
+{%  assign local_filter = filter_title | handleize  %}  
 <img src="https://cdn.shopify.com/s/files/1/0751/1012/1785/files/filter_{{ local_filter }}.jpg?v=1687266377" class="filter-shape-color-icon"  onerror="this.onerror=null;this.src='https://cdn.shopify.com/s/files/1/0751/1012/1785/files/filter_NoColor.jpg?v=1687268053'"/>
 {% endif %}
 <span>{{ filter_caption  | capitalize }}</span>

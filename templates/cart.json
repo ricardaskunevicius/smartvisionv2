@@ -8,7 +8,7 @@
         "show_tax_and_shipping": true,
         "show_additional_checkout_buttons": true,
         "show_backorder_text": false,
-        "continue_shopping_page": "shopify:\/\/collections",
+        "continue_shopping_page": "shopify:\/\/collections\/glasses",
         "cart_terms_page": "",
         "cart_notification_show": false,
         "cart_notification_text": "",

@@ -211,7 +211,7 @@
         "settings": {
           "announcement_show": true,
           "announcement_home_only": false,
-          "announcement_text": "Welcome to our brand new shop! info@glassesclub.eu",
+          "announcement_text": "Welcome to our brand new shop!",
           "announcement_link": "",
           "show_social_icons": true,
           "show_country_selector": true,

@@ -21,6 +21,7 @@
 						{%- endif -%}
 
 						<div class="announcement-bar__text" style="display: table">
+                          <div style="display: table-row">
           <div style="width:33%; display:table-column;"></div>
                           <div style="width:33%; display:table-column;">
 							{%- if section.settings.announcement_link != blank -%}
@@ -39,6 +40,7 @@
           </div>
           <div style="width:33%; display:table-column;"><a href=mailto:"info@glassesclub.eu">info@glassesclub.eu</a></div>
 						</div>
+                                </div>
 
 						{%- if section.settings.show_language_selector or section.settings.show_country_selector -%}
 							<div class="localization localization--header announcement-bar__spacer">

@@ -21,8 +21,7 @@
 						{%- endif -%}
 
 						<div class="announcement-bar__text" style="display: table">
-          <div style="width:33% display:table-column;"></div>
-                          <div style="width:33% display:table-column;">
+                          <div style="float:left">
 							{%- if section.settings.announcement_link != blank -%}
 								<a href="{{ section.settings.announcement_link }}" class="announcement-bar__text__inner">
 							{%- else -%}
@@ -37,7 +36,7 @@
 								</span>
 							{%- endif -%}
           </div>
-          <div style="width:33% display:table-column;"><a href=mailto:"info@glassesclub.eu">info@glassesclub.eu</a></div>
+          <div style="float:right;"><a href=mailto:"info@glassesclub.eu">info@glassesclub.eu</a></div>
 						</div>
 
 						{%- if section.settings.show_language_selector or section.settings.show_country_selector -%}

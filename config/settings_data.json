@@ -209,7 +209,7 @@
           "announcement_show": true,
           "announcement_home_only": false,
           "announcement_text": "Welcome to our brand new shop!",
-          "announcement_link": "",
+          "announcement_link": "mailto:info@glassessclub.eu",
           "show_social_icons": true,
           "show_country_selector": true,
           "show_language_selector": true

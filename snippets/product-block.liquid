@@ -32,6 +32,10 @@
   assign primary_image = product.featured_media.preview_image
   if product.media[3].preview_image
     assign secondary_image = product.media[3].preview_image
+  elsif product.media[1].preview_image
+    assign secondary_image = product.media[1].preview_image
+  else
+    assign secondary_image = product.media[0].preview_image
   endif
 
   assign cheapest_variant = product.variants | sort: 'price' | first

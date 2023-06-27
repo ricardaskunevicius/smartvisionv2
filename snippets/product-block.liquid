@@ -30,7 +30,7 @@
   endunless
 
   assign primary_image = product.featured_media.preview_image
-  assign secondary_image = product.media[1].preview_image
+  assign secondary_image = product.media[3].preview_image
 
   assign cheapest_variant = product.variants | sort: 'price' | first
 

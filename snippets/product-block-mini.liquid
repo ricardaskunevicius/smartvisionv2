@@ -61,7 +61,7 @@
               <input type="hidden" name="quantity" value="1" />
               <input type="hidden" name="id" value="{{ current_variant.id }}" />
               <button type="submit" name="add" class="btn product-add" {% unless product.available %}disabled="disabled"{% endunless %} aria-live="polite">
-                <span class="button-text">{% if product.available %}{{ '&#x1f6d2' | t}}{% else %}{{ 'products.product.unavailable' | t }}{% endif %}</span>
+                <span class="button-text">{% if product.available %}{{ 'products.grid.add_to_cart'  '&#x1f6d2' | t}}{% else %}{{ 'products.product.unavailable' | t }}{% endif %}</span>
                 <span class="loading-spinner" aria-label="{{ 'products.product.adding_to_cart' | t }}"></span>
                 <span class="added-to-cart-check" aria-label="{{ 'products.product.added_to_cart' | t }}"></span>
               </button>

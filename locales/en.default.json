@@ -14,9 +14,9 @@
       "size_chart": "Size Guide",
       "unavailable": "Unavailable",
       "adding_to_cart": "Adding",
-      "product_unavailable_html": "<p>We have run out of stock for this item.</p>",
+      "product_unavailable_html": "<p>We have run out of stock for this item.<\/p>",
       "added_to_cart": "Added to cart",
-      "unit_price_separator": " / ",
+      "unit_price_separator": " \/ ",
       "added_to_cart_btn": "Added",
       "go_to_cart": "Go to cart",
       "backorder": "is backordered and will ship as soon as it is back in stock.",
@@ -25,7 +25,7 @@
     },
     "general": {
       "include_taxes": "Tax included.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping<\/a> calculated at checkout.",
       "full_details": "Full details",
       "quick_buy_added": "Added to cart",
       "from": "From"
@@ -37,7 +37,7 @@
       "new_in": "New in"
     },
     "grid": {
-      "add_to_cart": "Add to cart",
+      "add_to_cart": "&#x1f6d2 Add to cart",
       "item_is_in_cart": "In your cart",
       "remove_from_cart": "Remove from cart",
       "choose_options": "Show options"
@@ -71,7 +71,7 @@
       "heading": "Get shipping estimates",
       "country": "Country",
       "province": "Province",
-      "zip": "Zip/Postal Code",
+      "zip": "Zip\/Postal Code",
       "multiple_rates": "Shipping rates available, starting at",
       "single_rate": "There is one shipping rate available for",
       "no_rates": "We do not ship to this destination.",
@@ -81,9 +81,9 @@
       "continue": "Continue shopping",
       "quantity_too_high": "You can only have {{ quantity }} in your cart",
       "confirm_remove": "Are you sure you want to remove this item?",
-      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping<\/a> calculated at checkout.",
       "taxes_included_but_shipping_at_checkout": "Tax included and shipping calculated at checkout",
-      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
+      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping<\/a> calculated at checkout",
       "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout",
       "remove": "Remove",
       "empty_title": "You have no items in your cart",
@@ -93,7 +93,7 @@
       "backorder": "Product is backordered and will ship as soon as it is back in stock."
     },
     "terms": {
-      "agreement_html": "I agree to the <a href=\"{{ terms_url }}\" target=\"_blank\">terms and refund policy</a>"
+      "agreement_html": "I agree to the <a href=\"{{ terms_url }}\" target=\"_blank\">terms and refund policy<\/a>"
     }
   },
   "homepage": {
@@ -196,7 +196,7 @@
     "errors": {
       "address_error": "Error looking up that address",
       "address_no_results": "No results for that address",
-      "address_query_limit_html": "You have exceeded the Google API usage limit. Consider upgrading to a <a href=\"https://developers.google.com/maps/premium/usage-limits\">Premium Plan</a>.",
+      "address_query_limit_html": "You have exceeded the Google API usage limit. Consider upgrading to a <a href=\"https:\/\/developers.google.com\/maps\/premium\/usage-limits\">Premium Plan<\/a>.",
       "auth_error": "There was a problem authenticating your Google Maps API Key."
     }
   },
@@ -356,7 +356,7 @@
       "city": "City",
       "country": "Country",
       "province": "Province",
-      "zip": "Postal/Zip Code",
+      "zip": "Postal\/Zip Code",
       "phone": "Phone",
       "set_default": "Set as default address",
       "update": "Update Address",
@@ -420,7 +420,7 @@
       "link": "Enter using password",
       "label": "Enter store using password:",
       "button": "Enter",
-      "admin_link_html": "Are you the store owner? <a href=\"/admin\">Log in here</a>"
+      "admin_link_html": "Are you the store owner? <a href=\"\/admin\">Log in here<\/a>"
     },
     "signup": {
       "success": "Thanks for your interest! We'll be sure to keep you up to date."
@@ -431,10 +431,10 @@
   },
   "store_availability": {
     "general": {
-      "pick_up_available_at_html": "Pickup available at <strong>{{ location_name }}</strong>",
+      "pick_up_available_at_html": "Pickup available at <strong>{{ location_name }}<\/strong>",
       "view_store_info": "View store information",
       "check_other_stores": "Check availability at other stores",
-      "pick_up_unavailable_at_html": "Pickup currently unavailable at <strong>{{ location_name }}</strong>",
+      "pick_up_unavailable_at_html": "Pickup currently unavailable at <strong>{{ location_name }}<\/strong>",
       "miles": "mi",
       "kilometers": "km",
       "pick_up_available": "Pickup available",
@@ -446,7 +446,7 @@
     "form": {
       "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
       "post_error": "Oops, sorry. We were unable to submit your inquiry. Please correct the following and submit again:",
-      "post_field_error_html": "The <strong>{{ field }}</strong> {{ error }}",
+      "post_field_error_html": "The <strong>{{ field }}<\/strong> {{ error }}",
       "name": "Name",
       "email": "Email",
       "phone": "Phone",

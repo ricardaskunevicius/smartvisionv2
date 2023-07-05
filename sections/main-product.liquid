@@ -384,7 +384,8 @@
                             <button type="submit" name="add"
                                     class="btn product-add mini-form {% if block.settings.enable_payment_button and product.selling_plan_groups == empty %}alt outline{% endif %}">
                               <span class="button-text">{% if product.available %}{{ 'products.grid.add_to_cart' | t }}{% else %}{{ 'products.product.unavailable' | t }}{% endif %}</span>
-                              <span class="loading-spinner" aria-label="{{ 'products.product.adding_to_cart' | t }}"></span>  <img src="https://cdn.shopify.com/s/files/1/0751/1012/1785/files/shopping_cart.png"></img>
+                              <span class="loading-spinner" aria-label="{{ 'products.product.adding_to_cart' | t }}"></span>
+                              {% if product.available %}<img src="https://cdn.shopify.com/s/files/1/0751/1012/1785/files/shopping_cart.png" style = "width: 33px;vertical-align: middle;"</img>{% endif %}
                             </button>
                           </span>
 

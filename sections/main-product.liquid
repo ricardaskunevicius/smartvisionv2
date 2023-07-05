@@ -350,7 +350,7 @@
                 {%- endif -%}
               {% endif %}
 
-            {%- when 'buy_buttons' -%}
+            {%- when 'buy_buttons' -%}a
               {% if product.available %}
                 {%- assign product_form_present = true -%}
                 {% form 'product', product, id: product_form_id, class: 'form product-purchase-form', data-product-id: product.id %}

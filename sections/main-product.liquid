@@ -361,7 +361,7 @@
                           {% if settings.prod_quantity_controls != "none" %}payment-and-quantity--with-quantity{% endif %}
                           {{ block.shopify_attributes }}
                           ">
-aa
+
                     {% if settings.prod_quantity_controls != "none" %}
                       <div class="quantity">
                         <div class="qty-adjuster {% if use_ajax_quantities %}qty-adjuster--ajax{% endif %}"
@@ -379,7 +379,7 @@ aa
                     {% else %}
                       <input type="hidden" name="quantity" value="1"/>
                     {% endif %}
-
+aa
                     <span class="payment-and-quantity__add">
                             <button type="submit" name="add"
                                     class="btn product-add mini-form {% if block.settings.enable_payment_button and product.selling_plan_groups == empty %}alt outline{% endif %}">

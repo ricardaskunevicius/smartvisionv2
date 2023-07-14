@@ -64,5 +64,33 @@
       "no_rates": "Me ei tarni sellesse sihtkohta",
       "at": "Alates"
     }
+  },
+  "shopify": {
+    "sentence": {
+      "words_connector": ",",
+      "two_words_connector": "ja",
+      "last_word_connector": ", ja"
+    },
+    "checkout": {
+      "general": {
+        "page_title": "Kassa",
+        "error_page_title": "Viga",
+        "skip_to_content": "Liigu sisu juurd",
+        "breadcrumb": "Jälgimisnavigatsioon",
+        "continue_button_label": "Jätka ",
+        "complete_purchase_button_label": "Lõpeta tellimus",
+        "pay_now_button_label": "Maksa nüüd",
+        "authenticate_purchase_button_label": "Kinnita makse",
+        "edit_link_label": "Muuda",
+        "all_rights_reserved": "Kõik õigused kaitstud %{shop_name}",
+        "print_policies_link_label": "Prindi",
+        "cart": "Korv",
+        "close_modal_label": "Sulge",
+        "close_notice_label": "Sulge",
+        "expand_notice_label": "Vaata rohkem",
+        "continue_to_shipping_method": "Jätka saatmisega",
+        "continue_to_payment_method": "Jätka maksmisega"
+      }
+    }
   }
 }

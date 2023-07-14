@@ -230,7 +230,17 @@
         "last_name_label": "Perekonnanimi",
         "company_label": "Firma",
         "optional_company_label": "Firma (valikuline)",
-        "address1_label": "Aadress"
+        "address1_label": "Aadress",
+        "address2_label": "Korteri number jne",
+        "optional_address2_label": "Korteri number jne (valikuline)",
+        "city_label": "Linn",
+        "country_label": "Riik",
+        "country_code": "Riik",
+        "province_label": "Maakond",
+        "province_placeholder": "Maakond",
+        "county_label": "Maakond",
+        "county_placeholder": "Maakond",
+        "region_none": "Valimata"
       }
     }
   }

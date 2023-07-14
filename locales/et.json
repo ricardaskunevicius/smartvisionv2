@@ -149,7 +149,36 @@
         "stepper": {
           "increase": "Suurenda {{type}}",
           "decrease": "Vähenda {{type}}",
-          "minimum_reached": "Minimaalne summa on saavutatud: {{value}}"
+          "minimum_reached": "Minimaalne summa on saavutatud: {{value}}",
+          "maximum_reached": "Maksimaalne väärtus on saavutatud: {{value}}"
+        },
+        "remove_item": "Eemalda %{label}",
+        "remove_tag": "Eemalda silt",
+        "dates": {
+          "weekdays": {
+            "monday": "Esmaspäev",
+            "tuesday": "Teisipäev",
+            "wednesday": "Kolmapäev",
+            "thursday": "Neljapäev",
+            "friday": "Reede",
+            "saturday": "Laupäev",
+            "sunday": "Pühapäev"
+          },
+          "weekdays_abbreviation": {
+            "monday": "E",
+            "tuesday": "T",
+            "wednesday": "K",
+            "thursday": "N",
+            "friday": "R",
+            "saturday": "L",
+            "sunday": "P"
+          },
+          "months": {
+            "january": "Jaanuar",
+            "february": "Veebruar",
+            "march": "Märts",
+            "april": "Aprill"
+          }
         }
       }
     }

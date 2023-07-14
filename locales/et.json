@@ -280,7 +280,31 @@
         "pick_up_immediately": "Valmis järeletulemiseks",
         "pick_up_next_day": "Valmis järeletulemiseks järgmisel päeval",
         "pickup_point_method_definition": " Saada kättesaamispunkti",
-        "retail_method_definition": "Kätte saamine kauplusest"
+        "retail_method_definition": "Kätte saamine kauplusest",
+        "none_method_definition": "Ei toimu saatmist",
+        "subscription_pickup_information": "See kohaletoimetamismeetod kehtib kõikidele selle tellimuse toodetele ja kõikidele tulevastele tellimustele."
+      },
+      "customer_account": {
+        "not_user_label": "Ei ole %{first_name}?",
+        "have_an_account_label": "Kas sul on juba konto?",
+        "sign_in_link_label": "Logi sisse",
+        "sign_out_link_label": "Logi välja",
+        "save_my_information_label": "Salvesta see järgmiseks korraks"
+      },
+      "stock": {
+        "page_title": " Ladustamisega seotud probleemid",
+        "title": "Otsas",
+        "items_unavailable_notice": "Mõned tooted pole enam saadaval. Sinu ostukorv on uuendatud.",
+        "product_column_header": "Tooted",
+        "quantity_column_header": "Kogus",
+        "price_column_header": "Hind",
+        "status_column_header": "Staatus",
+        "removed_from_cart_notice": "Eemaldatud ostukorvist.",
+        "sold_out_label": "Välja müüdud",
+        "reduced_label": "Vähendatud",
+        "reduced_with_quantity_label": "Saadaval ainult %{quantity_available}",
+        "remove_from_cart_button_label": "Eemalda ostukorvist",
+        "continue_shopping_button_label": "Jätks"
       }
     }
   }

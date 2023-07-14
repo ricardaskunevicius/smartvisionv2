@@ -258,7 +258,29 @@
         "optional_recipient_label": "Märkus (valikuline)",
         "company_contact_info": "{{companyName}} · {{contact}}",
         "different_shipping_address_label": "Saada teisele aadressile",
-        "different_shipping_address_text": "Kasuta selle tellimuse jaoks ühekordset aadressi"
+        "different_shipping_address_text": "Kasuta selle tellimuse jaoks ühekordset aadressi",
+        "change_company_location_link_label": "Muuda ettevõtte asukohta",
+        "change_location_link_label": "Muuda asukohta",
+        "ship_to_company": "Saada {{companyName}}"
+      },
+      "delivery_options": {
+        "free_total_label": "Tasuta",
+        "ship": " Kohaletoimetamine",
+        "shipping_address": " Kohaletoimetamise aadress",
+        "pick_up": "Tule järgi",
+        "pick_up_locations": "Järgitulemise aadress",
+        "pick_up_in_one_hour": "Tavaliselt valmis 1 tunni jooksul",
+        "pick_up_in_two_hours": "Tavaliselt valmis 2 tunni jooksul",
+        "pick_up_in_four_hours": "Tavaliselt valmis 4 tunni jooksul",
+        "pick_up_in_twenty_four_hours": "Tavaliselt valmis 24 tunni jooksul",
+        "pick_up_in_two_to_four_days": "Tavaliselt valmis 2-4 päeva jooksul",
+        "pick_up_in_five_or_more_days": "Tavaliselt valmis 5+ päeva jooksul",
+        "pick_up_in_zero_to_two_hours": "Valmis järeletulemiseks 2 tunni pärast",
+        "pick_up_in_two_to_four_hours": "Valmis järeletulemiseks 4 tunni pärast",
+        "pick_up_immediately": "Valmis järeletulemiseks",
+        "pick_up_next_day": "Valmis järeletulemiseks järgmisel päeval",
+        "pickup_point_method_definition": " Saada kättesaamispunkti",
+        "retail_method_definition": "Kätte saamine kauplusest"
       }
     }
   }

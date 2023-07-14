@@ -394,7 +394,27 @@
         "cart_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood ei kehti ostukorvis olevate esemete kohta.",
         "discount_requires_customer_notice": "Sisesta oma saatmise teave, et rakendada sooduskood <strong style=\"text-transform:uppercase\">%{code}<\/strong>.",
         "customer_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood pole hetkel saadaval.",
-        "shipping_information_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood pole sinu saatmisaadressile hetkel saadaval."
+        "shipping_information_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood pole sinu saatmisaadressile hetkel saadaval.",
+        "customer_already_used_once_per_customer_discount_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood on juba kasutatud",
+        "subtotal_label": "Summa",
+        "shipping_label": "Kohaletoimetamine",
+        "pickup_label": "Järeletulemine",
+        "no_pickup_location": "Järeletulemine pole selle tellimuse jaoks saadaval. Valige muu kohaletoimetamise meetod.",
+        "tip_label": "Jootraha",
+        "calculating_shipping": "Arvutamine..",
+        "calculating": "Arvutamine..",
+        "shipping_default_value": "Arvutatakse järgmisel sammul",
+        "shipping_pending_value": "—",
+        "shipping_pending_message": "Pole veel saadaval.",
+        "shipping_policy_link": "Kohaletoimetamise kulud",
+        "taxes_label": "Maksud",
+        "estimated_taxes_label": "Hinnangulised maksud",
+        "information_estimated_taxes_label": "Maksud (hinnanguliselt)",
+        "estimated_taxes_finalization_tooltip_content": "Lõplikud maksud ja kogusumma kinnitatakse e-kirja või sõnumiga pärast tellimuse esitamist.",
+        "order_total_label": "Tellimuse kogusumma",
+        "total_label": "Kokku",
+        "total_outstanding_label": " Makstav summa",
+        "partial_total_label": "Kokku"
       }
     }
   }

@@ -127,7 +127,29 @@
         },
         "tooltip_accessibility_label": "Rohkem infot",
         "errors": {
-          "session_identifier_not_unique_error": "Midagi läks tellimusega valesti, palun proovi uuesti kassasse minna."
+          "session_identifier_not_unique_error": "Midagi läks tellimusega valesti, palun proovi uuesti kassasse minna.",
+          "line_item_limit_reached": "Ridade arv on ületatud"
+        },
+        "full_price": "Täishind:",
+        "title": " Kassasse - {{shopName}}",
+        "full_title": "{{pageTitle}} - {{shopName}} - Kassasse",
+        "loading_title": " Kassasse - {{shopName}}",
+        "display_name": "{{firstName}} {{lastName}}",
+        "google_map_title": "Google Map",
+        "submit_order_button_label": "Esita tellimus",
+        "submit_for_review_button_label": "Esita ülevaatamiseks",
+        "submit_for_review_notice_label": "Makse ei ole vajalik enne, kui teie tellimus on üle vaadatud.",
+        "continue_to_payment_plans_button_label": "Jätka maksemeetodiga",
+        "back_button_label": "Tagasi",
+        "choose_delivery_strategy": "Vali saatmisviis",
+        "autocomplete_zero_item": " Ühtegi toodet ei ole saadaval.",
+        "autocomplete_powered_by_google": "Powered by {{brandName}}",
+        "submit": "Esita",
+        "processing": "Töötlemine..",
+        "stepper": {
+          "increase": "Suurenda {{type}}",
+          "decrease": "Vähenda {{type}}",
+          "minimum_reached": "Minimaalne summa on saavutatud: {{value}}"
         }
       }
     }

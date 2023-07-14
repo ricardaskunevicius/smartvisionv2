@@ -205,8 +205,32 @@
             "wordConnector": "{{previousWords}}, {{anotherWord}}",
             "lastWordConnector": "{{previousWords}}, või {{lastWord}}",
             "twoWordConnector": "{{firstWord}} või {{secondWord}}"
+          },
+          "narrow": {
+            "wordConnector": "{{previousWords}}, {{anotherWord}",
+            "lastWordConnector": "{{previousWords}}, {{lastWord}}",
+            "twoWordConnector": "{{firstWord}}, {{secondWord}}"
           }
         }
+      },
+      "contact": {
+        "title": "Info",
+        "address_title": "Aadress",
+        "shipping_used_as_billing_notice": "Seda aadressi kasutatakse ka sinu arveaadressina selle tellimuse jaoks.",
+        "delivery_option_title": "Saatmismeetod",
+        "contact_method_title": "Kontakt",
+        "email_label": "Email",
+        "email_placeholder": "Email",
+        "email_or_phone_label": "Email või telefoni number",
+        "email_or_phone_placeholder": "Email või telefoni number",
+        "stored_addresses_label": "Salvestatud aadres",
+        "new_address_label": "Kasuta uut aadressi",
+        "first_name_label": "Eesnimi",
+        "optional_first_name_label": "Eesnimi (valikuline)",
+        "last_name_label": "Perekonnanimi",
+        "company_label": "Firma",
+        "optional_company_label": "Firma (valikuline)",
+        "address1_label": "Aadress"
       }
     }
   }

@@ -43,7 +43,9 @@
       "backorder": "Toode on otsas, kuid saadetakse kohe, kui see on laos tagasi.",
       "continue": "Jätka ostmist",
       "confirm_remove": "Kas oled kindel, et soovid selle toote eemaldada?",
-      "quantity_too_high": "Sinu ostukorvis võib olla ainult {{ quantity }} toodet"
+      "quantity_too_high": "Sinu ostukorvis võib olla ainult {{ quantity }} toodet",
+      "taxes_included_and_shipping_policy_html": "Sisaldab käibemaksu. <a href=\"{{ link }}\">Saatmiskulu<\/a> arvutatakse kassas.",
+      "taxes_and_shipping_policy_at_checkout_html": "Maksud ja <a href=\"{{ link }}\">saatmiskulu<\/a> arvutatakse kassas"
     },
     "label": {
       "decrease": "Vähenda",
@@ -65,6 +67,9 @@
       "no_rates": "Me ei saada sellesse sihtkohta",
       "at": "Alates",
       "single_rate": "On üks saadaolev saatmistasu"
+    },
+    "terms": {
+      "agreement_html": "Nõustun <a href=\"{{ terms_url }}\" target=\"_blank\">tingimustega ja tagastamispoliitikaga<\/a>"
     }
   },
   "shopify": {

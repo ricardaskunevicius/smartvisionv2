@@ -27,7 +27,7 @@
       "error": "Sinu kommentaari postitamisel ilmnes viga.",
       "email": "Email",
       "message": "Kommentaar",
-      "moderated": "Tähelepanu: kommentaarid tuleb enne avaldamist heaks kiita. ",
+      "moderated": "Tähelepanu: kommentaarid tuleb enne avaldamist kinnitada.",
       "post": "Kirjuta kommentaar"
     }
   },

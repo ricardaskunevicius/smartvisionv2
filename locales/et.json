@@ -457,7 +457,29 @@
         },
         "payment_terms_totals": {
           "due_today": "Täna makstav summa",
-          "due_later": " Kogu summa, mis tuleb tasuda %{due_at}"
+          "due_later": " Kogu summa, mis tuleb tasuda %{due_at}",
+          "due_on_fulfillment": "Kogu summa, mis tuleb tasuda tellimuse täitmiseks",
+          "due_on_receipt": " Kogu summa, mis tuleb tasuda kättesaamisel",
+          "due_later_checkout_to_draft": "Kogu summa, mis tuleb hiljem tasuda"
+        },
+        "maximum_discount_code_limit_reached": "Oled jõudnud maksimaalse sooduskoodide arvuni. Eemalda olemasolev kood, et kasutada koodi <strong style=\"text-transform:uppercase\">%{code}<\/strong>.",
+        "discount_code_application_failed": "Hetkel ei tööta kood <strong style=\"text-transform:uppercase\">%{code}<\/strong>. Võta meiega ühendust abi saamiseks.",
+        "due_on_fulfillment": " Tähtaeg täitmise ajal",
+        "gift_card_masked": "•••• %{last_characters}",
+        "subscriptions": "Tellimused",
+        "duties_label": "Maksud",
+        "duties_and_taxes_label": "Maksud",
+        "error_duties_tooltip": "See tellimus saadetakse teisest riigist ja seetõttu võidakse kohaletoimetamisel kohaldada tollimakse või muid makse.",
+        "may_be_charged_on_delivery": "Võidakse kohaldada kohaletoimetamisel",
+        "total_updated_label_with_price": "Uuendatud kogusumma: %{totalPrice}",
+        "recurring_payments": "Korduvad maksed",
+        "recurring_total_multiple_label": "\nSelle tellimuse puhul on mitme toote jaoks korduv tasu.",
+        "deferred_total_due_date_label": "Kokku tasumisele kuuluv summa {{date}}",
+        "full_price": "Täishind: %{price}",
+        "custom_discount": "Personaalne soodustus",
+        "expand_component_information": {
+          "one": "Näita %{count} toodet",
+          "other": "Näita %{count} tooteid"
         }
       }
     }

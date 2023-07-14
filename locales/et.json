@@ -480,7 +480,32 @@
         "expand_component_information": {
           "one": "Näita %{count} toodet",
           "other": "Näita %{count} tooteid"
-        }
+        },
+        "collapse_component_information": {
+          "one": "Peida %{count} toode",
+          "other": "Peida %{count} tooted"
+        },
+        "component_quantity_title": "%{quantity} × %{product_title}",
+        "discount_discovery": {
+          "add_code": "Lisa soodustus",
+          "merchandise_quantity_label": {
+            "one": "%{count} toode",
+            "other": "%{count} tooted"
+          }
+        },
+        "alternative_payment_currency_total": "Makse võetakse"
+      },
+      "shipping": {
+        "title": "Kohaletoimetamine",
+        "shipping_method_title": "Kohaletoimetamise meetod",
+        "shipping_method_one_time_purchase_group_title": "Ühekordne ost",
+        "shipping_method_subscription_group_title": "Tellimus",
+        "subscription_shipping": "Tellimuse saatmine",
+        "subscription_local_delivery": "Tellimuse kättetoimetamine",
+        "subscription_pickup": "Tellimusele järeletulemine",
+        "no_rates_for_cart_or_destination_notice": "\nSinu ostukorvi või aadressi jaoks pole saadaval ühtegi saatmisviisi.",
+        "no_pickup_location_notice": "\nVähemalt ühele sinu toodetest pole saadaval järeletulemise võimalust",
+        "no_rates_for_country_notice": "Saatmisviisid pole saadaval sinu aadressi jaoks"
       }
     }
   }

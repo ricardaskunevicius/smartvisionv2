@@ -505,7 +505,29 @@
         "subscription_pickup": "Tellimusele järeletulemine",
         "no_rates_for_cart_or_destination_notice": "\nSinu ostukorvi või aadressi jaoks pole saadaval ühtegi saatmisviisi.",
         "no_pickup_location_notice": "\nVähemalt ühele sinu toodetest pole saadaval järeletulemise võimalust",
-        "no_rates_for_country_notice": "Saatmisviisid pole saadaval sinu aadressi jaoks"
+        "no_rates_for_country_notice": "Saatmisviisid pole saadaval sinu aadressi jaoks",
+        "no_rates_contact_notice": " Võtke meiega ühendust täiendava info saamiseks",
+        "free_rate_label": "Tasuta",
+        "cheapest_rate_label": "Soodsaim",
+        "please_enter_your_shipping_information_notice": " Palun sisestage oma kohaletoimetamise info",
+        "estimated_delivery_date": {
+          "one": "%{count} tööpäev",
+          "other": "%{count} tööpäeva"
+        },
+        "estimated_delivery_date_range": "%{minimum} kuni %{maximum} tööpäeva",
+        "delivery_date_range": "%{min_time}–%{max_time}",
+        "estimated_delivery_time": "Eeldatav kohaletoimetamine %{time}",
+        "estimated_delivery_time_range": "Eeldatav kohaletoimetamine %{min_time}–%{max_time}",
+        "delivery_today": "Sama päeva kohaletoimetamine %{time}",
+        "delivery_tomorrow": "Järgmise päeva kohaletoimetamine %{time}",
+        "two_day_delivery": "2-päevane kohaletoimetamine %{time}",
+        "delivery": " Kohaletoimetamine %{time}",
+        "arrives_time": "Saabumine %{time}",
+        "arrives_time_range": "Saabub %{min_time} kuni %{max_time}",
+        "estimated_time": "Eeldatav %{time}",
+        "estimated_time_range": "Eeldatav %{min_time}–%{max_time}",
+        "shipping_line_phone_label": "Mobiiltelefoni number (nõutud)",
+        "shipping_line_phone": "Kuller võib seda numbrit kasutada sinuga ühenduse võtmiseks."
       }
     }
   }

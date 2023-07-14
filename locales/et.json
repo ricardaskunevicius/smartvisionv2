@@ -240,7 +240,25 @@
         "province_placeholder": "Maakond",
         "county_label": "Maakond",
         "county_placeholder": "Maakond",
-        "region_none": "Valimata"
+        "region_none": "Valimata",
+        "phone_label": "Telefoni number",
+        "optional_phone_label": "Telefoni number (valikuline)",
+        "phone_placeholder": "Telefoni number",
+        "phone_tooltip": "Kui meil peaks vaja olema sinuga tellimuse osas ühendust võtta",
+        "zip_code_label": "Postikood",
+        "zip_code_placeholder": "Postikood",
+        "postal_code_label": "Postikood",
+        "postal_code_placeholder": "Postikood",
+        "postcode_label": "Postikood",
+        "postcode_placeholder": "Postikood",
+        "pincode_label": "Parool",
+        "pincode_placeholder": "Parool",
+        "civic_number_warning": "Lisa majanumber, kui sul on olemas",
+        "optional_last_name_label": "Perekonnanimi (valikuline)",
+        "optional_recipient_label": "Märkus (valikuline)",
+        "company_contact_info": "{{companyName}} · {{contact}}",
+        "different_shipping_address_label": "Saada teisele aadressile",
+        "different_shipping_address_text": "Kasuta selle tellimuse jaoks ühekordset aadressi"
       }
     }
   }

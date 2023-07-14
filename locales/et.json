@@ -177,7 +177,34 @@
             "january": "Jaanuar",
             "february": "Veebruar",
             "march": "Märts",
-            "april": "Aprill"
+            "april": "Aprill",
+            "may": "Mai",
+            "june": "Juuni",
+            "july": "Juuli",
+            "august": "August",
+            "september": "September",
+            "october": "Oktoober",
+            "november": "November",
+            "december": "Detsember"
+          }
+        },
+        "datepicker": {
+          "show_previous_month": "Näita eelnevat kuud, {{month}} {{year}}",
+          "show_next_month": "Näita järgmist kuud, {{month}} {{year}}",
+          "range_start": "Algus",
+          "in_range": "Valitud vahemik",
+          "range_end": "Lõpp"
+        },
+        "list_formatter": {
+          "and": {
+            "wordConnector": "{{previousWords}}, {{anotherWord}}",
+            "lastWordConnector": "{{previousWords}}, ja {{lastWord}}",
+            "twoWordConnector": "{{firstWord}} ja {{secondWord}}"
+          },
+          "or": {
+            "wordConnector": "{{previousWords}}, {{anotherWord}}",
+            "lastWordConnector": "{{previousWords}}, või {{lastWord}}",
+            "twoWordConnector": "{{firstWord}} või {{secondWord}}"
           }
         }
       }

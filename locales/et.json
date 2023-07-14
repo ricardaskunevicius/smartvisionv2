@@ -337,6 +337,44 @@
           },
           "status_column_header": "Kohaletoimetamine pole saadaval."
         }
+      },
+      "contextual_availability": {
+        "title": {
+          "one": "Toode pole saadaval",
+          "other": "Tooted pole saadaval"
+        },
+        "products_not_available": {
+          "one": "See toode eemaldatakse sinu ostukorvist, kuna see pole sinu riigis\/piirkonnas saadaval.",
+          "other": "Need tooded eemaldatakse sinu ostukorvist, kuna see pole sinu riigis\/piirkonnas saadaval."
+        },
+        "all_products_in_cart_unavailable": {
+          "one": "See toode pole sinu riigis\/piirkonnas saadaval.",
+          "other": "Need tooted pole sinu riigis\/piirkonnas saadaval."
+        },
+        "unavailable_label": "Ei ole saadaval"
+      },
+      "deliverability": {
+        "not_deliverable": {
+          "title": {
+            "one": "Sellele %{count} tootele pole saadaval kohaletoimetamist",
+            "other": "Nendele %{count} toodetele pole saadaval kohaletoimetamist."
+          },
+          "message": {
+            "one": "See toode eemaldatakse sinu ostukorvist, kuna sinu aadressile pole saadaval ühtegi kohaletoimetamismeetodit",
+            "other": "Need tooted eemaldatakse sinu ostukorvist, kuna sinu aadressile pole saadaval ühtegi kohaletoimetamismeetodit"
+          },
+          "label": " Kohaletoimetamine ei ole saadaval"
+        }
+      },
+      "order_summary": {
+        "title": "Tellimuse kokkuvõte",
+        "order_name_label": "Tellimus %{name}",
+        "shopping_cart_label": "Ostukorv",
+        "discount_title": "Soodustus",
+        "discount_label": "Sooduskood",
+        "discount_placeholder": "Sooduskood",
+        "gift_card_title": "Kinkekaart",
+        "gift_card_label": "Kinkekaart"
       }
     }
   }

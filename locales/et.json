@@ -414,7 +414,27 @@
         "order_total_label": "Tellimuse kogusumma",
         "total_label": "Kokku",
         "total_outstanding_label": " Makstav summa",
-        "partial_total_label": "Kokku"
+        "partial_total_label": "Kokku",
+        "free_total_label": "Tasuta",
+        "paid_label": "Makstud",
+        "payment_due_label": "Makse tähtaeg",
+        "vat_label_html": " Käibemaksuna lisandub %{amount}",
+        "discount_and_gift_card_savings_notice": "Pärast %{discount_amount} allahindlust ja %{gift_card_amount} kinkekaardi kasutamist\n",
+        "discount_savings_notice": "Pärast %{discount_amount} allahindlust",
+        "gift_card_savings_notice": "Pärast %{gift_card_amount} kinkekaarti",
+        "cost_table_title": "Kokkuvõte",
+        "description_label": "Kirjeldus",
+        "price_label": "Hind",
+        "quantity_label": "Kogus",
+        "product_change_label": "Muuda",
+        "product_image_label": "Tootepilt",
+        "scroll_order_summary": "Keri toodete nägemiseks",
+        "expand_order_summary": "Näita tellimuse kokkuvõtet",
+        "collapse_order_summary": "Peida tellimuse kokkuvõte",
+        "original_price": "Täishind",
+        "sale_price": "Soodustusega hind",
+        "total_updated_label": "Uuendatud koguhind:",
+        "order_total_updated_label": "Uuendatud summa"
       }
     }
   }

@@ -434,7 +434,31 @@
         "original_price": "Täishind",
         "sale_price": "Soodustusega hind",
         "total_updated_label": "Uuendatud koguhind:",
-        "order_total_updated_label": "Uuendatud summa"
+        "order_total_updated_label": "Uuendatud summa",
+        "total_already_paid_label": "Juba makstud",
+        "unit_price": {
+          "accessible_separator": "kohta",
+          "content_html": "%{price}%{accessible_separator}%{per_unit}"
+        },
+        "gift_card_ending": "Kinkekaart lõppeb tähtedega %{last_characters}",
+        "estimated_tax_label": "Hinnanguline maks",
+        "multiple_shipping_lines_label": "Kohaletoimetamise kogusumma",
+        "recurring_subtotal_label": "Vahesumma",
+        "recurring_total_label": "Kokku",
+        "recurring_total_tooltip": "\nSee ei sisalda saatmist, makse, tollimakse ega kohaldatavaid soodustusi. ",
+        "confirmation_number_label": "Kinnituse #%{confirmation_number}",
+        "higher_value_discount_applied": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> ei saa kasutada koos olemasolevate soodustustega. Sul on juba parim soodustus. ",
+        "percent_off_shipping": "%{percent}% soodsam kohaletoimetamine",
+        "amount_off_shipping": "%{amount} soodsam kohaletoimetamine",
+        "deferred_payment_info": {
+          "title": " Makse summas %{amount_due} tuleb tasuda kuupäevaks %{due_at}",
+          "description_html": "Kui teil on küsimusi oma tellimuse kohta, võtke meiega ühendust %{contact_us}.",
+          "paid_today": " Täna makstud kogusumma."
+        },
+        "payment_terms_totals": {
+          "due_today": "Täna makstav summa",
+          "due_later": " Kogu summa, mis tuleb tasuda %{due_at}"
+        }
       }
     }
   }

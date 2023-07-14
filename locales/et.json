@@ -30,5 +30,17 @@
       "moderated": "Tähelepanu: kommentaarid tuleb enne avaldamist heaks kiita. ",
       "post": "Kirjuta kommentaar"
     }
+  },
+  "cart": {
+    "general": {
+      "taxes_included_but_shipping_at_checkout": "Sisaldab käibemaksu ja saatmiskulu arvutatakse kassas",
+      "taxes_and_shipping_at_checkout": "Maksud ja saatmiskulud arvutatakse kassas",
+      "remove": "Eemalda",
+      "empty_title": "Sinu ostukorvis ei ole tooteid",
+      "empty_subtext": "Jätka ostmist",
+      "title": "Ostukorv",
+      "subtotal": "Kokku",
+      "backorder": "Toode on otsas, kuid saadetakse kohe, kui see on laos tagasi."
+    }
   }
 }

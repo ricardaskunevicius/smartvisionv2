@@ -5,11 +5,13 @@
       "no_more": "Artikleid ei leitud"
     },
     "general": {
-      "show_tags": "Näita silte",
+      "show_tags": "Kuva sildid",
       "view_all": "Vaata kõiki",
       "read_more": "Loe rohkem",
       "all_articles": "Kõik artiklid",
-      "no_matches": "Sul pole veel ühtegi artiklit! Kui oled selle kirjutanud, kuvatakse see siin."
+      "no_matches": "Sul pole veel ühtegi artiklit! Kui oled selle kirjutanud, kuvatakse see siin.",
+      "tagged": "Tagitud:",
+      "results": " {{ count }} tulemust"
     },
     "article": {
       "posted_on_date": "Postitatud {{ date }}",
@@ -21,14 +23,18 @@
     "comments": {
       "title": "Kommentaarid",
       "form_title": "Jäta kommentaar",
-      "success_moderated": "Sinu kommentaar postitati edukalt. Me avaldame selle mõne aja pärast, kuna meie blogi modereeritakse.",
+      "success_moderated": "Sinu kommentaar postitati edukalt. Me avaldame selle mõne aja pärast, kuna meie blogi on modereeritud.",
       "success": "Sinu kommentaar postitati edukalt. Aitäh!",
       "name": "Nimi",
       "error": "Sinu kommentaari postitamisel ilmnes viga.",
       "email": "Email",
       "message": "Kommentaar",
       "moderated": "Tähelepanu: kommentaarid tuleb enne avaldamist kinnitada.",
-      "post": "Kirjuta kommentaar"
+      "post": "Kirjuta kommentaar",
+      "comments_with_count": {
+        "one": "{{ count }} kommentaari",
+        "other": "{{ count }} kommentaari"
+      }
     }
   },
   "cart": {

@@ -374,7 +374,27 @@
         "discount_label": "Sooduskood",
         "discount_placeholder": "Sooduskood",
         "gift_card_title": "Kinkekaart",
-        "gift_card_label": "Kinkekaart"
+        "gift_card_label": "Kinkekaart",
+        "gift_card_placeholder": "Kinkekaart",
+        "gift_card_and_discount_title": "Kinkekaart või sooduskood",
+        "gift_card_and_discount_label": "Kinkekaart või sooduskood",
+        "gift_card_and_discount_placeholder": "Kinkekaart või sooduskood",
+        "remove_gift_card_label": "Kustuta kinkekaart",
+        "remove_discount_label": "Eemalda soodustus",
+        "free_shipping_discount_label": "Tasuta kohaletoimetus",
+        "applied_free_shipping_discount_label": "Rakendatud",
+        "apply_discount_button_label": "Rakenda",
+        "applied_discount_message": "%{amount} soodustust kogu tellimuse hinnast",
+        "discount_has_been_applied": "Soodustus on rakendatud",
+        "discount_has_been_removed": "Soodustus on eemaldatud",
+        "gift_card_has_been_applied": "Kinkekaart on lisatud",
+        "gift_card_has_been_removed": "Kinkekaart on eemaldatud",
+        "gift_card_subscriptions_notice": "Kinkekaardid kehtivad ainult esimesele maksele",
+        "discount_already_applied": "Sellele tellimusele on rakendatud allahindlus. Sa ei saa lisada teist allahindlust.",
+        "cart_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood ei kehti ostukorvis olevate esemete kohta.",
+        "discount_requires_customer_notice": "Sisesta oma saatmise teave, et rakendada sooduskood <strong style=\"text-transform:uppercase\">%{code}<\/strong>.",
+        "customer_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood pole hetkel saadaval.",
+        "shipping_information_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}<\/strong> sooduskood pole sinu saatmisaadressile hetkel saadaval."
       }
     }
   }

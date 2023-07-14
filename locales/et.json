@@ -304,7 +304,39 @@
         "reduced_label": "Vähendatud",
         "reduced_with_quantity_label": "Saadaval ainult %{quantity_available}",
         "remove_from_cart_button_label": "Eemalda ostukorvist",
-        "continue_shopping_button_label": "Jätks"
+        "continue_shopping_button_label": "Jätks",
+        "go_back_to_cart_button_label": "Mine ostukorvi tagasi",
+        "remove": "Eemalda",
+        "empty_cart_label": "Sinu ostukorv on tühi",
+        "quantity_update": {
+          "page_title": "Koguse uuendamine",
+          "title": "Koguse uuendamine",
+          "description": "Nende toodete saadavus ja kogused on muutunud ning see on uuendatud sinu ostukorvis."
+        },
+        "unpurchasable_product": {
+          "title": "Toode ei ole ostetav.",
+          "header": "Mõned tooted eemaldati sinu ostukorvist",
+          "message": " Need tooted pole saadaval juriidilisele isikule.",
+          "status_column_header": "Ei ole saadaval"
+        },
+        "unpurchasable_product_generic": {
+          "title": "Ostetav toode pole saadaval.",
+          "header": "Mõned tooted eemaldati sinu ostukorvist",
+          "message": "Need tooted pole saadaval",
+          "status_column_header": "Ei ole saadaval"
+        },
+        "unshippable_product": {
+          "title": "Kohaletoimetamine pole saadaval.",
+          "header": {
+            "one": "Kohaletoimetamist ei ole saadaval järgmisele %{count} tootele.",
+            "other": "Kohaletoimetamist ei ole saadaval järgmisele %{count} tootele."
+          },
+          "message": {
+            "one": "See toode eemaldatakse sinu ostukorvist, kuna sinu aadressile pole saadaval ühtegi kohaletoimetamismeetodit.",
+            "other": "See toode eemaldatakse sinu ostukorvist, kuna sinu aadressile pole saadaval ühtegi kohaletoimetamismeetodit."
+          },
+          "status_column_header": "Kohaletoimetamine pole saadaval."
+        }
       }
     }
   }

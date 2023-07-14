@@ -1,0 +1,28 @@
+{
+  "blogs": {
+    "infinite_scroll": {
+      "loading": "Laadin rohkem artikleid..",
+      "no_more": "Artikleid ei leitud"
+    },
+    "general": {
+      "show_tags": "Näita silte",
+      "view_all": "Vaata kõiki",
+      "read_more": "Loe rohkem",
+      "all_articles": "Kõik artiklid",
+      "no_matches": "Sul pole veel ühtegi artiklit! Kui oled selle kirjutanud, kuvatakse see siin."
+    },
+    "article": {
+      "posted_on_date": "Postitatud {{ date }}",
+      "posted_by_compact_html": "{{ author }}",
+      "older_post": "Vanem postitus",
+      "back_to": "Mine tagasi {{ title }}",
+      "newer_post": "Uuem postitus"
+    },
+    "comments": {
+      "title": "Kommentaarid",
+      "form_title": "Jäta kommentaar",
+      "success_moderated": "Sinu kommentaar postitati edukalt. Me avaldame selle mõne aja pärast, kuna meie blogi modereeritakse.",
+      "success": "Sinu kommentaar postitati edukalt. Aitäh!"
+    }
+  }
+}

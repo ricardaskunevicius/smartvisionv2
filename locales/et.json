@@ -40,7 +40,29 @@
       "empty_subtext": "Jätka ostmist",
       "title": "Ostukorv",
       "subtotal": "Kokku",
-      "backorder": "Toode on otsas, kuid saadetakse kohe, kui see on laos tagasi."
+      "backorder": "Toode on otsas, kuid saadetakse kohe, kui see on laos tagasi.",
+      "continue": "Jätka ostmist",
+      "confirm_remove": "Oled kindel, et soovid selle eemaldada? "
+    },
+    "label": {
+      "decrease": "Vähenda",
+      "quantity": "Kogus",
+      "increase": "Suurenda",
+      "note": "Lisa kommentaar oma tellimusele",
+      "description": "Kirjeldus",
+      "price": "Hind",
+      "total": "Kokku"
+    },
+    "shipping_calculator": {
+      "submit": "Arvutan saatmiskulud",
+      "loading": "Arvutan..",
+      "heading": "Hinnanguline saatmisaeg",
+      "country": "Riik",
+      "province": "Maakond",
+      "zip": "Postikood",
+      "multiple_rates": "Saatmiskulud alates ",
+      "no_rates": "Me ei tarni sellesse sihtkohta",
+      "at": "Alates"
     }
   }
 }

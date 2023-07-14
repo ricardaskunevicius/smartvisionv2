@@ -102,7 +102,33 @@
         "close_notice_label": "Sulge",
         "expand_notice_label": "Vaata rohkem",
         "continue_to_shipping_method": "Jätka saatmisega",
-        "continue_to_payment_method": "Jätka maksmisega"
+        "continue_to_payment_method": "Jätka maksmisega",
+        "continue_to_review": "Vaata tellimus üles",
+        "back_to_cart": "Tagasi ostukorvi",
+        "back_to_contact_information": "Tagasi informatsiooni juurde",
+        "back_to_shipping_method": "Tagasi saatmisega seotud lehele",
+        "back_to_payment_method": "Tagasi makselehele",
+        "choose_shipping_method": "Vali kohaletoimetamise meetod",
+        "choose_payment_method": "Vali makse meetod",
+        "choose_billing_address": "Vali arveldusaadress",
+        "contact_us_html": " Võta meiega ühendust lisainfo saamiseks",
+        "autocomplete_title": "Ettepanekud",
+        "autocomplete_single_item": "1 toode on saadaval",
+        "autocomplete_multi_item": "Saadaval on {{number}} toodet",
+        "autocomplete_selection": "{{number}} {{total}}",
+        "autocomplete_close": "Sulge soovitused",
+        "forwarding_indicator": {
+          "new_window": "Avaneb uues aknas",
+          "external": "Avaneb välise veebilehe link",
+          "external_and_new_window": "Avaneb välise veebilehe link uues aknas"
+        },
+        "checkout_context": {
+          "step_one": "%{shop_name} - Kassa"
+        },
+        "tooltip_accessibility_label": "Rohkem infot",
+        "errors": {
+          "session_identifier_not_unique_error": "Midagi läks tellimusega valesti, palun proovi uuesti kassasse minna."
+        }
       }
     }
   }

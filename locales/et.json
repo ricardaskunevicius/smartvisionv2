@@ -533,7 +533,33 @@
         "optional_shipping_line_delivery_instructions_label": "Kohaletoimetamise juhised (valikuline)",
         "shipping_line_delivery_instructions": "Sisestage vajalik teave, nagu uksekoodid või muud juhised.",
         "shipping_rate_discounted_amount": "Enne: %{original_amount}. Nüüd: %{amount}",
-        "local_delivery": "Local delivery"
+        "local_delivery": "Kohalik kohaletoimetamine",
+        "other_method": {
+          "zero": "Teised meetodid pole saadaval",
+          "one": "Saadaval on %{count} teine meetod aadressil",
+          "other": "On saadaval veel %{count} teist meetodit, alates"
+        },
+        "subscription_delivery_description": {
+          "subscription_delivery_frequency": {
+            "day": {
+              "one": "iga päev",
+              "other": "igal %{count} päeval"
+            },
+            "week": {
+              "one": "iga nädal",
+              "other": "igal %{count} nädalal"
+            },
+            "month": {
+              "one": "iga kuu",
+              "other": "igal %{count} kuul"
+            },
+            "year": {
+              "one": "iga aastal",
+              "other": "igal %{count} aastal"
+            }
+          },
+          "multiple_subscriptions_shipping_price_label": "%{shipping_price} iga kättetoimetamise kohta"
+        }
       }
     }
   }

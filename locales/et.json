@@ -527,7 +527,13 @@
         "estimated_time": "Eeldatav %{time}",
         "estimated_time_range": "Eeldatav %{min_time}–%{max_time}",
         "shipping_line_phone_label": "Mobiiltelefoni number (nõutud)",
-        "shipping_line_phone": "Kuller võib seda numbrit kasutada sinuga ühenduse võtmiseks."
+        "shipping_line_phone": "Kuller võib seda numbrit kasutada sinuga ühenduse võtmiseks.",
+        "shipping_line_delivery_phone_label": "Telefoni number",
+        "shipping_line_delivery_phone": "Sinuga võidakse ühendust võtta kohaletoimetamise uuendustega.",
+        "optional_shipping_line_delivery_instructions_label": "Kohaletoimetamise juhised (valikuline)",
+        "shipping_line_delivery_instructions": "Sisestage vajalik teave, nagu uksekoodid või muud juhised.",
+        "shipping_rate_discounted_amount": "Enne: %{original_amount}. Nüüd: %{amount}",
+        "local_delivery": "Local delivery"
       }
     }
   }

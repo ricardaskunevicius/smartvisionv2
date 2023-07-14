@@ -42,7 +42,8 @@
       "subtotal": "Kokku",
       "backorder": "Toode on otsas, kuid saadetakse kohe, kui see on laos tagasi.",
       "continue": "Jätka ostmist",
-      "confirm_remove": "Oled kindel, et soovid selle eemaldada? "
+      "confirm_remove": "Kas oled kindel, et soovid selle toote eemaldada?",
+      "quantity_too_high": "Sinu ostukorvis võib olla ainult {{ quantity }} toodet"
     },
     "label": {
       "decrease": "Vähenda",
@@ -54,15 +55,16 @@
       "total": "Kokku"
     },
     "shipping_calculator": {
-      "submit": "Arvutan saatmiskulud",
+      "submit": "Arvuta saatmiskulud",
       "loading": "Arvutan..",
-      "heading": "Hinnanguline saatmisaeg",
+      "heading": "Saa hinnanguline saatmiskulu",
       "country": "Riik",
       "province": "Maakond",
       "zip": "Postikood",
       "multiple_rates": "Saatmiskulud alates ",
-      "no_rates": "Me ei tarni sellesse sihtkohta",
-      "at": "Alates"
+      "no_rates": "Me ei saada sellesse sihtkohta",
+      "at": "Alates",
+      "single_rate": "On üks saadaolev saatmistasu"
     }
   },
   "shopify": {
